@@ -1,5 +1,3 @@
-import Chance from 'chance';
-
 class BaseGenerator {
 
   constructor({ chance }) {

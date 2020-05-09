@@ -1,6 +1,4 @@
-import { sample }from './helpers';
 import { mixed, string, number, object } from 'yup';
-import { Stats } from 'fast-stats';
 import TestDataFactory from '../src/TestDataFactory';
 
 describe('object generator', () => {
