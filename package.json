@@ -36,6 +36,12 @@
   "release": {
     "conventionalCommits": true
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn test",
+      "pre-push": "yarn test"
+    }
+  },
   "prettier": {
     "singleQuote": true,
     "trailingComma": "all"
