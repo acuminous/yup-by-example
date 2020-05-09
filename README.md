@@ -105,10 +105,13 @@ module.exports = function init() {
     niNumber: niNumber.required(),
   }).example();
 
-  // You can also create example arrays
+  // You can also create example arrays. By setting the sessionKey
+  // we can specify exactly how many users we want to be created 
+  // on a test-by-test basis
   const users = array(user)
     .min(3)
     .max(6)
+    .meta({ sessionKey: 'users' })
     .example();
 
   return {
@@ -138,6 +141,7 @@ describe('API', () => {
   }
 
   it('should create users', async () => {
+    testDataFactory.session.setProperty('users.length', 4);
     const users = await testDataFactory.generateValid(schemas.users);
     const res = await request.post('/api-under-test/users', users);
     expect(res.status).to.equal(200);
