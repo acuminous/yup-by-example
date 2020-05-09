@@ -11,4 +11,3 @@ Object.defineProperty(
   Object.getOwnPropertyDescriptor(Object.prototype, 'should')
 );
 
-global.specify = global.it

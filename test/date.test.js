@@ -5,9 +5,13 @@ const TestDataFactory = require('../src/TestDataFactory');
 
 describe('date generator', () => {
 
-  const testDataFactory = new TestDataFactory().addMethod(mixed, 'example');
+  let testDataFactory;
 
-  it('should generate random dates', async function() {
+  beforeEach(() => {
+    testDataFactory = new TestDataFactory().addMethod(mixed, 'example');
+  });
+
+  it('should generate random dates', async () => {
     const schema = date().example();
     const { values } = await sample(1000, () => testDataFactory.generateValid(schema));
     expect(values.length).to.be.above(900);
@@ -16,7 +20,7 @@ describe('date generator', () => {
     expectAllDates(dates);
   })
 
-  it('should obey specified min dates', async function() {
+  it('should obey specified min dates', async () => {
     const minDate = new Date('2000-01-01T00:00:00.000');
     const schema = date().min(minDate).example();
     const dates = await Promise.all(new Array(1000).fill(null).map(() => testDataFactory.generateValid(schema)));
@@ -25,7 +29,7 @@ describe('date generator', () => {
     });
   })
 
-  it('should obey specified max dates', async function() {
+  it('should obey specified max dates', async () => {
     const maxDate = new Date('2000-01-01T00:00:00.000');
     const schema = date().max(maxDate).example();
     const dates = await Promise.all(new Array(1000).fill(null).map(() => testDataFactory.generateValid(schema)));
@@ -34,7 +38,7 @@ describe('date generator', () => {
     });
   })
 
-  it('should obey specified one of values', async function() {
+  it('should obey specified one of values', async () => {
     const schema = date().oneOf([new Date(1), new Date(2), new Date(3)]).example();
     const { counts, values } = await sample(999, () => testDataFactory.generateValid(schema), v => v.getTime());
 

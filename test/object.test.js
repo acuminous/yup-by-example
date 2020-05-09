@@ -5,9 +5,13 @@ const TestDataFactory = require('../src/TestDataFactory');
 
 describe('object generator', () => {
 
-  const testDataFactory = new TestDataFactory().addMethod(mixed, 'example');
+  let testDataFactory;
 
-  it('should generate random objects', async function() {
+  beforeEach(() => {
+    testDataFactory = new TestDataFactory().addMethod(mixed, 'example');
+  });
+
+  it('should generate random objects', async () => {
     const schema = object().shape({
       name: string().example(),
       age: number().positive().integer().max(100).example(),
@@ -23,7 +27,7 @@ describe('object generator', () => {
     }
   })
 
-  it('should skip fields with no example', async function() {
+  it('should skip fields with no example', async () => {
     const schema = object().shape({
       name: string().strip(),
       age: number().example(),
@@ -34,7 +38,7 @@ describe('object generator', () => {
     expect(value).to.have.keys('age');
   })
 
-  it('should obey specified one of values', async function() {
+  it('should obey specified one of values', async () => {
     const schema = object().oneOf([{ x: 1 }, { x: 2 }, { x: 3 }]).example();
     const { counts, values } = await sample(999, () => testDataFactory.generateValid(schema), v => v.x);
 

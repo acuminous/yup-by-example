@@ -5,9 +5,13 @@ const TestDataFactory = require('../src/TestDataFactory');
 
 describe('string generator', () => {
 
-  const testDataFactory = new TestDataFactory().addMethod(mixed, 'example');
+  let testDataFactory;
 
-  it('should generate random strings', async function() {
+  beforeEach(() => {
+    testDataFactory = new TestDataFactory().addMethod(mixed, 'example');
+  });
+
+  it('should generate random strings', async () => {
     const schema = string().max(1).example();
     const { counts } = await sample(1000, () => testDataFactory.generateValid(schema));
 
@@ -24,7 +28,7 @@ describe('string generator', () => {
     expect(upper).to.be.below(50);
   })
 
-  it('shoud obey specified length values', async function() {
+  it('shoud obey specified length values', async () => {
     const schema = string().length(10).example();
     const { values } = await sample(1000, () => testDataFactory.generateValid(schema), v => v.length);
 
@@ -37,7 +41,7 @@ describe('string generator', () => {
     expect(upper).to.equal(10);
   })
 
-  it('should obey default min and max values', async function() {
+  it('should obey default min and max values', async () => {
     const schema = string().example();
     const { values } = await sample(1000, () => testDataFactory.generateValid(schema), v => v.length);
 
@@ -51,7 +55,7 @@ describe('string generator', () => {
     expect(upper).to.equal(20);
   })
 
-  it('should obey specified min values', async function() {
+  it('should obey specified min values', async () => {
     const schema = string().min(30).example();
     const { values } = await sample(1000, () => testDataFactory.generateValid(schema), v => v.length);
 
@@ -65,7 +69,7 @@ describe('string generator', () => {
     expect(upper).to.equal(40);
   })
 
-  it('should obey specified max values', async function() {
+  it('should obey specified max values', async () => {
     const schema = string().max(30).example();
     const { values } = await sample(1000, () => testDataFactory.generateValid(schema), v => v.length);
 
@@ -79,7 +83,7 @@ describe('string generator', () => {
     expect(upper).to.equal(30);
   })
 
-  it('should obey specified min and max values', async function() {
+  it('should obey specified min and max values', async () => {
     const schema = string().min(50).max(60).example();
     const { values } = await sample(1000, () => testDataFactory.generateValid(schema), v => v.length);
 
@@ -93,7 +97,7 @@ describe('string generator', () => {
     expect(upper).to.equal(60);
   })
 
-  it('should generate random emails', async function() {
+  it('should generate random emails', async () => {
     const schema = string().email().example();
     const { values } = await sample(10, () => testDataFactory.generateValid(schema));
     values.forEach(value => {
@@ -101,7 +105,7 @@ describe('string generator', () => {
     });
   })
 
-  it('should generate random urls', async function() {
+  it('should generate random urls', async () => {
     const schema = string().url().example();
     const { values } = await sample(10, () => testDataFactory.generateValid(schema));
     values.forEach(value => {
@@ -109,7 +113,7 @@ describe('string generator', () => {
     });
   })
 
-  it('should obey specified one of values', async function() {
+  it('should obey specified one of values', async () => {
     const schema = string().oneOf(['good', 'bad', 'ugly']).example();
     const { counts, values } = await sample(999, () => testDataFactory.generateValid(schema));
 

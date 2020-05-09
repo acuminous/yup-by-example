@@ -4,10 +4,10 @@
   "description": "A random data generator driven from [Yup](https://github.com/jquense/yup) schemas",
   "main": "src/index.js",
   "scripts": {
-    "test": "npm run lint && npm run testonly -- --runInBand",
-    "testonly": "jest",
-    "tdd": "jest --watch",
+    "test": "nyc --reporter text-summary --reporter lcov --reporter html mocha",
+    "tdd": "mocha --watch",
     "lint": "eslint src test",
+    "qa": "npm run lint && npm run test",
     "precommit": "lint-staged"
   },
   "files": [
@@ -26,8 +26,8 @@
   "homepage": "https://cressie176.github.io/yup-by-example/",
   "husky": {
     "hooks": {
-      "pre-commit": "yarn test",
-      "pre-push": "yarn test"
+      "pre-commit": "npm run qa",
+      "pre-push": "npm run qa"
     }
   },
   "prettier": {
@@ -40,21 +40,8 @@
       "git add"
     ]
   },
-  "jest": {
-    "globals": {
-      "YUP_USE_SYNC": true
-    },
-    "testEnvironment": "node",
-    "setupFilesAfterEnv": [
-      "./test-setup.js"
-    ],
-    "roots": [
-      "test"
-    ],
-    "testRegex": "\\.js",
-    "testPathIgnorePatterns": [
-      "helpers\\.js"
-    ]
+  "mocha": {
+    "require": "./test-setup"
   },
   "devDependencies": {
     "chai": "^4.2.0",
@@ -63,10 +50,12 @@
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-jest": "^23.10.0",
+    "eslint-plugin-mocha": "^6.3.0",
     "fast-stats": "^0.0.5",
     "husky": "^4.2.5",
-    "jest": "^26.0.1",
     "lint-staged": "^10.2.2",
+    "mocha": "^7.1.2",
+    "nyc": "^15.0.1",
     "prettier": "^2.0.5",
     "yup": "^0.28.5"
   },

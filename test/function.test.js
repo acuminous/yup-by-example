@@ -4,9 +4,13 @@ const TestDataFactory = require('../src/TestDataFactory');
 
 describe('function generator', () => {
 
-  const testDataFactory = new TestDataFactory().addMethod(mixed, 'example');
+  let testDataFactory;
 
-  it('should generate values using the specified function', async function() {
+  beforeEach(() => {
+    testDataFactory = new TestDataFactory().addMethod(mixed, 'example');
+  });
+
+  it('should generate values using the specified function', async () => {
     const schema = number().example('function', () => Math.random());
     const { counts, values } = await sample(1000, () => testDataFactory.generateValid(schema));
 
@@ -14,7 +18,7 @@ describe('function generator', () => {
     expectMostlyFloatingPoints(values);
   })
 
-  it('should accept fn as an alias for function', async function() {
+  it('should accept fn as an alias for function', async () => {
     const schema = number().example('fn', () => Math.random());
     const { counts, values } = await sample(1000, () => testDataFactory.generateValid(schema));
 
@@ -22,7 +26,7 @@ describe('function generator', () => {
     expectMostlyFloatingPoints(values);
   })
 
-  it('should supply the chance instance', async function() {
+  it('should supply the chance instance', async () => {
     const schema = number().example('fn', (chance) => chance.integer());
     const { counts, values } = await sample(1000, () => testDataFactory.generateValid(schema));
 

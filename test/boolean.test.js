@@ -5,9 +5,13 @@ const TestDataFactory = require('../src/TestDataFactory');
 
 describe('boolean generator', () => {
 
-  const testDataFactory = new TestDataFactory().addMethod(mixed, 'example');
+  let testDataFactory;
 
-  it('should generate random booleans', async function() {
+  beforeEach(() => {
+    testDataFactory = new TestDataFactory().addMethod(mixed, 'example');
+  });
+
+  it('should generate random booleans', async () => {
     const schema = boolean().example();
     const { counts, values } = await sample(1000, () => testDataFactory.generateValid(schema));
 
@@ -21,7 +25,7 @@ describe('boolean generator', () => {
     expectAllBooleans(values);
   })
 
-  it('should obey specified one of values', async function() {
+  it('should obey specified one of values', async () => {
     const schema = boolean().oneOf([true]).example();
     for (let i = 0; i < 1000; i++) {
       const value = await testDataFactory.generateValid(schema);

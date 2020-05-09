@@ -10,18 +10,12 @@
   "overrides": [
     {
       "files": ["test/**"],
-      "plugins": ["jest"],
-      "env": {
-        "jest/globals": true
-      },
+      "plugins": ["mocha"],
+      "extends": "plugin:mocha/recommended",
       "rules": {
         "global-require": "off",
         "no-await-in-loop": "off",
-        "jest/no-disabled-tests": "warn",
-        "jest/no-focused-tests": "error",
-        "jest/no-identical-title": "error",
-        "jest/prefer-to-have-length": "warn",
-        "jest/valid-expect": "off"
+        "mocha/no-mocha-arrows": "off"
       }
     }
   ]
