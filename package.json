@@ -24,7 +24,7 @@
   "bugs": {
     "url": "https://github.com/cressie176/yup-by-example/issues"
   },
-  "homepage": "https://github.com/cressie176/yup-by-example",
+  "homepage": "https://cressie176.github.io/yup-by-example/",
   "husky": {
     "hooks": {
       "pre-commit": "yarn test",
