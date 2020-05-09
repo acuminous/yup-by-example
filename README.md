@@ -15,8 +15,7 @@ One of the best features of Yup, is the ability to add custom validators / trans
   - [3. Profit!](#3-profit)
 - [Custom generators](#custom-generators)
 - [Function generators](#function-generators)
-- [Chance generator](#chance-generator)
-- [Caveats](#caveats)
+- [Chance generators](#chance-generators)
 - [Supported types and validations](#supported-types-and-validations)
   - [array](#array)
   - [boolean](#boolean)
@@ -24,6 +23,7 @@ One of the best features of Yup, is the ability to add custom validators / trans
   - [object](#object)
   - [number](#number)
   - [string](#string)
+- [Caveats](#caveats)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -218,8 +218,8 @@ const user = object().shape({
 }).example();
 ```
 
-## Chance generator
-you-by-example also provides a chance generator, which can be used to invoke any [Chance](https://chancejs.com/person/birthday.html) method.
+## Chance generators
+yup-by-example also provides a chance generator, which can be used to invoke any [Chance](https://chancejs.com/person/birthday.html) method.
 ```js
 // Updated user schema in schemas.js
 const user = object().shape({
@@ -231,9 +231,6 @@ const user = object().shape({
   }),
 }).example();
 ```
-
-## Caveats
-Not all Yup validations can be reliably generated. For example there is nothing in the described schema that can be used to determine if `lowercase` or `uppercase` is required. With `strict` validation, this could cause problems. It's likely there there may also be issues with references and conditional validation. You may be able to work around many of these problems with [Custom generators](#custom-generators).
 
 ## Supported types and validations
 ### array
@@ -270,4 +267,5 @@ Not all Yup validations can be reliably generated. For example there is nothing 
 * url
 * oneOf
 
-
+## Caveats
+Not all Yup validations can be reliably generated. For example there is nothing in the described schema that can be used to determine if `lowercase` or `uppercase` is required. With `strict` validation, this could cause problems. It's likely there there may also be issues with references and conditional validation. You may be able to work around many of these problems with [Custom generators](#custom-generators), [Function generators](#function-generators) or [Chance generators](#chance-generators).
