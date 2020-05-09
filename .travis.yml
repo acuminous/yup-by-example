@@ -1,12 +1,13 @@
 sudo: false
-cache: yarn
+cache: npm
 language: node_js
 node_js:
+  - 8
   - 10
   - 12
   - 14
 before_install:
-  - yarn add yup --peer
+  - npm install yup --save-dev
 branches:
   only:
     - master

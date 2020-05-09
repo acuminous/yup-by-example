@@ -1,5 +1,5 @@
-import BaseGenerator from './BaseGenerator';
-import _get from 'lodash.get';
+const BaseGenerator = require('./BaseGenerator');
+const _get = require('lodash.get');
 
 const MIN_ARRAY_SIZE = 3;
 const MAX_ARRAY_SIZE = 5;
@@ -38,4 +38,4 @@ class ArrayGenerator extends BaseGenerator {
   }
 }
 
-export default ArrayGenerator;
+module.exports = ArrayGenerator;

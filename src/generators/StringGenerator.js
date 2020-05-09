@@ -1,4 +1,4 @@
-import BaseGenerator from './BaseGenerator';
+const BaseGenerator = require('./BaseGenerator');
 
 const MIN = 10;
 const SPREAD = 10;
@@ -23,4 +23,4 @@ class StringGenerator extends BaseGenerator {
   }
 }
 
-export default StringGenerator;
+module.exports = StringGenerator;

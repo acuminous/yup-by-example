@@ -1,4 +1,4 @@
-import BaseGenerator from './BaseGenerator';
+const BaseGenerator = require('./BaseGenerator');
 
 class ArrayGenerator extends BaseGenerator {
 
@@ -6,10 +6,10 @@ class ArrayGenerator extends BaseGenerator {
     if (this.hasWhitelist(schema)) return this.oneOf(schema.whitelist);
     return Object.keys(schema.fields).reduce((obj, fieldName) => {
       return this.hasTransform(schema.fields[fieldName], 'yupByExample')
-        ? { ...obj, [fieldName]: null }
+        ? Object.assign(obj, { [fieldName]: null })
         : obj;
     }, {});
   }
 }
 
-export default ArrayGenerator;
+module.exports = ArrayGenerator;

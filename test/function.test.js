@@ -1,6 +1,6 @@
-import { sample, expectMostlyFloatingPoints, expectAllIntegers }from './helpers';
-import { mixed, number } from 'yup';
-import TestDataFactory from '../src/TestDataFactory';
+const { sample, expectMostlyFloatingPoints, expectAllIntegers } = require('./helpers');
+const { mixed, number } = require('yup');
+const TestDataFactory = require('../src/TestDataFactory');
 
 describe('function generator', () => {
 

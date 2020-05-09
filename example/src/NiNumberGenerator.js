@@ -1,4 +1,4 @@
-const { BaseGenerator } = require('../../lib/');
+const { BaseGenerator } = require('../../src/');
 
 class NiNumberGenerator extends BaseGenerator {
 

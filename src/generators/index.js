@@ -1,14 +1,14 @@
-import ArrayGenerator from './ArrayGenerator';
-import BooleanGenerator from './BooleanGenerator';
-import ChanceGenerator from './ChanceGenerator';
-import DateGenerator from './DateGenerator';
-import FunctionGenerator from './FunctionGenerator';
-import ObjectGenerator from './ObjectGenerator';
-import RelativeDateGenerator from './RelativeDateGenerator';
-import StringGenerator from './StringGenerator';
-import NumberGenerator from './NumberGenerator';
+const ArrayGenerator = require('./ArrayGenerator');
+const BooleanGenerator = require('./BooleanGenerator');
+const ChanceGenerator = require('./ChanceGenerator');
+const DateGenerator = require('./DateGenerator');
+const FunctionGenerator = require('./FunctionGenerator');
+const ObjectGenerator = require('./ObjectGenerator');
+const RelativeDateGenerator = require('./RelativeDateGenerator');
+const StringGenerator = require('./StringGenerator');
+const NumberGenerator = require('./NumberGenerator');
 
-export default {
+module.exports = {
   array: ArrayGenerator,
   boolean: BooleanGenerator,
   chance: ChanceGenerator,

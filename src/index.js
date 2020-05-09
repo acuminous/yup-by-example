@@ -1,8 +1,8 @@
-import TestDataFactory from './TestDataFactory';
-import TestDataSession from './TestDataSession';
-import BaseGenerator from './generators/BaseGenerator';
+const TestDataFactory = require('./TestDataFactory');
+const TestDataSession = require('./TestDataSession');
+const BaseGenerator = require('./generators/BaseGenerator');
 
-export default {
+module.exports = {
   TestDataFactory,
   TestDataSession,
   BaseGenerator,

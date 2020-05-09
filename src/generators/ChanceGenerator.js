@@ -1,4 +1,4 @@
-import BaseGenerator from './BaseGenerator';
+const BaseGenerator = require('./BaseGenerator');
 
 class ChanceGenerator extends BaseGenerator {
 
@@ -9,4 +9,4 @@ class ChanceGenerator extends BaseGenerator {
   }
 }
 
-export default ChanceGenerator;
+module.exports = ChanceGenerator;

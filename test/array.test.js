@@ -1,7 +1,7 @@
-import { sample, expectAllStrings }from './helpers';
-import { mixed, string, array } from 'yup';
-import { Stats } from 'fast-stats';
-import TestDataFactory from '../src/TestDataFactory';
+const { sample, expectAllStrings } = require('./helpers');
+const { mixed, string, array } = require('yup');
+const { Stats } = require('fast-stats');
+const TestDataFactory = require('../src/TestDataFactory');
 
 describe('array generator', () => {
 

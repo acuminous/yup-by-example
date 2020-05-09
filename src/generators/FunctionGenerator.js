@@ -1,4 +1,4 @@
-import BaseGenerator from './BaseGenerator';
+const BaseGenerator = require('./BaseGenerator');
 
 class FunctionGenerator extends BaseGenerator {
 
@@ -7,4 +7,4 @@ class FunctionGenerator extends BaseGenerator {
   }
 }
 
-export default FunctionGenerator;
+module.exports = FunctionGenerator;

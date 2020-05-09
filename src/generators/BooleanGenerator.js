@@ -1,4 +1,4 @@
-import BaseGenerator from './BaseGenerator';
+const BaseGenerator = require('./BaseGenerator');
 
 class BooleanGenerator extends BaseGenerator {
 
@@ -8,4 +8,4 @@ class BooleanGenerator extends BaseGenerator {
   }
 }
 
-export default BooleanGenerator;
+module.exports = BooleanGenerator;

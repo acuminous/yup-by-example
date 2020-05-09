@@ -1,5 +1,5 @@
-import TestDataFactory from '../src/TestDataFactory';
-import { mixed, string, date } from 'yup';
+const TestDataFactory = require('../src/TestDataFactory');
+const { mixed, string, date } = require('yup');
 
 describe('TestDataFactory', () => {
 

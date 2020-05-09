@@ -33,4 +33,4 @@ class BaseGenerator {
   }
 }
 
-export default BaseGenerator;
+module.exports = BaseGenerator;

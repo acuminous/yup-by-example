@@ -1,7 +1,7 @@
-import { sample, expectAllBooleans }from './helpers';
-import { mixed, boolean } from 'yup';
-import { Stats } from 'fast-stats';
-import TestDataFactory from '../src/TestDataFactory';
+const { sample, expectAllBooleans } = require('./helpers');
+const { mixed, boolean } = require('yup');
+const { Stats } = require('fast-stats');
+const TestDataFactory = require('../src/TestDataFactory');
 
 describe('boolean generator', () => {
 

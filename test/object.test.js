@@ -1,7 +1,7 @@
-import { sample }from './helpers';
-import { Stats } from 'fast-stats';
-import { mixed, string, number, object } from 'yup';
-import TestDataFactory from '../src/TestDataFactory';
+const { sample } = require('./helpers');
+const { Stats } = require('fast-stats');
+const { mixed, string, number, object } = require('yup');
+const TestDataFactory = require('../src/TestDataFactory');
 
 describe('object generator', () => {
 

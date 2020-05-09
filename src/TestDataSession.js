@@ -1,7 +1,7 @@
-import _has from 'lodash.has';
-import _get from 'lodash.get';
-import _set from 'lodash.set';
-import _unset from 'lodash.unset';
+const _has = require('lodash.has');
+const _get = require('lodash.get');
+const _set = require('lodash.set');
+const _unset = require('lodash.unset');
 
 class TestDataSession {
 
@@ -31,4 +31,4 @@ class TestDataSession {
   }
 }
 
-export default TestDataSession
+module.exports = TestDataSession

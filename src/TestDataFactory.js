@@ -1,8 +1,8 @@
-import * as yup from 'yup';
-import Chance from 'chance';
-import _get from 'lodash.get';
-import standardGenerators from './generators';
-import TestDataSession from './TestDataSession';
+const yup = require('yup');
+const Chance = require('chance');
+const _get = require('lodash.get');
+const standardGenerators = require('./generators');
+const TestDataSession = require('./TestDataSession');
 
 class TestDataFactory {
 
@@ -14,7 +14,7 @@ class TestDataFactory {
     this._session = new TestDataSession({ now: _get(params, 'now', new Date()) });
     this._seed = _get(params, 'seed', Math.ceil(Math.random() * 999999999));
     this._chance = new Chance(this._seed);
-    this._generators = { ...standardGenerators };
+    this._generators = Object.assign({}, standardGenerators);
     this._bypass = true;
   }
 
@@ -104,4 +104,4 @@ class TestDataFactory {
 
 }
 
-export default TestDataFactory
+module.exports = TestDataFactory

@@ -5,10 +5,6 @@ For those practicing TDD, a rich and potentially shared schema increases the bur
 
 One of the best features of Yup, is the ability to add custom validators / transformers, through use of [yup.addMethod](https://github.com/jquense/yup/blob/master/README.md#yupaddmethodschematype-schema-name-string-method--schema-void). A second great feature is the ability to [describe](https://github.com/jquense/yup/blob/master/README.md#mixeddescribe-schemadescription) schemas. yup-by-example makes use of both features, by providing a transformation that interrorgates the schema and automatically generates compatible test data, with some [caveats](#caveats).
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-- [yup-by-example](#yup-by-example)
-
 - [TL;DR](#tldr)
   - [1. Define the schema, specifying examples](#1-define-the-schema-specifying-examples)
   - [2. Write the tests](#2-write-the-tests)
@@ -32,8 +28,6 @@ One of the best features of Yup, is the ability to add custom validators / trans
   - [number](#number)
   - [string](#string)
 - [Caveats](#caveats)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## TL;DR
 
@@ -106,7 +100,7 @@ module.exports = function init() {
   }).example();
 
   // You can also create example arrays. By setting the sessionKey
-  // we can specify exactly how many users we want to be created 
+  // we can specify exactly how many users we want to be created
   // on a test-by-test basis
   const users = array(user)
     .min(3)

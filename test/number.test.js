@@ -1,7 +1,7 @@
-import { sample, expectMostlyFloatingPoints, expectAllIntegers }from './helpers';
-import { mixed, number } from 'yup';
-import { Stats } from 'fast-stats';
-import TestDataFactory from '../src/TestDataFactory';
+const { sample, expectMostlyFloatingPoints, expectAllIntegers } = require('./helpers');
+const { mixed, number } = require('yup');
+const { Stats } = require('fast-stats');
+const TestDataFactory = require('../src/TestDataFactory');
 
 describe('number generator', () => {
 

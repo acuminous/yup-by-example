@@ -1,6 +1,6 @@
-import { sample, expectAllIntegers, expectAllStrings }from './helpers';
-import { mixed, number, string } from 'yup';
-import TestDataFactory from '../src/TestDataFactory';
+const { sample, expectAllIntegers, expectAllStrings } = require('./helpers');
+const { mixed, number, string } = require('yup');
+const TestDataFactory = require('../src/TestDataFactory');
 
 describe('chance generator', () => {
 

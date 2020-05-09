@@ -1,5 +1,5 @@
-import { mixed, date } from 'yup';
-import TestDataFactory from '../src/TestDataFactory';
+const { mixed, date } = require('yup');
+const TestDataFactory = require('../src/TestDataFactory');
 
 describe('relative date generator', () => {
 

@@ -1,4 +1,4 @@
-import BaseGenerator from './BaseGenerator';
+const BaseGenerator = require('./BaseGenerator');
 
 const FLOAT_OFFSET = 0.000000001;
 const INTEGER_OFFSET = 1;
@@ -39,4 +39,4 @@ class NumberGenerator extends BaseGenerator {
   }
 }
 
-export default NumberGenerator;
+module.exports = NumberGenerator;

@@ -1,7 +1,7 @@
-import { sample, expectAllDates }from './helpers';
-import { mixed, date } from 'yup';
-import { Stats } from 'fast-stats';
-import TestDataFactory from '../src/TestDataFactory';
+const { sample, expectAllDates } = require('./helpers');
+const { mixed, date } = require('yup');
+const { Stats } = require('fast-stats');
+const TestDataFactory = require('../src/TestDataFactory');
 
 describe('date generator', () => {
 
