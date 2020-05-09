@@ -5,7 +5,7 @@ const MAX_DATE = new Date('3000-01-01T00:00:00.000');
 
 class DateGenerator extends BaseGenerator {
 
-  generate(schema) {
+  generate({ schema }) {
     if (this.hasWhitelist(schema)) return this.oneOf(schema.whitelist);
     const { min } = this.getTestParameters(schema, 'min');
     const { max } = this.getTestParameters(schema, 'max');

@@ -27,13 +27,13 @@ class TestDataFactory {
 
   addMethod(schema, name) {
     const factory = this;
-    yup.addMethod(schema, name, function(id) {
+    yup.addMethod(schema, name, function(id, params) {
       return this.transform(function(value, originalValue) {
         if (factory.bypass) return value;
         if (id && !factory.generators[id]) throw new Error(`No generator for id: '${id}'`);
         const { type, meta = {} } = this.describe();
         const generator = factory._resolve([id, meta.type, type].filter(Boolean));
-        return generator.generate(factory._describe(this), value, originalValue);
+        return generator.generate({ id, params, schema: factory._describe(this), value, originalValue });
       });
     })
     return factory;

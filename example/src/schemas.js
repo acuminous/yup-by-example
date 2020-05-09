@@ -4,25 +4,68 @@ const { mixed, array, object, string, number } = require('yup');
 // Prevents yup from erroring when `example()` is called.
 new TestDataFactory().addNoopMethod(mixed, 'example');
 
-/*
-Yup schemas must be "hidden" behind an init method, so they are not
-built before the real `example()` method has been added in the test
-code (see api.test.js).
-*/
-
+// Yup schemas must be placed behind an init method, so they are not
+// built on import - before the real `example()` method has been added
+// in the test code (see api.test.js).
 module.exports = function init() {
 
-  const user = object().shape({
-    name: string().max(255).required().example(),
-    age: number().positive().integer().max(200).required().example(),
-    email: string().email().required().example(),
-    username: string().min(8).max(32).required().example(),
-    password: string().min(12).max(32).required().example(),
-    niNumber: string().matches(/^[A-Z]{2}\d{6}[A-Z]$/).required().example('ni-number'),
+  // Delegates to https://chancejs.com
+  const name = string()
+    .max(255)
+    .example('chance', {
+      method: 'name',
+      params: {
+        middle_initial: true,
+      }
+    });
 
+  const age = number()
+    .positive()
+    .integer()
+    .max(200)
+    .example('chance', { method: 'age' });
+
+  // Since `email` is a Yup validation, yup-by-example can support it natively
+  const email = string()
+    .email()
+    .example();
+
+  // You can also use inline functions to generate example data
+  const username = string()
+    .min(8)
+    .max(32)
+    .example('fn', (chance) => {
+      return [].concat(
+        chance.profession().split(/\W/g),
+        chance.integer({ min: 1, max: 99 })
+      ).join('_').toLowerCase();
+    });
+
+  const password = string()
+    .min(12)
+    .max(32)
+    .example();
+
+  // ni-number uses a custom generator. These can greatly simplify your schema.
+  const niNumber = string()
+    .matches(/^[A-Z]{2}\d{6}[A-Z]$/)
+    .example('ni-number');
+
+  // Adding `example()` works too
+  const user = object().shape({
+    name: name.required(),
+    age: age.required(),
+    email: email.required(),
+    username: username.required(),
+    password: password.required(),
+    niNumber: niNumber.required(),
   }).example();
 
-  const users = array(user).min(3).max(6).example();
+  // You can also create example arrays
+  const users = array(user)
+    .min(3)
+    .max(6)
+    .example();
 
   return {
     user,
