@@ -16,6 +16,7 @@ One of the best features of Yup, is the ability to add custom validators / trans
 - [Custom generators](#custom-generators)
 - [Function generators](#function-generators)
 - [Chance generators](#chance-generators)
+- [Relative date generator](#relative-date-generator)
 - [Supported types and validations](#supported-types-and-validations)
   - [array](#array)
   - [boolean](#boolean)
@@ -239,6 +240,22 @@ const user = object().shape({
   }),
 }).example();
 ```
+
+## Relative date generator
+Sometimes you don't need a random date, just one a few days into the future or in the past. This is where the relative date generator comes in handy.
+```js
+// Updated user schema in schemas.js
+const user = object().shape({
+  tomorrow: date().example('rel-date', { days: 1 }),
+  yesterday: date().example('rel-date', { days: -1 }),
+}).example();
+```
+By default the dates will be reletive to when you instanciated the test data factory. You can override this as follows:
+```js
+const { TestDataFactory } = require('yup-by-example');
+const testDataFactory = new TestDataFactory({ now: new Date('2000-01-01T00:00:00.000') });
+```
+rel-date uses [date-fns add](https://date-fns.org/v2.13.0/docs/add) behind the scenes, and can be used to adjust the years, months, weeks, days, hours, minutes and seconds.
 
 ## Supported types and validations
 ### array

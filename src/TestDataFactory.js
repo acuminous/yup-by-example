@@ -1,12 +1,14 @@
 import * as yup from 'yup';
-import standardGenerators from './generators';
 import Chance from 'chance';
-import get from 'lodash.get';
+import _get from 'lodash.get';
+import standardGenerators from './generators';
+import TestDataSession from './TestDataSession';
 
 class TestDataFactory {
 
   constructor(params = {}) {
-    this.seed = get(params, 'seed', this.seed());
+    this.session = new TestDataSession({ now: _get(params, 'now', new Date()) });
+    this.seed = _get(params, 'seed', Math.ceil(Math.random() * 999999999));
     this.chance = new Chance(this.seed);
     this.generators = { ...standardGenerators };
     this.bypass = true;
@@ -21,10 +23,6 @@ class TestDataFactory {
     }
   }
 
-  seed() {
-    return Math.ceil(Math.random() * 999999999);
-  }
-
   addMethod(schema, name) {
     const factory = this;
     yup.addMethod(schema, name, function(id, params) {
@@ -33,7 +31,14 @@ class TestDataFactory {
         if (id && !factory.generators[id]) throw new Error(`No generator for id: '${id}'`);
         const { type, meta = {} } = this.describe();
         const generator = factory._resolve([id, meta.type, type].filter(Boolean));
-        return generator.generate({ id, params, schema: factory._describe(this), value, originalValue });
+        return generator.generate({
+          id,
+          params,
+          session: factory.session,
+          schema: factory._describe(this),
+          value,
+          originalValue
+        });
       });
     })
     return factory;

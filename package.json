@@ -102,9 +102,12 @@
   "dependencies": {
     "@babel/runtime": "^7.9.6",
     "casual": "^1.6.2",
+    "date-fns": "^2.13.0",
     "faker": "^4",
     "lodash.get": "^4.4.2",
     "lodash.has": "^4.5.2",
+    "lodash.set": "^4.3.2",
+    "lodash.unset": "^4.5.2",
     "std": "^0.1.40"
   },
   "peerDependencies": {
