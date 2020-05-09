@@ -14,12 +14,12 @@ One of the best features of Yup, is the ability to add custom validators / trans
   - [2. Write the tests](#2-write-the-tests)
   - [3. Profit!](#3-profit)
 - [Custom generators](#custom-generators)
-  - [Caveats](#caveats)
-  - [Supported types and validations](#supported-types-and-validations)
-    - [string](#string)
-    - [number](#number)
-    - [array](#array)
-    - [object](#object)
+- [Caveats](#caveats)
+- [Supported types and validations](#supported-types-and-validations)
+  - [string](#string)
+  - [number](#number)
+  - [array](#array)
+  - [object](#object)
   - [Todo](#todo)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -166,18 +166,18 @@ before() {
 All generators are passed an instance of [Chance](https://chancejs.com/basics/integer.html) to assist with random data generation. You can also initialise the TestDataFactory with a seed, e.g. `new TestDataFactory({ seed: 100 })` to consistently generate the same random data.
 
 
-### Caveats
+## Caveats
 Not all Yup validations can be reliably generated. For example there is nothing in the described schema that can be used to determine if `lowercase` or `uppercase` is required. With `strict` validation, this could cause problems. It's likely there there may also be issues with references and conditional validation. You may be able to work around many of these problems with [Custom generators](#custom-generators).
 
-### Supported types and validations
-#### string
+## Supported types and validations
+### string
 * length
 * min
 * max
 * email
 * url
 
-#### number
+### number
 * min
 * max
 * lessThan
@@ -186,15 +186,14 @@ Not all Yup validations can be reliably generated. For example there is nothing 
 * negative
 * integer
 
-#### array
+### array
 * min
 * max
 
-#### object
+### object
 
 ### Todo
 * mixed
 * boolean
 * date
-
 
