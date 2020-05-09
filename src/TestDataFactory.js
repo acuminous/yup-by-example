@@ -1,4 +1,4 @@
-import { addMethod } from 'yup';
+import * as yup from 'yup';
 import standardGenerators from './generators';
 import Chance from 'chance';
 import get from 'lodash.get';
@@ -27,7 +27,7 @@ class TestDataFactory {
 
   addMethod(schema, name) {
     const factory = this;
-    addMethod(schema, name, function(id) {
+    yup.addMethod(schema, name, function(id) {
       return this.transform(function(value, originalValue) {
         if (factory.bypass) return value;
         if (id && !factory.generators[id]) throw new Error(`No generator for id: '${id}'`);
@@ -41,7 +41,7 @@ class TestDataFactory {
 
   addNoopMethod(schema, name) {
     const factory = this;
-    addMethod(schema, name, function() {
+    yup.addMethod(schema, name, function() {
       return this.transform(function(value) {
         return value;
       })
