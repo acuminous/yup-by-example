@@ -8,15 +8,19 @@ One of the best features of Yup, is the ability to add custom validators / trans
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 - [yup-by-example](#yup-by-example)
-    - [Example](#example)
-    - [Custom generators](#custom-generators)
-    - [Caveats](#caveats)
-    - [Supported types and validations](#supported-types-and-validations)
-      - [string](#string)
-      - [number](#number)
-      - [array](#array)
-      - [object](#object)
-    - [Todo](#todo)
+
+- [TL;DR](#tldr)
+  - [1. Define the schema](#1-define-the-schema)
+  - [2. Write the tests](#2-write-the-tests)
+  - [3. Profit!](#3-profit)
+- [Custom generators](#custom-generators)
+  - [Caveats](#caveats)
+  - [Supported types and validations](#supported-types-and-validations)
+    - [string](#string)
+    - [number](#number)
+    - [array](#array)
+    - [object](#object)
+  - [Todo](#todo)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
