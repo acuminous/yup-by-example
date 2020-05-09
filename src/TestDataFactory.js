@@ -6,35 +6,49 @@ import TestDataSession from './TestDataSession';
 
 class TestDataFactory {
 
-  constructor(params = {}) {
-    this.session = new TestDataSession({ now: _get(params, 'now', new Date()) });
-    this.seed = _get(params, 'seed', Math.ceil(Math.random() * 999999999));
-    this.chance = new Chance(this.seed);
-    this.generators = { ...standardGenerators };
-    this.bypass = true;
+  constructor(params) {
+    this.reset(params);
   }
 
-  generate(schema) {
-    this.bypass = false;
+  reset(params = {}) {
+    this._session = new TestDataSession({ now: _get(params, 'now', new Date()) });
+    this._seed = _get(params, 'seed', Math.ceil(Math.random() * 999999999));
+    this._chance = new Chance(this._seed);
+    this._generators = { ...standardGenerators };
+    this._bypass = true;
+  }
+
+  get session() {
+    return this._session;
+  }
+
+  async generate(schema) {
+    this._bypass = false;
     try {
       return schema.cast(null);
     } finally {
-      this.bypass = true;
+      this._bypass = true;
     }
+  }
+
+  async generateValid(schema) {
+    const document = await this.generate(schema);
+    await schema.validate(document);
+    return document;
   }
 
   addMethod(schema, name) {
     const factory = this;
     yup.addMethod(schema, name, function(id, params) {
       return this.transform(function yupByExample(value, originalValue) {
-        if (factory.bypass) return value;
-        if (id && !factory.generators[id]) throw new Error(`No generator for id: '${id}'`);
+        if (factory._bypass) return value;
+        if (id && !factory._generators[id]) throw new Error(`No generator for id: '${id}'`);
         const { type, meta = {} } = this.describe();
         const generator = factory._resolve([id, meta.type, type].filter(Boolean));
         return generator.generate({
           id,
           params,
-          session: factory.session,
+          session: factory._session,
           schema: factory._describe(this),
           value,
           originalValue
@@ -55,23 +69,23 @@ class TestDataFactory {
   }
 
   addGenerator(id, Generator) {
-    this.generators[id] = Generator;
+    this._generators[id] = Generator;
     return this;
   }
 
   removeGenerator(id) {
-    delete this.generators[id];
+    delete this._generators[id];
     return this;
   }
 
   _resolve(candidates) {
-    const found = candidates.find(candidate => !!this.generators[candidate]);
-    const Generator = this.generators[found];
+    const found = candidates.find(candidate => Boolean(this._generators[candidate]));
+    const Generator = this._generators[found];
     if (!Generator) {
       const names = candidates.map(candidate => `'${candidate}'`).join(', ');
       throw new Error(`Unable to resolve generator from [${names}]`);
     }
-    return new Generator({ chance: this.chance });
+    return new Generator({ chance: this._chance });
   }
 
   _describe(schema) {

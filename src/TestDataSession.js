@@ -6,8 +6,8 @@ import _unset from 'lodash.unset';
 class TestDataSession {
 
   constructor(params = {}) {
-    this.session = {};
     this._now = params.now || new Date();
+    this._store = {};
   }
 
   get now() {
@@ -15,23 +15,19 @@ class TestDataSession {
   }
 
   hasProperty(path) {
-    return _has(this.session, path);
+    return _has(this._store, path);
   }
 
   getProperty(path, fallback) {
-    return _get(this.session, path, fallback);
+    return _get(this._store, path, fallback);
   }
 
   setProperty(path, value) {
-    return _set(this.session, path, value);
+    return _set(this._store, path, value);
   }
 
   removeProperty(path) {
-    return _unset(this.session, path);
-  }
-
-  reset() {
-    this.session = {};
+    return _unset(this._store, path);
   }
 }
 

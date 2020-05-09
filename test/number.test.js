@@ -8,9 +8,9 @@ describe('number generator', () => {
   const testDataFactory = new TestDataFactory().addMethod(mixed, 'example');
 
   describe('floating points', () => {
-    it('should generate random floating point numbers', function() {
+    it('should generate random floating point numbers', async function() {
       const schema = number().example();
-      const { values } = sample(1000, () => testDataFactory.generate(schema));
+      const { values } = await sample(1000, () => testDataFactory.generateValid(schema));
 
       const stats = new Stats().push(values.map(Number));
       const [lower, upper] = stats.range();
@@ -21,9 +21,9 @@ describe('number generator', () => {
       expectMostlyFloatingPoints(values);
     })
 
-    it('should obey specified min values', function() {
+    it('should obey specified min values', async function() {
       const schema = number().min(0).example();
-      const { values } = sample(1000, () => testDataFactory.generate(schema));
+      const { values } = await sample(1000, () => testDataFactory.generateValid(schema));
 
       const stats = new Stats().push(values.map(Number));
       const [lower, upper] = stats.range();
@@ -34,9 +34,9 @@ describe('number generator', () => {
       expectMostlyFloatingPoints(values);
     })
 
-    it('should obey specified max values', function() {
+    it('should obey specified max values', async function() {
       const schema = number().max(30).example();
-      const { values } = sample(1000, () => testDataFactory.generate(schema));
+      const { values } = await sample(1000, () => testDataFactory.generateValid(schema));
 
       const stats = new Stats().push(values.map(Number));
       const [lower, upper] = stats.range();
@@ -47,9 +47,9 @@ describe('number generator', () => {
       expectMostlyFloatingPoints(values);
     })
 
-    it('should obey specified min and max values', function() {
+    it('should obey specified min and max values', async function() {
       const schema = number().min(50).max(60).example();
-      const { values } = sample(1000, () => testDataFactory.generate(schema));
+      const { values } = await sample(1000, () => testDataFactory.generateValid(schema));
 
       const stats = new Stats().push(values.map(Number));
       const [lower, upper] = stats.range();
@@ -60,9 +60,9 @@ describe('number generator', () => {
       expectMostlyFloatingPoints(values);
     })
 
-    it('should generate positive floating point numbers', function() {
+    it('should generate positive floating point numbers', async function() {
       const schema = number().positive().example();
-      const { values } = sample(1000, () => testDataFactory.generate(schema));
+      const { values } = await sample(1000, () => testDataFactory.generateValid(schema));
 
       const stats = new Stats().push(values.map(Number));
       const [lower, upper] = stats.range();
@@ -73,9 +73,9 @@ describe('number generator', () => {
       expectMostlyFloatingPoints(values);
     })
 
-    it('should generate negative floating point numbers', function() {
+    it('should generate negative floating point numbers', async function() {
       const schema = number().negative().example();
-      const { values } = sample(1000, () => testDataFactory.generate(schema));
+      const { values } = await sample(1000, () => testDataFactory.generateValid(schema));
 
       const stats = new Stats().push(values.map(Number));
       const [lower, upper] = stats.range();
@@ -86,9 +86,9 @@ describe('number generator', () => {
       expectMostlyFloatingPoints(values);
     })
 
-    it('should generate floating point numbers below the specified limit', function() {
+    it('should generate floating point numbers below the specified limit', async function() {
       const schema = number().lessThan(100).example();
-      const { values } = sample(1000, () => testDataFactory.generate(schema));
+      const { values } = await sample(1000, () => testDataFactory.generateValid(schema));
 
       const stats = new Stats().push(values.map(Number));
       const [lower, upper] = stats.range();
@@ -99,9 +99,9 @@ describe('number generator', () => {
       expectMostlyFloatingPoints(values);
     })
 
-    it('should generate floating point numbers above the specified limit', function() {
+    it('should generate floating point numbers above the specified limit', async function() {
       const schema = number().moreThan(100).example();
-      const { values } = sample(1000, () => testDataFactory.generate(schema));
+      const { values } = await sample(1000, () => testDataFactory.generateValid(schema));
 
       const stats = new Stats().push(values.map(Number));
       const [lower, upper] = stats.range();
@@ -112,9 +112,9 @@ describe('number generator', () => {
       expectMostlyFloatingPoints(values);
     })
 
-    it('should obey specified one of values', function() {
+    it('should obey specified one of values', async function() {
       const schema = number().oneOf([1.1, 2.2, 3.3]).example();
-      const { counts, values } = sample(999, () => testDataFactory.generate(schema));
+      const { counts, values } = await sample(999, () => testDataFactory.generateValid(schema));
 
       const stats = new Stats().push(counts);
       const [lower, upper] = stats.range();
@@ -128,9 +128,9 @@ describe('number generator', () => {
   });
 
   describe('integers', () => {
-    it('should generate random integers', function() {
+    it('should generate random integers', async function() {
       const schema = number().integer().example();
-      const { values } = sample(1000, () => testDataFactory.generate(schema));
+      const { values } = await sample(1000, () => testDataFactory.generateValid(schema));
 
       const stats = new Stats().push(values.map(Number));
       const [lower, upper] = stats.range();
@@ -141,9 +141,9 @@ describe('number generator', () => {
       expectAllIntegers(values);
     })
 
-    it('should obey specified min values', function() {
+    it('should obey specified min values', async function() {
       const schema = number().integer().min(0).example();
-      const { values } = sample(1000, () => testDataFactory.generate(schema));
+      const { values } = await sample(1000, () => testDataFactory.generateValid(schema));
 
       const stats = new Stats().push(values.map(Number));
       const [lower, upper] = stats.range();
@@ -154,9 +154,9 @@ describe('number generator', () => {
       expectAllIntegers(values);
     })
 
-    it('should obey specified max values', function() {
+    it('should obey specified max values', async function() {
       const schema = number().integer().max(30).example();
-      const { values } = sample(1000, () => testDataFactory.generate(schema));
+      const { values } = await sample(1000, () => testDataFactory.generateValid(schema));
 
       const stats = new Stats().push(values.map(Number));
       const [lower, upper] = stats.range();
@@ -167,9 +167,9 @@ describe('number generator', () => {
       expectAllIntegers(values);
     })
 
-    it('should obey specified min and max values', function() {
+    it('should obey specified min and max values', async function() {
       const schema = number().integer().min(50).max(60).example();
-      const { values } = sample(1000, () => testDataFactory.generate(schema), v => Math.floor(v));
+      const { values } = await sample(1000, () => testDataFactory.generateValid(schema), v => Math.floor(v));
 
       const stats = new Stats().push(values.map(Number));
       const [lower, upper] = stats.range();
@@ -180,9 +180,9 @@ describe('number generator', () => {
       expectAllIntegers(values);
     })
 
-    it('should generate positive integers', function() {
+    it('should generate positive integers', async function() {
       const schema = number().integer().positive().example();
-      const { values } = sample(1000, () => testDataFactory.generate(schema));
+      const { values } = await sample(1000, () => testDataFactory.generateValid(schema));
 
       const stats = new Stats().push(values.map(Number));
       const [lower, upper] = stats.range();
@@ -193,9 +193,9 @@ describe('number generator', () => {
       expectAllIntegers(values);
     })
 
-    it('should generate negative integers', function() {
+    it('should generate negative integers', async function() {
       const schema = number().integer().negative().example();
-      const { values } = sample(1000, () => testDataFactory.generate(schema));
+      const { values } = await sample(1000, () => testDataFactory.generateValid(schema));
 
       const stats = new Stats().push(values.map(Number));
       const [lower, upper] = stats.range();
@@ -206,9 +206,9 @@ describe('number generator', () => {
       expectAllIntegers(values);
     })
 
-    it('should generate integers below the specified limit', function() {
+    it('should generate integers below the specified limit', async function() {
       const schema = number().integer().lessThan(100).example();
-      const { values } = sample(1000, () => testDataFactory.generate(schema));
+      const { values } = await sample(1000, () => testDataFactory.generateValid(schema));
 
       const stats = new Stats().push(values.map(Number));
       const [lower, upper] = stats.range();
@@ -219,9 +219,9 @@ describe('number generator', () => {
       expectAllIntegers(values);
     })
 
-    it('should generate integers above the specified limit', function() {
+    it('should generate integers above the specified limit', async function() {
       const schema = number().integer().moreThan(100).example();
-      const { values } = sample(1000, () => testDataFactory.generate(schema));
+      const { values } = await sample(1000, () => testDataFactory.generateValid(schema));
 
       const stats = new Stats().push(values.map(Number));
       const [lower, upper] = stats.range();
@@ -232,9 +232,9 @@ describe('number generator', () => {
       expectAllIntegers(values);
     })
 
-    it('should obey specified one of values', function() {
+    it('should obey specified one of values', async function() {
       const schema = number().oneOf([1, 2, 3]).example();
-      const { counts, values } = sample(999, () => testDataFactory.generate(schema));
+      const { counts, values } = await sample(999, () => testDataFactory.generateValid(schema));
 
       const stats = new Stats().push(counts);
       const [lower, upper] = stats.range();

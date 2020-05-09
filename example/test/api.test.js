@@ -13,6 +13,8 @@ const factory = new TestDataFactory()
   .addGenerator('ni-number', NiNumberGenerator);
 const schemas = initSchemas();
 
-const users = factory.generate(schemas.users);
-console.log(JSON.stringify(users, null, 2));
+factory.generateValid(schemas.users).then(users => {
+  console.log(JSON.stringify(users, null, 2));
+}).catch(console.error);
+
 

@@ -7,9 +7,9 @@ describe('boolean generator', () => {
 
   const testDataFactory = new TestDataFactory().addMethod(mixed, 'example');
 
-  it('should generate random booleans', function() {
+  it('should generate random booleans', async function() {
     const schema = boolean().example();
-    const { counts, values } = sample(1000, () => testDataFactory.generate(schema));
+    const { counts, values } = await sample(1000, () => testDataFactory.generateValid(schema));
 
     const stats = new Stats().push(counts);
     const [lower, upper] = stats.range();
@@ -21,10 +21,10 @@ describe('boolean generator', () => {
     expectAllBooleans(values);
   })
 
-  it('should obey specified one of values', function() {
+  it('should obey specified one of values', async function() {
     const schema = boolean().oneOf([true]).example();
     for (let i = 0; i < 1000; i++) {
-      const value = testDataFactory.generate(schema);
+      const value = await testDataFactory.generateValid(schema);
       expect(value).to.equal(true);
     }
   })

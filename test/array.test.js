@@ -7,19 +7,19 @@ describe('array generator', () => {
 
   const testDataFactory = new TestDataFactory().addMethod(mixed, 'example');
 
-  it('should generate arrays of strings', function() {
+  it('should generate arrays of strings', async function() {
     const items = string().example();
     const schema = array().of(items).example();
-    const { counts, values } = sample(1000, () => testDataFactory.generate(schema));
+    const { counts, values } = await sample(1000, () => testDataFactory.generateValid(schema));
 
     expect(counts.length).to.be.above(900);
     expectAllStrings(values);
   })
 
-  it('should obey specified min values', function() {
+  it('should obey specified min values', async function() {
     const items = string().example();
     const schema = array().of(items).min(1).example();
-    const { values } = sample(1000, () => testDataFactory.generate(schema), v => v.length);
+    const { values } = await sample(1000, () => testDataFactory.generateValid(schema), v => v.length);
 
     const stats = new Stats().push(values.map(Number));
     const [lower, upper] = stats.range();
@@ -28,10 +28,10 @@ describe('array generator', () => {
     expect(upper).to.equal(5);
   })
 
-  it('should obey specified max values', function() {
+  it('should obey specified max values', async function() {
     const items = string().example();
     const schema = array().of(items).max(10).example();
-    const { values } = sample(1000, () => testDataFactory.generate(schema), v => v.length);
+    const { values } = await sample(1000, () => testDataFactory.generateValid(schema), v => v.length);
 
     const stats = new Stats().push(values.map(Number));
     const mean = stats.amean();
@@ -43,10 +43,10 @@ describe('array generator', () => {
     expect(upper).to.equal(10);
   })
 
-  it('should obey specified min and max values', function() {
+  it('should obey specified min and max values', async function() {
     const items = string().example();
     const schema = array().of(items).min(1).max(2).example();
-    const { values } = sample(1000, () => testDataFactory.generate(schema), v => v.length);
+    const { values } = await sample(1000, () => testDataFactory.generateValid(schema), v => v.length);
 
     const stats = new Stats().push(values.map(Number));
     const [lower, upper] = stats.range();
@@ -55,9 +55,9 @@ describe('array generator', () => {
     expect(upper).to.equal(2);
   })
 
-  it('should obey specified one of values', function() {
+  it('should obey specified one of values', async function() {
     const schema = array().oneOf([[1], [2], [3]]).example();
-    const { counts, values } = sample(999, () => testDataFactory.generate(schema), v => v[0]);
+    const { counts, values } = await sample(999, () => testDataFactory.generateValid(schema), v => v[0]);
 
     const stats = new Stats().push(counts);
     const [lower, upper] = stats.range();
@@ -67,5 +67,14 @@ describe('array generator', () => {
     values.forEach(value => {
       expect(Number(value)).to.be.oneOf([1, 2, 3]);
     });
+  })
+
+  it('should obey length defined in session', async function() {
+    testDataFactory.session.setProperty('foo.length', 100)
+    const items = string().example();
+    const schema = array().of(items).min(1).max(2).meta({ sessionKey: 'foo' }).example();
+    const value = await testDataFactory.generate(schema);
+
+    expect(value).to.have.length(100);
   })
 });

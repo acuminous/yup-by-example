@@ -81,6 +81,7 @@
     "babel-preset-jason": "^6.2.0",
     "benchmark": "^2.1.4",
     "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
     "dirty-chai": "^2.0.1",
     "doctoc": "^1.4.0",
     "eslint": "^6.8.0",
@@ -101,17 +102,14 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.9.6",
-    "casual": "^1.6.2",
+    "chance": "^1.1.4",
     "date-fns": "^2.13.0",
-    "faker": "^4",
     "lodash.get": "^4.4.2",
     "lodash.has": "^4.5.2",
     "lodash.set": "^4.3.2",
-    "lodash.unset": "^4.5.2",
-    "std": "^0.1.40"
+    "lodash.unset": "^4.5.2"
   },
   "peerDependencies": {
-    "chance": "^1.1.4",
     "yup": "^0.28.5"
   }
 }

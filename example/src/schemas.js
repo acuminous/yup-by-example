@@ -66,11 +66,15 @@ module.exports = function init() {
     postcode: postcode,
   }).example();
 
-  // You can also create example arrays
+  // You can also create example arrays. By default yup-by-example will obey
+  // the max and min values, however you can also control this on a test by
+  // test basis by defining a sessionKey in the schemas metadata, then setting
+  // the length from your test, e.g. testDataFactory.session.setProperty('users.length', 4)
   const users = array(user)
     .min(3)
     .max(6)
-    .example();
+    .meta({ sessionKey: 'users' })
+    .example('array');
 
   return {
     user,

@@ -7,36 +7,36 @@ describe('date generator', () => {
 
   const testDataFactory = new TestDataFactory().addMethod(mixed, 'example');
 
-  it('should generate random dates', function() {
+  it('should generate random dates', async function() {
     const schema = date().example();
-    const { values } = sample(1000, () => testDataFactory.generate(schema));
+    const { values } = await sample(1000, () => testDataFactory.generateValid(schema));
     expect(values.length).to.be.above(900);
 
-    const dates = new Array(1000).fill(null).map(() => testDataFactory.generate(schema));
+    const dates = await Promise.all(new Array(1000).fill(null).map(() => testDataFactory.generateValid(schema)));
     expectAllDates(dates);
   })
 
-  it('should obey specified min dates', function() {
+  it('should obey specified min dates', async function() {
     const minDate = new Date('2000-01-01T00:00:00.000');
     const schema = date().min(minDate).example();
-    const dates = new Array(1000).fill(null).map(() => testDataFactory.generate(schema));
+    const dates = await Promise.all(new Array(1000).fill(null).map(() => testDataFactory.generateValid(schema)));
     dates.forEach(date => {
       expect(date).to.be.at.least(minDate);
     });
   })
 
-  it('should obey specified max dates', function() {
+  it('should obey specified max dates', async function() {
     const maxDate = new Date('2000-01-01T00:00:00.000');
     const schema = date().max(maxDate).example();
-    const dates = new Array(1000).fill(null).map(() => testDataFactory.generate(schema));
+    const dates = await Promise.all(new Array(1000).fill(null).map(() => testDataFactory.generateValid(schema)));
     dates.forEach(date => {
       expect(date).to.be.at.most(maxDate);
     });
   })
 
-  it('should obey specified one of values', function() {
+  it('should obey specified one of values', async function() {
     const schema = date().oneOf([new Date(1), new Date(2), new Date(3)]).example();
-    const { counts, values } = sample(999, () => testDataFactory.generate(schema), v => v.getTime());
+    const { counts, values } = await sample(999, () => testDataFactory.generateValid(schema), v => v.getTime());
 
     const stats = new Stats().push(counts);
     const [lower, upper] = stats.range();
