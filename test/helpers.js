@@ -11,3 +11,23 @@ export let sample = (n, generate, transform = v => v) => {
   }
 }
 
+export let expectMostlyFloatingPoints = (values) => {
+  const threshold = Math.floor(values.length * 0.1)
+  let failures = 0;
+  values.forEach(value => {
+    if (Math.floor(value) === Number(value)) failures++;
+  });
+  expect(failures).to.be.below(threshold);
+}
+
+export let expectAllIntegers = (values) => {
+  values.forEach(value => {
+    expect(Math.floor(value)).to.equal(Number(value));
+  });
+}
+
+export let expectAllStrings = (values) => {
+  values.forEach(value => {
+    expect(value).to.be.a('string');
+  });
+}

@@ -1,40 +1,24 @@
-import { random, internet } from 'faker';
+import BaseGenerator from './BaseGenerator';
 
-const DEFAULT_MIN = 10;
-const DEFAULT_MAX = 20;
+const MIN = 10;
+const SPREAD = 10;
 
-class StringGenerator {
-  constructor(session) {
-    this.session = session;
-  }
+class StringGenerator extends BaseGenerator {
 
   generate(schema) {
     const { min } = this.getTestParameters(schema, 'min');
     const { max } = this.getTestParameters(schema, 'max');
-    const { length } = this.getTestParameters(schema, 'length');
-    if (this.hasTest(schema, 'email')) return internet.email();
-    if (this.hasTest(schema, 'url')) return internet.url();
-    return random.alphaNumeric(length || this.getLength(min, max));
-  }
-
-  getTest(schema, testName) {
-    return schema.tests.find(test => test.name === testName);
-  }
-
-  hasTest(schema, testName) {
-    return !!this.getTest(schema, testName);
-  }
-
-  getTestParameters(schema, testName) {
-    const test = this.getTest(schema, testName);
-    return test ? test.params : {};
+    const { length = this.getLength(min, max) } = this.getTestParameters(schema, 'length');
+    if (this.hasTest(schema, 'email')) return this.chance.email();
+    if (this.hasTest(schema, 'url')) return this.chance.url();
+    return this.chance.string({ length, alpha: true });
   }
 
   getLength(min, max) {
-    if (typeof min === 'number' && typeof max === 'number') return random.number({ min, max });
-    if (typeof min === 'number') return random.number({ min, max: min + 10 });
-    if (typeof max === 'number') return random.number({ min: Math.max(1, max - 10), max });
-    return random.number({ min: DEFAULT_MIN, max: DEFAULT_MAX });
+    if (typeof min === 'number' && typeof max === 'number') return this.chance.integer({ min, max });
+    if (typeof min === 'number') return this.chance.integer({ min, max: min + SPREAD });
+    if (typeof max === 'number') return this.chance.integer({ min: Math.max(1, max - SPREAD), max });
+    return this.chance.integer({ min: MIN, max: MIN + SPREAD });
   }
 }
 
