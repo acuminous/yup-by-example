@@ -16,11 +16,12 @@ One of the best features of Yup, is the ability to add custom validators / trans
 - [Custom generators](#custom-generators)
 - [Caveats](#caveats)
 - [Supported types and validations](#supported-types-and-validations)
-  - [string](#string)
-  - [number](#number)
   - [array](#array)
+  - [boolean](#boolean)
+  - [date](#date)
   - [object](#object)
-  - [Todo](#todo)
+  - [number](#number)
+  - [string](#string)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
