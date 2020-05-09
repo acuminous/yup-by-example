@@ -8,8 +8,7 @@
     "testonly": "jest",
     "tdd": "jest --watch",
     "lint": "eslint src test",
-    "precommit": "lint-staged",
-    "prepublishOnly": "npm run build"
+    "precommit": "lint-staged"
   },
   "files": [
     "es",
