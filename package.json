@@ -19,9 +19,7 @@
     "type": "git",
     "url": "git+https://github.com/cressie176/yup-by-example.git"
   },
-  "author": {
-    "name": "@cressie176 Stephen Cresswell"
-  },
+  "author": "@cressie176 Stephen Cresswell",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/cressie176/yup-by-example/issues"
@@ -83,5 +81,17 @@
   },
   "peerDependencies": {
     "yup": "^0.28.5"
-  }
+  },
+  "directories": {
+    "example": "example",
+    "test": "test"
+  },
+  "keywords": [
+    "yup",
+    "test",
+    "data",
+    "generator",
+    "random",
+    "schema"
+  ]
 }
