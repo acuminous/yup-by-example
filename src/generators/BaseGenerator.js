@@ -21,6 +21,12 @@ class BaseGenerator {
     return schema.whitelist.length > 0;
   }
 
+  hasTransform(field, transformName) {
+    return field.transforms.find(t => {
+      return t.name === transformName
+    })
+  }
+
   oneOf(candidates) {
     const index = this.chance.integer({ min: 0, max: candidates.length - 1 });
     return candidates[index];

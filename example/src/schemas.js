@@ -51,6 +51,10 @@ module.exports = function init() {
     .matches(/^[A-Z]{2}\d{6}[A-Z]$/)
     .example('ni-number');
 
+  // Without an `example()` postcode will not be randomly generated. If this is
+  // also a required field, the resulting test data will be invalid
+  const postcode = string()
+
   // Adding `example()` works too
   const user = object().shape({
     name: name.required(),
@@ -59,6 +63,7 @@ module.exports = function init() {
     username: username.required(),
     password: password.required(),
     niNumber: niNumber.required(),
+    postcode: postcode,
   }).example();
 
   // You can also create example arrays

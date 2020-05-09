@@ -1,5 +1,5 @@
 import TestDataFactory from '../src/TestDataFactory';
-import { mixed, string, object } from 'yup';
+import { mixed, string, date } from 'yup';
 
 describe('TestDataFactory', () => {
 
@@ -12,10 +12,10 @@ describe('TestDataFactory', () => {
   })
 
   it('should report unresolvable generators', function() {
-    testDataFactory.removeGenerator('object');
-    const schema = object().meta({ type: 'name' }).example();
+    testDataFactory.removeGenerator('date');
+    const schema = date().meta({ type: 'missing' }).example();
     expect(() => testDataFactory.generate(schema))
-      .to.throw('Unable to resolve generator from [\'name\', \'object\']');
+      .to.throw('Unable to resolve generator from [\'missing\', \'date\']');
   })
 
   it('should select generator by id', function() {
@@ -52,7 +52,8 @@ describe('TestDataFactory', () => {
 
   it('should bypass generator when using schema.validate', function() {
     const schema = string().example();
-    expect(() => schema.validate('valid')).to.not.throw()
+    expect(() => schema.validate('valid'))
+      .to.not.throw()
   });
 
   class CustomGenerator {

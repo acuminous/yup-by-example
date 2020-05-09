@@ -23,6 +23,17 @@ describe('object generator', () => {
     }
   })
 
+  it('should skip fields with no example', function() {
+    const schema = object().shape({
+      name: string().strip(),
+      age: number().example(),
+    }).example();
+
+    const value = testDataFactory.generate(schema);
+    expect(value).to.not.have.keys('name');
+    expect(value).to.have.keys('age');
+  })
+
   it('should obey specified one of values', function() {
     const schema = object().oneOf([{ x: 1 }, { x: 2 }, { x: 3 }]).example();
     const { counts, values } = sample(999, () => testDataFactory.generate(schema), v => v.x);

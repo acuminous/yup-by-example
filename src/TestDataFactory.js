@@ -26,7 +26,7 @@ class TestDataFactory {
   addMethod(schema, name) {
     const factory = this;
     yup.addMethod(schema, name, function(id, params) {
-      return this.transform(function(value, originalValue) {
+      return this.transform(function yupByExample(value, originalValue) {
         if (factory.bypass) return value;
         if (id && !factory.generators[id]) throw new Error(`No generator for id: '${id}'`);
         const { type, meta = {} } = this.describe();
@@ -79,6 +79,12 @@ class TestDataFactory {
     const description = schema.describe();
     description.whitelist = schema._whitelist ? Array.from(schema._whitelist.list) : [];
     description.blacklist = schema._blacklist ? Array.from(schema._blacklist.list) : [];
+    Object.keys(schema.fields || []).forEach(fieldName => {
+      const transforms = schema.fields[fieldName].transforms
+        .filter(t => Boolean(t.name))
+        .map(t => ({ name: t.name }));
+      description.fields[fieldName].transforms = transforms;
+    })
     return description;
   }
 
