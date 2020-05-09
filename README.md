@@ -198,7 +198,7 @@ One of yup-by-examples key classes is the TestDataFactory. You use it to:
 * configure generators on a test-by-test basis
 
 ### Generating test data
-To generate test data simply instantiate a testDataFactory, add the `example` method and call `generate` passing it a schema.
+To generate test data simply instantiate a testDataFactory, add the `example` method and call `generateValid` or `generate`, passing it a schema.
 ```js
 const testDataFactory = new TestDataFactory().addMethod(mixed, 'example')
 const document = await testDataFactory.generateValid(schema);
