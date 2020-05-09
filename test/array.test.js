@@ -54,4 +54,18 @@ describe('array generator', () => {
     expect(lower).to.equal(1);
     expect(upper).to.equal(2);
   })
+
+  it('should obey specified one of values', function() {
+    const schema = array().oneOf([[1], [2], [3]]).example();
+    const { counts, values } = sample(999, () => testDataFactory.generate(schema), v => v[0]);
+
+    const stats = new Stats().push(counts);
+    const [lower, upper] = stats.range();
+
+    expect(lower).to.be.below(333);
+    expect(upper).to.be.above(333);
+    values.forEach(value => {
+      expect(Number(value)).to.be.oneOf([1, 2, 3]);
+    });
+  })
 });

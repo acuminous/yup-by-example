@@ -6,6 +6,7 @@ const SPREAD = 10;
 class StringGenerator extends BaseGenerator {
 
   generate(schema) {
+    if (this.hasWhitelist(schema)) return this.oneOf(schema.whitelist);
     const { min } = this.getTestParameters(schema, 'min');
     const { max } = this.getTestParameters(schema, 'max');
     const { length = this.getLength(min, max) } = this.getTestParameters(schema, 'length');

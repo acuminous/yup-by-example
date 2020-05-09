@@ -6,6 +6,7 @@ const INTEGER_OFFSET = 1;
 class NumberGenerator extends BaseGenerator {
 
   generate(schema) {
+    if (this.hasWhitelist(schema)) return this.oneOf(schema.whitelist);
     const { min, more } = this.getTestParameters(schema, 'min');
     const { max, less } = this.getTestParameters(schema, 'max');
     return this.hasTest(schema, 'integer')

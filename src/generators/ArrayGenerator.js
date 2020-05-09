@@ -6,6 +6,7 @@ const MAX_ARRAY_SIZE = 5;
 class ArrayGenerator extends BaseGenerator {
 
   generate(schema) {
+    if (this.hasWhitelist(schema)) return this.oneOf(schema.whitelist);
     const { min } = this.getTestParameters(schema, 'min');
     const { max } = this.getTestParameters(schema, 'max');
     const length = this.chance.integer({ min: this.getMin(min), max: this.getMax(max) });

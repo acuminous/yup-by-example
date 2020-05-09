@@ -108,4 +108,18 @@ describe('string generator', () => {
       expect(value).to.match(/:\/\//);
     });
   })
+
+  it('should obey specified one of values', function() {
+    const schema = string().oneOf(['good', 'bad', 'ugly']).example();
+    const { counts, values } = sample(999, () => testDataFactory.generate(schema));
+
+    const stats = new Stats().push(counts);
+    const [lower, upper] = stats.range();
+
+    expect(lower).to.be.below(333);
+    expect(upper).to.be.above(333);
+    values.forEach(value => {
+      expect(value).to.be.oneOf(['good', 'bad', 'ugly']);
+    });
+  })
 });

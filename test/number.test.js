@@ -111,6 +111,20 @@ describe('number generator', () => {
       expect(lower).to.be.above(100);
       expectMostlyFloatingPoints(values);
     })
+
+    it('should obey specified one of values', function() {
+      const schema = number().oneOf([1.1, 2.2, 3.3]).example();
+      const { counts, values } = sample(999, () => testDataFactory.generate(schema));
+
+      const stats = new Stats().push(counts);
+      const [lower, upper] = stats.range();
+
+      expect(lower).to.be.below(333);
+      expect(upper).to.be.above(333);
+      values.forEach(value => {
+        expect(Number(value)).to.be.oneOf([1.1, 2.2, 3.3]);
+      });
+    })
   });
 
   describe('integers', () => {
@@ -216,6 +230,20 @@ describe('number generator', () => {
       expect(upper).to.be.above(1000000);
       expect(lower).to.be.above(100);
       expectAllIntegers(values);
+    })
+
+    it('should obey specified one of values', function() {
+      const schema = number().oneOf([1, 2, 3]).example();
+      const { counts, values } = sample(999, () => testDataFactory.generate(schema));
+
+      const stats = new Stats().push(counts);
+      const [lower, upper] = stats.range();
+
+      expect(lower).to.be.below(333);
+      expect(upper).to.be.above(333);
+      values.forEach(value => {
+        expect(Number(value)).to.be.oneOf([1, 2, 3]);
+      });
     })
   })
 

@@ -33,7 +33,7 @@ class TestDataFactory {
         if (id && !factory.generators[id]) throw new Error(`No generator for id: '${id}'`);
         const { type, meta = {} } = this.describe();
         const generator = factory._resolve([id, meta.type, type].filter(Boolean));
-        return generator.generate(this.describe(), value, originalValue);
+        return generator.generate(factory._describe(this), value, originalValue);
       });
     })
     return factory;
@@ -67,6 +67,14 @@ class TestDataFactory {
       throw new Error(`Unable to resolve generator from [${names}]`);
     }
     return new Generator({ chance: this.chance });
+  }
+
+  _describe(schema) {
+    // See https://github.com/jquense/yup/issues/883
+    const description = schema.describe();
+    description.whitelist = schema._whitelist ? Array.from(schema._whitelist.list) : [];
+    description.blacklist = schema._blacklist ? Array.from(schema._blacklist.list) : [];
+    return description;
   }
 
 }

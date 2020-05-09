@@ -31,3 +31,18 @@ export let expectAllStrings = (values) => {
     expect(value).to.be.a('string');
   });
 }
+
+export let expectAllBooleans = (values) => {
+  values.forEach(value => {
+    expect(value).to.be.oneOf(['true', 'false']);
+  });
+}
+
+export let expectAllDates = (values) => {
+  values.forEach(value => {
+    expect(value).to.be.an.instanceof(Date);
+    /* eslint-disable-next-line no-unused-expressions */
+    expect(value.valueOf()).to.not.be.NaN;
+  });
+}
+

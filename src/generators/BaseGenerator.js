@@ -16,6 +16,15 @@ class BaseGenerator {
     const test = this.getTest(schema, testName);
     return test ? test.params : {};
   }
+
+  hasWhitelist(schema) {
+    return schema.whitelist.length > 0;
+  }
+
+  oneOf(candidates) {
+    const index = this.chance.integer({ min: 0, max: candidates.length - 1 });
+    return candidates[index];
+  }
 }
 
 export default BaseGenerator;

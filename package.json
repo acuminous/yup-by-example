@@ -81,8 +81,6 @@
     "babel-preset-jason": "^6.2.0",
     "benchmark": "^2.1.4",
     "chai": "^4.2.0",
-    "chai-as-promised": "^7.1.1",
-    "chai-string": "^1.5.0",
     "dirty-chai": "^2.0.1",
     "doctoc": "^1.4.0",
     "eslint": "^6.8.0",

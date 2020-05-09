@@ -170,12 +170,21 @@ All generators are passed an instance of [Chance](https://chancejs.com/basics/in
 Not all Yup validations can be reliably generated. For example there is nothing in the described schema that can be used to determine if `lowercase` or `uppercase` is required. With `strict` validation, this could cause problems. It's likely there there may also be issues with references and conditional validation. You may be able to work around many of these problems with [Custom generators](#custom-generators).
 
 ## Supported types and validations
-### string
-* length
+### array
 * min
 * max
-* email
-* url
+* oneOf
+
+### boolean
+* oneOf
+
+### date
+* min
+* max
+* oneOf
+
+### object
+* oneOf
 
 ### number
 * min
@@ -185,15 +194,14 @@ Not all Yup validations can be reliably generated. For example there is nothing 
 * positive
 * negative
 * integer
+* oneOf
 
-### array
+### string
+* length
 * min
 * max
+* email
+* url
+* oneOf
 
-### object
-
-### Todo
-* mixed
-* boolean
-* date
 
