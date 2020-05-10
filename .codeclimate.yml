@@ -1,0 +1,10 @@
+engines:
+  eslint:
+    enabled: false
+  duplication:
+    enabled: false
+checks:
+ratings:
+  paths:
+  - src/**
+  - test/**
