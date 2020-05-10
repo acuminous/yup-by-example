@@ -9,10 +9,10 @@ describe('TestDataFactory', () => {
     testDataFactory = new TestDataFactory().addMethod(mixed, 'example');
   });
 
-  it('should report missing id generators', async () => {
-    const schema = string().example('missing');
+  it('should report missing generators', async () => {
+    const schema = string().example({ generator: 'missing' });
     await expect(testDataFactory.generateValid(schema))
-      .to.be.rejectedWith('No generator for id: \'missing\'');
+      .to.be.rejectedWith('No such generator: \'missing\'');
   })
 
   it('should report unresolvable generators', async () => {
@@ -24,7 +24,7 @@ describe('TestDataFactory', () => {
 
   it('should select generator by id', async () => {
     testDataFactory.addGenerator('wibble', CustomGenerator);
-    const schema = string().example('wibble');
+    const schema = string().example({ generator: 'wibble' });
     const value = await testDataFactory.generateValid(schema);
     expect(value).to.equal('WIBBLE');
   })
@@ -99,6 +99,16 @@ describe('TestDataFactory', () => {
     expect(value).to.equal('wobble');
   })
 
+  it('should notify via type event', async () => {
+    const schema = string().oneOf(['WIBBLE']).example();
+    testDataFactory.session.once('string', event => {
+      expect(event.value).to.equal('WIBBLE');
+      event.value = 'wobble';
+    });
+    const value = await testDataFactory.generate(schema);
+    expect(value).to.equal('wobble');
+  })
+
   it('should notify via meta.type event', async () => {
     const schema = string().meta({ type: 'metatype' }).oneOf(['WIBBLE']).example();
     testDataFactory.session.once('metatype', event => {
@@ -111,7 +121,7 @@ describe('TestDataFactory', () => {
 
   it('should notify via id event', async () => {
     testDataFactory.addGenerator('wibble', CustomGenerator);
-    const schema = string().example('wibble');
+    const schema = string().example({ generator: 'wibble' });
     testDataFactory.session.once('wibble', event => {
       expect(event.value).to.equal('WIBBLE');
       event.value = 'wobble';

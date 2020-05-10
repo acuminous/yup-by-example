@@ -77,7 +77,7 @@ describe('array generator', () => {
   it('should obey length defined in session', async () => {
     testDataFactory.session.setProperty('foo.length', 100)
     const items = string().example();
-    const schema = array().of(items).min(1).max(2).meta({ sessionKey: 'foo' }).example();
+    const schema = array().of(items).min(1).max(2).example({ id: 'foo' });
     const value = await testDataFactory.generate(schema);
 
     expect(value).to.have.length(100);
@@ -88,7 +88,7 @@ describe('array generator', () => {
 
     const schema = array().of(
       object().shape({
-        date: date().example('rel-date', { days: 0 })
+        date: date().example({ generator: 'rel-date' })
       })
       .meta({ type: 'user' })
       .example()

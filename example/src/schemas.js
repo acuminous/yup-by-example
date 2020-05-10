@@ -12,7 +12,7 @@ module.exports = function init() {
   // Delegates to https://chancejs.com
   const name = string()
     .max(255)
-    .example('chance', {
+    .example({ generator: 'chance' }, {
       method: 'name',
       params: {
         middle_initial: true,
@@ -23,7 +23,9 @@ module.exports = function init() {
     .positive()
     .integer()
     .max(200)
-    .example('chance', { method: 'age' });
+    .example({ generator: 'chance' }, {
+      method: 'age',
+     });
 
   // Since `email` is a Yup validation, yup-by-example can support it natively
   const email = string()
@@ -34,7 +36,7 @@ module.exports = function init() {
   const username = string()
     .min(8)
     .max(32)
-    .example('fn', (chance) => {
+    .example({ generator: 'fn' }, (chance) => {
       return [].concat(
         chance.profession().split(/\W/g),
         chance.integer({ min: 1, max: 99 })
@@ -49,7 +51,7 @@ module.exports = function init() {
   // ni-number uses a custom generator. These can greatly simplify your schema.
   const niNumber = string()
     .matches(/^[A-Z]{2}\d{6}[A-Z]$/)
-    .example('ni-number');
+    .example({ generator: 'ni-number' });
 
   // Without an `example()` postcode will not be randomly generated. If this is
   // also a required field, the resulting test data will be invalid
@@ -68,13 +70,15 @@ module.exports = function init() {
 
   // You can also create example arrays. By default yup-by-example will obey
   // the max and min values, however you can also control this on a test by
-  // test basis by defining a sessionKey in the schemas metadata, then setting
+  // test basis by defining a generator id, then setting
   // the length from your test, e.g. testDataFactory.session.setProperty('users.length', 4)
   const users = array(user)
     .min(3)
     .max(6)
-    .meta({ sessionKey: 'users' })
-    .example('array');
+    .example({
+      id: 'users',
+      generator: 'array',
+    });
 
   return {
     user,

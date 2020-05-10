@@ -40,12 +40,12 @@ class TestDataFactory {
 
   addMethod(schema, name) {
     const factory = this;
-    yup.addMethod(schema, name, function(id, params) {
+    yup.addMethod(schema, name, function({ id, generator: generatorName } = {}, params) {
       return this.transform(function yupByExample(value, originalValue) {
         if (factory._bypass) return value;
-        if (id && !factory._generators[id]) throw new Error(`No generator for id: '${id}'`);
+        if (generatorName && !factory._generators[generatorName]) throw new Error(`No such generator: '${generatorName}'`);
         const { type, meta = {} } = this.describe();
-        const generator = factory._resolve([id, meta.type, type].filter(Boolean));
+        const generator = factory._resolve([generatorName, meta.type, type].filter(Boolean));
         const generatedValue = generator.generate({
           id,
           params,
@@ -54,7 +54,7 @@ class TestDataFactory {
           value,
           originalValue
         });
-        return factory._notify([id, meta.type, name], generatedValue);
+        return factory._notify([id, generatorName, meta.type, type, name], generatedValue);
       });
     })
     return factory;

@@ -5,23 +5,22 @@ const MAX_ARRAY_SIZE = 5;
 
 class ArrayGenerator extends BaseGenerator {
 
-  generate({ schema, session }) {
+  generate({ id, schema, session }) {
     return this.hasWhitelist(schema)
       ? this.generateFromWhitelist(schema, session)
-      : this.generateFromParameters(schema, session);
+      : this.generateFromParameters(id, schema, session);
   }
 
   generateFromWhitelist(schema, session) {
     return this.oneOf(schema.whitelist);
   }
 
-  generateFromParameters(schema, session) {
-    const sessionKey = this.getSessionKey(schema);
+  generateFromParameters(id, schema, session) {
     const { min } = this.getTestParameters(schema, 'min');
     const { max } = this.getTestParameters(schema, 'max');
     const length = this.getLength({
+      id,
       session,
-      sessionKey,
       min: this.getMin(min),
       max: this.getMax(max)
     });
@@ -36,9 +35,9 @@ class ArrayGenerator extends BaseGenerator {
     return max !== undefined ? max : MAX_ARRAY_SIZE;
   }
 
-  getLength({ session, sessionKey, min, max }) {
-    return session.hasProperty(`${sessionKey}.length`)
-      ? session.getProperty(`${sessionKey}.length`)
+  getLength({ id, session, min, max }) {
+    return session.hasProperty(`${id}.length`)
+      ? session.getProperty(`${id}.length`)
       : this.chance.integer({ min, max });
   }
 }

@@ -2,8 +2,8 @@ const BaseGenerator = require('./BaseGenerator');
 
 class FunctionGenerator extends BaseGenerator {
 
-  generate({ params: fn }) {
-    return fn(this.chance);
+  generate({ id, session, params: fn }) {
+    return fn({ id, session, chance: this.chance });
   }
 }
 

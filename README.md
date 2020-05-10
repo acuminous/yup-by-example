@@ -54,7 +54,7 @@ module.exports = function init() {
   // Delegates to https://chancejs.com
   const name = string()
     .max(255)
-    .example('chance', {
+    .example({ generator: 'chance' }, {
       method: 'name',
       params: {
         middle_initial: true,
@@ -65,7 +65,7 @@ module.exports = function init() {
     .positive()
     .integer()
     .max(200)
-    .example('chance', {
+    .example({ generator: 'chance' }, {
       method: 'age'
     });
 
@@ -78,7 +78,7 @@ module.exports = function init() {
   const username = string()
     .min(8)
     .max(32)
-    .example('fn', (chance) => {
+    .example({ generator: 'fn' }, ({ chance }) => {
       return [].concat(
         chance.profession().split(/\W/g),
         chance.integer({ min: 1, max: 99 })
@@ -93,7 +93,7 @@ module.exports = function init() {
   // ni-number uses a custom generator. These can greatly simplify your schema.
   const niNumber = string()
     .matches(/^[A-Z]{2}\d{6}[A-Z]$/)
-    .example('ni-number');
+    .example({ generator: 'ni-number' });
 
   // Adding `example()` works too
   const user = object().shape({
@@ -105,14 +105,13 @@ module.exports = function init() {
     niNumber: niNumber.required(),
   }).example();
 
-  // You can also create example arrays. By setting the sessionKey
+  // You can also create example arrays. By setting the generator id
   // we can specify exactly how many users we want to be created
   // on a test-by-test basis
   const users = array(user)
     .min(3)
     .max(6)
-    .meta({ sessionKey: 'users' })
-    .example();
+    .example({ id: 'users' });
 
   return {
     user,
@@ -215,7 +214,7 @@ beforeEach(() => {
 ```
 The example transformer inspects the schema and selects the most appropriate test data generator based on
 
-1. The generated id passed to the `example` function in your schema
+1. The generator passed to the `example` function in your schema
 1. The metadata `type` property (also specified in the schema)
 1. The schema type (e.g. array, boolean, date, object, number or string)
 
@@ -240,7 +239,9 @@ See the section on [custom generators](#custom-generates)
 Whenever a generate returns a value, before yielding it, the TestDataFactory will emit the event from the current session, allowing you to read and even modify the value. The event name will be one of:
 
 * the example id
-* the schema's meta.type
+* the generator name
+* the metadata type
+* the schema type
 * the example method name (usually example)
 
 This can be especially useful when adjusting values inside array
@@ -248,7 +249,7 @@ This can be especially useful when adjusting values inside array
 const testDataFactory = new TestDataFactory().addMethod(mixed, 'example');
 const schema = array().of(
   object().shape({
-    date: date().example('dob'),
+    date: date().example({ id: 'dob' generator: 'rel-date' }),
   }),
   .meta({ type: 'user' }),
   .example(),
@@ -278,26 +279,25 @@ new TestDataFactory({ now: new Date('2020-01-01T00:00:00.000Z' })
 ```
 
 ### Configure generators on a test-by-test basis
-When generating test data, you often don't want it to be completely random. You're likely to overwrite part of the the generated data with values important to your test, and it can be especially if the document has too many or too few array elements. yup-by-example enables you to do this through session properties. When you instanciate (or reset) the TestDataFactory, it creates a session, which is passed to each generator. By configuing the generator with a sessionKey, so that it knows where to look, you can configure it the fly. The array generator uses this mechanism to let you control the size of the array it should create.
+When generating test data, you often don't want it to be completely random. You're likely to overwrite part of the the generated data with values important to your test, and it can be especially if the document has too many or too few array elements. yup-by-example enables you to do this through session properties. When you instanciate (or reset) the TestDataFactory, it creates a session, which is passed to each generator. By configuing the generator with an id, so that it knows where to look, you can configure it the fly. The array generator uses this mechanism to let you control the size of the array it should create.
 ```js
 // some.test.js
 const testDataFactory = new TestDataFactory().addMethod(mixed, 'example');
 testDataFactory.session.setProperty('users.length', 4);
 
 // schemas.js
-const users = array.of(user).meta({ sessionKey: 'users' }).example();
+const users = array.of(user).example({ id: 'users' });
 ```
 You can reset the session at any point by calling `testDataFactory.reset()`
 
 ## Custom Generators
-It will not be possible to reliably generate test data purely from base types like `array`, `object`, `string`, `number` and `date`, however by writing a custom generator, selected either explicitly, by passing an `id` parameter to the `example()` function or through schema metadata, you can fine tune the results. e.g.
+It will not be possible to reliably generate test data purely from base types like `array`, `object`, `string`, `number` and `date`, however by writing a custom generator, selected either explicitly, by passing a `generator` parameter to the `example()` function or through schema metadata, you can fine tune the results. e.g.
 
 ```js
 // Updated user schema in schemas.js
 const user = object().shape({
-  title: string().meta({ type: 'title' }).example(),
-  name: string().meta({ name: 'name' }).example(),
-  niNumber: string().matches(/^[A-Z]{2}\d{6}[A-Z]$/).required().example('ni-number'),
+  name: string().meta({ type: 'name' }).required().example(),
+  niNumber: string().matches(/^[A-Z]{2}\d{6}[A-Z]$/).required().example({ generator: 'ni-number' }),
 }).example();
 ```
 
@@ -335,7 +335,7 @@ yup-by-example supports a special function generator which you can use inline ra
 ```js
 // Updated user schema in schemas.js
 const user = object().shape({
-  name: string().example('fn', chance => chance.name()),
+  name: string().example({ generator: 'fn' }, ({ id, session, chance }) => chance.name()),
 }).example();
 ```
 
@@ -344,7 +344,7 @@ yup-by-example also provides a chance generator, which can be used to invoke any
 ```js
 // Updated user schema in schemas.js
 const user = object().shape({
-  name: string().example('chance', {
+  name: string().example({ generator: 'chance' }, {
     method: 'name',
     params: {
       middle_initial: true
@@ -358,8 +358,9 @@ Sometimes you don't need a random date, just one a few days into the future or i
 ```js
 // Updated user schema in schemas.js
 const user = object().shape({
-  tomorrow: date().example('rel-date', { days: 1 }),
-  yesterday: date().example('rel-date', { days: -1 }),
+  today: date().example({ generator: 'rel-date' }),
+  tomorrow: date().example({ generator: 'rel-date' }, { days: 1 }),
+  yesterday: date().example({ generator: 'rel-date' }, { days: -1 }),
 }).example();
 ```
 By default the dates will be reletive to when you instanciated the test data factory. You can override this as follows:
@@ -373,7 +374,7 @@ rel-date uses [date-fns add](https://date-fns.org/v2.13.0/docs/add) behind the s
 Literal generates allow you to specify literal examples, that will be fixed across test runs.
 ```js
 const user = object().shape({
-  name: string().example('literal', 'Frank')
+  name: string().example({ generator: 'literal' }, 'Frank')
 }).example();
 ```
 

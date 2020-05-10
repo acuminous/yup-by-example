@@ -6,7 +6,7 @@ describe('literal generator', () => {
 
   it('should generate literal values', async () => {
     const testDataFactory = new TestDataFactory().addMethod(mixed, 'example');
-    const schema = string().example('literal', 'wibble');
+    const schema = string().example({ generator: 'literal' }, 'wibble');
     const value = await testDataFactory.generateValid(schema);
     expect(value).to.equal('wibble');
   })

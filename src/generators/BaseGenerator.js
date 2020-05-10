@@ -6,10 +6,6 @@ class BaseGenerator {
     this.chance = chance;
   }
 
-  getSessionKey(schema) {
-    return _get(schema, 'meta.sessionKey');
-  }
-
   getTest(schema, testName) {
     return schema.tests.find(test => test.name === testName);
   }
