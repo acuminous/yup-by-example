@@ -98,7 +98,7 @@ module.exports = function init() {
     .matches(/^[A-Z]{2}\d{6}[A-Z]$/)
     .example({ generator: 'ni-number' });
 
-  // Adding `example()` works too
+  // Adding `example()` works for objects too
   const user = object().shape({
     name: name.required(),
     age: age.required(),
@@ -392,5 +392,5 @@ const user = object().shape({
 | string  | length, min, max, email, url, oneOf |
 
 ## Caveats
-Not all Yup validations can be reliably generated. For example there is nothing in the described schema that can be used to determine if `lowercase` or `uppercase` is required. With `strict` validation, this could cause problems. It's likely there there may also be issues with references and conditional validation. You may be able to work around many of these problems with [Custom generators](#custom-generators), [Function generators](#function-generators), [Chance generators](#chance-generators) or [Events](#events).
+Not all Yup validations can be reliably generated. For example there is nothing in the described schema that can be used to determine if `lowercase` or `uppercase` is required. With `strict` validation, this could cause problems. It's likely there there may also be issues with references and conditional validation. You may be able to work around many of these problems with [Custom generators](#custom-generators), [Function generators](#function-generators), [Chance generators](#chance-generators) or [events](#intercept-generated-values).
 
