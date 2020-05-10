@@ -21,7 +21,7 @@ describe('date generator', () => {
   })
 
   it('should obey specified min dates', async () => {
-    const minDate = new Date('2000-01-01T00:00:00.000');
+    const minDate = new Date('2000-01-01T00:00:00.000Z');
     const schema = date().min(minDate).example();
     const dates = await Promise.all(new Array(1000).fill(null).map(() => testDataFactory.generateValid(schema)));
     dates.forEach(date => {
@@ -30,7 +30,7 @@ describe('date generator', () => {
   })
 
   it('should obey specified max dates', async () => {
-    const maxDate = new Date('2000-01-01T00:00:00.000');
+    const maxDate = new Date('2000-01-01T00:00:00.000Z');
     const schema = date().max(maxDate).example();
     const dates = await Promise.all(new Array(1000).fill(null).map(() => testDataFactory.generateValid(schema)));
     dates.forEach(date => {

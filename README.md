@@ -193,6 +193,7 @@ One of yup-by-examples key classes is the TestDataFactory. You use it to:
 * generate test data
 * add the example method to yup
 * add [custom generators](#custom-generators)
+* intercept generated values
 * control the random seed used for test data generation
 * control the value of `now`, used for relative date generation
 * configure generators on a test-by-test basis
@@ -235,6 +236,34 @@ Finally, if you don't like the term `example()` you can you can change to whatev
 ### Add Custom Generators
 See the section on [custom generators](#custom-generates)
 
+### Intercept generated values
+Whenever a generate returns a value, before yielding it, the TestDataFactory will emit the event from the current session, allowing you to read and even modify the value. The event name will be one of:
+
+* the example id
+* the schema's meta.type
+* the example method name (usually example)
+
+This can be especially useful when adjusting values inside array
+```js
+const testDataFactory = new TestDataFactory().addMethod(mixed, 'example');
+const schema = array().of(
+  object().shape({
+    date: date().example('dob'),
+  }),
+  .meta({ type: 'user' }),
+  .example(),
+).example();
+
+let userIndex = 0;
+testDataFactory.session.on('user' => {
+  userIndex++
+})
+testDataFactory.session.on('dob', event => {
+  event.value = dateFns.add(event, { days: userIndex });
+})
+```
+If you are using a shared TestDataFactory instance you should call the `reset` function (which takes the same parameters as the constructor) between tests.
+
 ### Control the random seed used for test data generation
 When you create random test data, it can be useful to repeatedly get the same "random" values for debugging purposes. When you instanciate the TestDataFactory you can pass the desired seed into the constructor.
 ```js
@@ -245,7 +274,7 @@ Now repeated runs should generate exactly the same data sets.
 ### Control the value of `now`, used for relative date generation
 You can also control the value of `now` used to generate relative dates, once again, in order to aid debugging.
 ```js
-new TestDataFactory({ now: new Date('2020-01-01T00:00:00.000' })
+new TestDataFactory({ now: new Date('2020-01-01T00:00:00.000Z' })
 ```
 
 ### Configure generators on a test-by-test basis
@@ -336,45 +365,20 @@ const user = object().shape({
 By default the dates will be reletive to when you instanciated the test data factory. You can override this as follows:
 ```js
 const { TestDataFactory } = require('yup-by-example');
-const testDataFactory = new TestDataFactory({ now: new Date('2000-01-01T00:00:00.000') });
+const testDataFactory = new TestDataFactory({ now: new Date('2000-01-01T00:00:00.000Z') });
 ```
 rel-date uses [date-fns add](https://date-fns.org/v2.13.0/docs/add) behind the scenes, and can be used to adjust the years, months, weeks, days, hours, minutes and seconds.
 
 ## Supported types and validations
-### array
-* min
-* max
-* oneOf
-
-### boolean
-* oneOf
-
-### date
-* min
-* max
-* oneOf
-
-### object
-* oneOf
-
-### number
-* min
-* max
-* lessThan
-* moreThan
-* positive
-* negative
-* integer
-* oneOf
-
-### string
-* length
-* min
-* max
-* email
-* url
-* oneOf
+| type    | validations     |
+|---------|-----------------|
+| array   | min, max, oneOf |
+| boolean | oneOf           |
+| date    | min, max, oneOf |
+| object  | oneOf           |
+| number  | min, max, lessThan, moreThan, positive, negative, integer, oneOf |
+| string  | length, min, max, email, url, oneOf |
 
 ## Caveats
-Not all Yup validations can be reliably generated. For example there is nothing in the described schema that can be used to determine if `lowercase` or `uppercase` is required. With `strict` validation, this could cause problems. It's likely there there may also be issues with references and conditional validation. You may be able to work around many of these problems with [Custom generators](#custom-generators), [Function generators](#function-generators) or [Chance generators](#chance-generators).
+Not all Yup validations can be reliably generated. For example there is nothing in the described schema that can be used to determine if `lowercase` or `uppercase` is required. With `strict` validation, this could cause problems. It's likely there there may also be issues with references and conditional validation. You may be able to work around many of these problems with [Custom generators](#custom-generators), [Function generators](#function-generators), [Chance generators](#chance-generators) or [Events](#events).
 

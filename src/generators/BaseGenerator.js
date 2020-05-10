@@ -1,7 +1,13 @@
+const _get = require('lodash.get');
+
 class BaseGenerator {
 
   constructor({ chance }) {
     this.chance = chance;
+  }
+
+  getSessionKey(schema) {
+    return _get(schema, 'meta.sessionKey');
   }
 
   getTest(schema, testName) {

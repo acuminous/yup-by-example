@@ -74,9 +74,64 @@ describe('TestDataFactory', () => {
   it('should provide a harmless noop method', async () => {
     testDataFactory.addNoopMethod(mixed, 'example');
     const schema = string().example();
-    const value = schema.cast('foo');
-    expect(value).to.equal('foo');
+    const value = schema.cast('WIBBLE');
+    expect(value).to.equal('WIBBLE');
   });
+
+  it('should notify via example event', async () => {
+    const schema = string().oneOf(['WIBBLE']).example();
+    testDataFactory.session.once('example', event => {
+      expect(event.value).to.equal('WIBBLE');
+      event.value = 'wobble';
+    });
+    const value = await testDataFactory.generate(schema);
+    expect(value).to.equal('wobble');
+  })
+
+  it('should notify via renamed example event', async () => {
+    testDataFactory = new TestDataFactory().addMethod(mixed, 'generate');
+    const schema = string().oneOf(['WIBBLE']).generate();
+    testDataFactory.session.once('generate', event => {
+      expect(event.value).to.equal('WIBBLE');
+      event.value = 'wobble';
+    });
+    const value = await testDataFactory.generate(schema);
+    expect(value).to.equal('wobble');
+  })
+
+  it('should notify via meta.type event', async () => {
+    const schema = string().meta({ type: 'metatype' }).oneOf(['WIBBLE']).example();
+    testDataFactory.session.once('metatype', event => {
+      expect(event.value).to.equal('WIBBLE');
+      event.value = 'wobble';
+    });
+    const value = await testDataFactory.generate(schema);
+    expect(value).to.equal('wobble');
+  })
+
+  it('should notify via id event', async () => {
+    testDataFactory.addGenerator('wibble', CustomGenerator);
+    const schema = string().example('wibble');
+    testDataFactory.session.once('wibble', event => {
+      expect(event.value).to.equal('WIBBLE');
+      event.value = 'wobble';
+    });
+    const value = await testDataFactory.generate(schema);
+    expect(value).to.equal('wobble');
+  })
+
+  it('should reset', async () => {
+    const session = testDataFactory.session;
+    session.setProperty('wibble', 'wobble');
+    session.on('example', () => {
+      expect.fail('Event handler was not reset');
+    })
+
+    testDataFactory.reset();
+
+    expect(session.emit('example')).to.equal(false);
+    expect(session.getProperty('wibble')).to.be.undefined;
+  })
 
   class CustomGenerator {
     generate() {

@@ -1,6 +1,7 @@
-const { sample, expectAllStrings } = require('./helpers');
-const { mixed, string, array } = require('yup');
+const dateFns = require('date-fns');
 const { Stats } = require('fast-stats');
+const { sample, expectAllStrings } = require('./helpers');
+const { mixed, string, array, object, date } = require('yup');
 const TestDataFactory = require('../src/TestDataFactory');
 
 describe('array generator', () => {
@@ -81,4 +82,29 @@ describe('array generator', () => {
 
     expect(value).to.have.length(100);
   })
+
+  it('should be able to adjust items via events', async () => {
+    testDataFactory.reset({ now: new Date('2020-01-01T00:00:00.000Z') });
+
+    const schema = array().of(
+      object().shape({
+        date: date().example('rel-date', { days: 0 })
+      })
+      .meta({ type: 'user' })
+      .example()
+    ).min(3).max(3).example();
+
+    let userIndex = 0;
+    testDataFactory.session.on('user', event => {
+      userIndex++;
+    })
+    testDataFactory.session.on('rel-date', event => {
+      event.value = dateFns.add(event.value, { days: userIndex })
+    })
+
+    const users = await testDataFactory.generateValid(schema);
+    expect(users[0].date.toISOString()).to.equal('2020-01-02T00:00:00.000Z');
+    expect(users[1].date.toISOString()).to.equal('2020-01-03T00:00:00.000Z');
+    expect(users[2].date.toISOString()).to.equal('2020-01-04T00:00:00.000Z');
+  });
 });

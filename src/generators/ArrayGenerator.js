@@ -1,5 +1,4 @@
 const BaseGenerator = require('./BaseGenerator');
-const _get = require('lodash.get');
 
 const MIN_ARRAY_SIZE = 3;
 const MAX_ARRAY_SIZE = 5;
@@ -7,20 +6,26 @@ const MAX_ARRAY_SIZE = 5;
 class ArrayGenerator extends BaseGenerator {
 
   generate({ schema, session }) {
-    if (this.hasWhitelist(schema)) return this.oneOf(schema.whitelist);
+    return this.hasWhitelist(schema)
+      ? this.generateFromWhitelist(schema, session)
+      : this.generateFromParameters(schema, session);
+  }
+
+  generateFromWhitelist(schema, session) {
+    return this.oneOf(schema.whitelist);
+  }
+
+  generateFromParameters(schema, session) {
+    const sessionKey = this.getSessionKey(schema);
     const { min } = this.getTestParameters(schema, 'min');
     const { max } = this.getTestParameters(schema, 'max');
     const length = this.getLength({
       session,
-      sessionKey: this.getSessionKey(schema, 'meta.sessionKey'),
+      sessionKey,
       min: this.getMin(min),
       max: this.getMax(max)
     });
     return new Array(length).fill(null);
-  }
-
-  getSessionKey(schema, path) {
-    return _get(schema, path);
   }
 
   getMin(min) {

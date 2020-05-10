@@ -1,11 +1,13 @@
+const EventEmitter = require('events');
 const _has = require('lodash.has');
 const _get = require('lodash.get');
 const _set = require('lodash.set');
 const _unset = require('lodash.unset');
 
-class TestDataSession {
+class TestDataSession extends EventEmitter {
 
   constructor(params = {}) {
+    super();
     this._now = params.now || new Date();
     this._store = {};
   }
@@ -28,6 +30,11 @@ class TestDataSession {
 
   removeProperty(path) {
     return _unset(this._store, path);
+  }
+
+  close() {
+    this.removeAllListeners();
+    this._store = {};
   }
 }
 

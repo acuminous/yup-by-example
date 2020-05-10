@@ -11,6 +11,7 @@ class TestDataFactory {
   }
 
   reset(params = {}) {
+    if (this._session) this.session.close();
     this._session = new TestDataSession({ now: _get(params, 'now', new Date()) });
     this._seed = _get(params, 'seed', Math.ceil(Math.random() * 999999999));
     this._chance = new Chance(this._seed);
@@ -45,14 +46,15 @@ class TestDataFactory {
         if (id && !factory._generators[id]) throw new Error(`No generator for id: '${id}'`);
         const { type, meta = {} } = this.describe();
         const generator = factory._resolve([id, meta.type, type].filter(Boolean));
-        return generator.generate({
+        const generatedValue = generator.generate({
           id,
           params,
-          session: factory._session,
+          session: factory.session,
           schema: factory._describe(this),
           value,
           originalValue
         });
+        return factory._notify([id, meta.type, name], generatedValue);
       });
     })
     return factory;
@@ -100,6 +102,12 @@ class TestDataFactory {
       description.fields[fieldName].transforms = transforms;
     })
     return description;
+  }
+
+  _notify(events, value) {
+    const wrapped = { value }
+    events.find(event => this.session.emit(event, wrapped));
+    return wrapped.value;
   }
 
 }

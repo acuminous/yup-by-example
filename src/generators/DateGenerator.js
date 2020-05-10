@@ -1,7 +1,7 @@
 const BaseGenerator = require('./BaseGenerator');
 
-const MIN_DATE = new Date('1970-01-01T00:00:00.000');
-const MAX_DATE = new Date('3000-01-01T00:00:00.000');
+const MIN_DATE = new Date('1970-01-01T00:00:00.000Z');
+const MAX_DATE = new Date('3000-01-01T00:00:00.000Z');
 
 class DateGenerator extends BaseGenerator {
 
