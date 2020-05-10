@@ -1,6 +1,6 @@
 {
   "name": "yup-by-example",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A random data generator driven from [Yup](https://github.com/jquense/yup) schemas",
   "main": "src/index.js",
   "scripts": {
