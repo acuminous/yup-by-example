@@ -2,8 +2,9 @@
 [![NPM version](https://img.shields.io/npm/v/yup-by-example.svg?style=flat-square)](https://www.npmjs.com/package/yup-by-example)
 [![NPM downloads](https://img.shields.io/npm/dm/yup-by-example.svg?style=flat-square)](https://www.npmjs.com/package/yup-by-example)
 [![Build Status](https://img.shields.io/travis/cressie176/yup-by-example/master.svg)](https://travis-ci.org/cressie176/yup-by-example)
-[![Maintainability](https://api.codeclimate.com/v1/badges/c6189e47b3fb4e251882/maintainability)](https://codeclimate.com/github/cressie176/yup-by-example/maintainability)[![Dependency Status](https://david-dm.org/cressie176/yup-by-example.svg)](https://david-dm.org/cressie176/yup-by-example)
+[![Maintainability](https://api.codeclimate.com/v1/badges/c6189e47b3fb4e251882/maintainability)](https://codeclimate.com/github/cressie176/yup-by-example/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/c6189e47b3fb4e251882/test_coverage)](https://codeclimate.com/github/cressie176/yup-by-example/test_coverage)
+[![Dependency Status](https://david-dm.org/cressie176/yup-by-example.svg)](https://david-dm.org/cressie176/yup-by-example)
 [![devDependencies Status](https://david-dm.org/cressie176/yup-by-example/dev-status.svg)](https://david-dm.org/cressie176/yup-by-example?type=dev)
 <br/>
 yup-by-example is a random data generator driven from [Yup](https://github.com/jquense/yup) schemas. Yup is a JavaScript schema builder for value parsing and validation, heavily inspired by [Joi](https://github.com/hapijs/joi), but with far less baggage, making it suitable for both server and client side validation.
