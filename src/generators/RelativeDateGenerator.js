@@ -3,7 +3,7 @@ const { add } = require('date-fns');
 
 class RelativeDateGenerator extends BaseGenerator {
   generate({ session, params }) {
-    return add(session.now, params)
+    return params ? add(session.now, params) : new Date(session.now)
   }
 }
 

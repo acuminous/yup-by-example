@@ -369,6 +369,14 @@ const testDataFactory = new TestDataFactory({ now: new Date('2000-01-01T00:00:00
 ```
 rel-date uses [date-fns add](https://date-fns.org/v2.13.0/docs/add) behind the scenes, and can be used to adjust the years, months, weeks, days, hours, minutes and seconds.
 
+## Literal Generators
+Literal generates allow you to specify literal examples, that will be fixed across test runs.
+```js
+const user = object().shape({
+  name: string().example('literal', 'Frank')
+}).example();
+```
+
 ## Supported types and validations
 | type    | validations     |
 |---------|-----------------|
