@@ -6,6 +6,7 @@
   "scripts": {
     "coverage": "nyc --reporter text-summary --reporter lcov --reporter html mocha",
     "codeclimate": "(test -e .codeclimate && source .codeclimate && codeclimate-test-reporter < coverage/lcov.info) || echo skipping codeclimate",
+    "doctoc": "doctoc README.md --github",
     "lint": "eslint src test",
     "test": "mocha",
     "tdd": "mocha --watch",
@@ -48,6 +49,7 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "dirty-chai": "^2.0.1",
+    "doctoc": "^1.4.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-mocha": "^6.3.0",

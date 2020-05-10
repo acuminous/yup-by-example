@@ -11,29 +11,32 @@ yup-by-example is a random data generator driven from [Yup](https://github.com/j
 
 For those practicing TDD, a rich and potentially shared schema increases the burden of managing test data. One  solution is to create a common, hard coded set of test data, but this is almost certainly a bad idea. Not only does it lead to brittle tests, but also means that the tests come to depend on something that's often hidden away, instead of the salient values being front and centre. Instead, by generating random sets of test data, and explicitly overwriting just the key values, the tests will be more robust and communicate far more clearly. However, maintaining random test data generators is complex and onerous. If only it could be automatically generated from the same schema used for validation This is where yup and yup-by-example come in!
 
-- [TL;DR](#tldr)
-  - [1. Define the schema, specifying examples](#1-define-the-schema-specifying-examples)
-  - [2. Write the tests](#2-write-the-tests)
-  - [3. Profit!](#3-profit)
-- [The TestDataFactory Class](#the-testdatafactory-class)
-  - [Generating test data](#generating-test-data)
-  - [Adding the example method to yup](#adding-the-example-method-to-yup)
-  - [Add Custom Generators](#add-custom-generators)
-  - [Control the random seed used for test data generation](#control-the-random-seed-used-for-test-data-generation)
-  - [Control the value of `now`, used for relative date generation](#control-the-value-of-now-used-for-relative-date-generation)
-  - [Configure generators on a test-by-test basis](#configure-generators-on-a-test-by-test-basis)
-- [Custom Generators](#custom-generators)
-- [Function Generators](#function-generators)
-- [Chance Generators](#chance-generators)
-- [Relative Date Generator](#relative-date-generator)
-- [Supported types and validations](#supported-types-and-validations)
-  - [array](#array)
-  - [boolean](#boolean)
-  - [date](#date)
-  - [object](#object)
-  - [number](#number)
-  - [string](#string)
-- [Caveats](#caveats)
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [yup-by-example](#yup-by-example)
+  - [TL;DR](#tldr)
+    - [1. Define the schema, specifying examples](#1-define-the-schema-specifying-examples)
+    - [2. Write the tests](#2-write-the-tests)
+    - [3. Profit!](#3-profit)
+  - [The TestDataFactory Class](#the-testdatafactory-class)
+    - [Generating test data](#generating-test-data)
+    - [Adding the example method to yup](#adding-the-example-method-to-yup)
+    - [Add Custom Generators](#add-custom-generators)
+    - [Intercept generated values](#intercept-generated-values)
+    - [Control the random seed used for test data generation](#control-the-random-seed-used-for-test-data-generation)
+    - [Control the value of `now`, used for relative date generation](#control-the-value-of-now-used-for-relative-date-generation)
+    - [Configure generators on a test-by-test basis](#configure-generators-on-a-test-by-test-basis)
+  - [Custom Generators](#custom-generators)
+  - [Function Generators](#function-generators)
+  - [Chance Generators](#chance-generators)
+  - [Relative Date Generator](#relative-date-generator)
+  - [Literal Generators](#literal-generators)
+  - [Supported types and validations](#supported-types-and-validations)
+  - [Caveats](#caveats)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## TL;DR
 
@@ -194,7 +197,7 @@ One of yup-by-examples key classes is the TestDataFactory. You use it to:
 * add [custom generators](#custom-generators)
 * intercept generated values
 * control the random seed used for test data generation
-* control the value of `now`, used for relative date generation
+* control the value of 'now'
 * configure generators on a test-by-test basis
 
 ### Generating test data
