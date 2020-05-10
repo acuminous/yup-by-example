@@ -266,7 +266,18 @@ testDataFactory.session.on('dob', event => {
   event.value = dateFns.add(event, { days: userIndex });
 })
 ```
-If you are using a shared TestDataFactory instance you should call the `reset` function (which takes the same parameters as the constructor) between tests.
+If you are using a shared TestDataFactory instance you should call the `reset` function (which takes the same parameters as the constructor) between tests. You can also simplify the above code as follows...
+```js
+testDataFactory.session.on('user', event => {
+  testDataFactory.session.incrementProperty('user.index');
+})
+
+testDataFactory.session.on('dob', event => {
+  event.value = dateFns.add(event.value, {
+    days: testDataFactory.session.getProperty('user.index'),
+  })
+})
+```
 
 ### Control the random seed used for test data generation
 When you create random test data, it can be useful to repeatedly get the same "random" values for debugging purposes. When you instanciate the TestDataFactory you can pass the desired seed into the constructor.

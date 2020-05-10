@@ -36,7 +36,7 @@ module.exports = function init() {
   const username = string()
     .min(8)
     .max(32)
-    .example({ generator: 'fn' }, (chance) => {
+    .example({ generator: 'fn' }, ({ chance }) => {
       return [].concat(
         chance.profession().split(/\W/g),
         chance.integer({ min: 1, max: 99 })

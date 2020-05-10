@@ -88,18 +88,20 @@ describe('array generator', () => {
 
     const schema = array().of(
       object().shape({
-        date: date().example({ generator: 'rel-date' })
+        date: date().example({ id: 'dob', generator: 'rel-date' })
       })
       .meta({ type: 'user' })
       .example()
     ).min(3).max(3).example();
 
-    let userIndex = 0;
     testDataFactory.session.on('user', event => {
-      userIndex++;
+      testDataFactory.session.incrementProperty('user.index');
     })
-    testDataFactory.session.on('rel-date', event => {
-      event.value = dateFns.add(event.value, { days: userIndex })
+
+    testDataFactory.session.on('dob', event => {
+      event.value = dateFns.add(event.value, {
+        days: testDataFactory.session.getProperty('user.index'),
+      })
     })
 
     const users = await testDataFactory.generateValid(schema);

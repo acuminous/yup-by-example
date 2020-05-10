@@ -28,6 +28,11 @@ class TestDataSession extends EventEmitter {
     return _set(this._store, path, value);
   }
 
+  incrementProperty(path) {
+    const value = this.getProperty(path, 0);
+    this.setProperty(path, value + 1);
+  }
+
   removeProperty(path) {
     return _unset(this._store, path);
   }
