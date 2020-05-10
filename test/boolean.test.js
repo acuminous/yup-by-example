@@ -20,8 +20,8 @@ describe('boolean generator', () => {
 
     expect(counts.length).to.be.equal(2);
     expect(upper + lower).to.be.equal(1000);
-    expect(lower).to.be.below(500);
-    expect(upper).to.be.above(500);
+    expect(lower).to.be.at.most(500);
+    expect(upper).to.be.at.least(500);
     expectAllBooleans(values);
   })
 
