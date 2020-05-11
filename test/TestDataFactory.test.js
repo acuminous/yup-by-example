@@ -6,7 +6,7 @@ describe('TestDataFactory', () => {
   let testDataFactory;
 
   beforeEach(() => {
-    testDataFactory = new TestDataFactory().addMethod(mixed, 'example');
+    testDataFactory = TestDataFactory.init();
   });
 
   it('should report missing generators', async () => {
@@ -72,7 +72,7 @@ describe('TestDataFactory', () => {
   });
 
   it('should provide a harmless noop method', async () => {
-    testDataFactory.addNoopMethod(mixed, 'example');
+    TestDataFactory.stub();
     const schema = string().example();
     const value = schema.cast('WIBBLE');
     expect(value).to.equal('WIBBLE');
@@ -89,7 +89,7 @@ describe('TestDataFactory', () => {
   })
 
   it('should notify via renamed example event', async () => {
-    testDataFactory = new TestDataFactory().addMethod(mixed, 'generate');
+    testDataFactory = TestDataFactory.init({ methodName: 'generate' });
     const schema = string().oneOf(['WIBBLE']).generate();
     testDataFactory.session.once('generate', event => {
       expect(event.value).to.equal('WIBBLE');

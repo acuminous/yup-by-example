@@ -8,7 +8,7 @@ describe('number generator', () => {
   let testDataFactory;
 
   beforeEach(() => {
-    testDataFactory = new TestDataFactory().addMethod(mixed, 'example');
+    testDataFactory = TestDataFactory.init();
   });
 
   describe('floating points', () => {

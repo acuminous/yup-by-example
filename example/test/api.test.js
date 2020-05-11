@@ -8,8 +8,7 @@ The yup schemas must be initialised after `addMethod` has been called,
 otherwise they will be built using the `noop` example implmentation
 (see schemas.js)
 */
-const testDataFactory = new TestDataFactory()
-  .addMethod(mixed, 'example')
+const testDataFactory = TestDataFactory.init()
   .addGenerator('ni-number', NiNumberGenerator);
 const schemas = initSchemas();
 

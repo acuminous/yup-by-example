@@ -47,7 +47,7 @@ const { TestDataFactory } = require('yup-by-example');
 const { mixed, array, object, string, number } = require('yup');
 
 // Prevents yup from erroring when `example()` is called.
-new TestDataFactory().addNoopMethod(mixed, 'example');
+TestDataFactory.stub();
 
 // Yup schemas must be placed behind an init method, so they are not
 // built on import - before the real `example()` method has been added
@@ -136,7 +136,7 @@ describe('API', () => {
 
   before() {
     // Replace the noop method added in schemas.js
-    testDataFactory = new TestDataFactory().addMethod('mixed', 'example');
+    testDataFactory = TestDataFactory().init();
 
     // Then initialise the schemas
     schemas = initSchemas();
@@ -203,7 +203,7 @@ One of yup-by-examples key classes is the TestDataFactory. You use it to:
 ### Generating test data
 To generate test data simply instantiate a testDataFactory, add the `example` method and call `generateValid` or `generate`, passing it a schema.
 ```js
-const testDataFactory = new TestDataFactory().addMethod(mixed, 'example')
+const testDataFactory = TestDataFactory.init()
 const document = await testDataFactory.generateValid(schema);
 ```
 As the method name implies, generateValid, will validate the generated test data against the schema and throw an error if it is invalid. If you need to generate a partial or invalid document, then fix it after the fact, use `generate` instead.
@@ -212,7 +212,7 @@ As the method name implies, generateValid, will validate the generated test data
 yup-by-example works by adding a new `example` transformer to yup. e.g.
 ```js
 beforeEach(() => {
-  testDataFactory = new TestDataFactory().addMethod(mixed, 'example');
+  testDataFactory = TestDataFactory.init();
 })
 ```
 The example transformer inspects the schema and selects the most appropriate test data generator based on
@@ -230,10 +230,15 @@ When you call `testDataFactory.generateValid` or `testDataFactory.generate` thes
 
 When running in production you will still need an `example` method, otherwise Yup wont be able to build the schema. While it **should** be safe to use the same one as the test code (assuming nothing calls the testDataFactory `generateValid` or `generate` functions, however prefer using the dedicated noop method.
 ```js
-new TestDataFactory().addNoopMethod(mixed, 'example');
+TestDataFactory.stub();
 ```
 
-Finally, if you don't like the term `example()` you can you can change to whatever you like, but remember to update your schema accordingly.
+Finally, if you don't like the term `example()` you can you can change to whatever you like by supplying a methodName when initalising the factory, but remember to update your schema accordingly.
+```js
+TestDataFactory.stub({ methodName: 'fake' });
+
+string().min(10).max(20).fake();
+```
 
 ### Add Custom Generators
 See the section on [custom generators](#custom-generates)
@@ -249,7 +254,7 @@ Whenever a generate returns a value, before yielding it, the TestDataFactory wil
 
 This can be especially useful when adjusting values inside array
 ```js
-const testDataFactory = new TestDataFactory().addMethod(mixed, 'example');
+const testDataFactory = TestDataFactory.init();
 const schema = array().of(
   object().shape({
     date: date().example({ id: 'dob' generator: 'rel-date' }),
@@ -282,21 +287,21 @@ testDataFactory.session.on('dob', event => {
 ### Control the random seed used for test data generation
 When you create random test data, it can be useful to repeatedly get the same "random" values for debugging purposes. When you instanciate the TestDataFactory you can pass the desired seed into the constructor.
 ```js
-new TestDataFactory({ seed })
+const testDataFactory = TestDataFactory.init({ seed })
 ```
 Now repeated runs should generate exactly the same data sets.
 
 ### Control the value of 'now'
 You can also control the value of `now` used to generate relative dates, once again, in order to aid debugging.
 ```js
-new TestDataFactory({ now: new Date('2020-01-01T00:00:00.000Z' })
+const testDataFactory = TestDataFactory.init({ now: new Date('2020-01-01T00:00:00.000Z' })
 ```
 
 ### Configure generators on a test-by-test basis
 When generating test data, you often don't want it to be completely random. You're likely to overwrite part of the the generated data with values important to your test, and it can be especially if the document has too many or too few array elements. yup-by-example enables you to do this through session properties. When you instanciate (or reset) the TestDataFactory, it creates a session, which is passed to each generator. By configuing the generator with an id, so that it knows where to look, you can configure it the fly. The array generator uses this mechanism to let you control the size of the array it should create.
 ```js
 // some.test.js
-const testDataFactory = new TestDataFactory().addMethod(mixed, 'example');
+const testDataFactory = TestDataFactory.init();
 testDataFactory.session.setProperty('users.length', 4);
 
 // schemas.js
@@ -335,14 +340,13 @@ You can add, remove and overwrite generators through the TestDataFactory instanc
 ```js
 // Updated code in api.test.js
 before() {
-  factory = new TestDataFactory()
-    .addMethod('mixed', 'example')
+  factory = TestDataFactory.init()
     .removeGenerator('name'),
     .addGenerator('ni-number', NiNumberGenerator);
   schemas = initSchemas();
 }
 ```
-All generators are passed an instance of [Chance](https://chancejs.com/basics/integer.html) to assist with random data generation. You can also initialise the TestDataFactory with a seed, e.g. `new TestDataFactory({ seed: 100 })` to consistently generate the same random data.
+All generators are passed an instance of [Chance](https://chancejs.com/basics/integer.html) to assist with random data generation. You can also initialise the TestDataFactory with a seed, e.g. `TestDataFactory.init({ seed: 100 })` to consistently generate the same random data.
 
 ## Function Generators
 yup-by-example supports a special function generator which you can use inline rather than having to define and add a class.
@@ -380,7 +384,7 @@ const user = object().shape({
 By default the dates will be reletive to when you instanciated the test data factory. You can override this as follows:
 ```js
 const { TestDataFactory } = require('yup-by-example');
-const testDataFactory = new TestDataFactory({ now: new Date('2000-01-01T00:00:00.000Z') });
+const testDataFactory = TestDataFactory.init({ now: new Date('2000-01-01T00:00:00.000Z') });
 ```
 rel-date uses [date-fns add](https://date-fns.org/v2.13.0/docs/add) behind the scenes, and can be used to adjust the years, months, weeks, days, hours, minutes and seconds.
 

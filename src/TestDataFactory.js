@@ -6,12 +6,21 @@ const TestDataSession = require('./TestDataSession');
 
 class TestDataFactory {
 
+  static init(params = {}) {
+    return new TestDataFactory(params).addMethod(yup.mixed, params.methodName);
+  }
+
+  static stub(params = {}) {
+    return new TestDataFactory(params).addNoopMethod(yup.mixed, params.methodName);
+  }
+
   constructor(params) {
     this.reset(params);
   }
 
   reset(params = {}) {
     if (this._session) this.session.close();
+    this._methodName = _get(params, 'methodName', 'example');
     this._session = new TestDataSession({ now: _get(params, 'now', new Date()) });
     this._seed = _get(params, 'seed', Math.ceil(Math.random() * 999999999));
     this._chance = new Chance(this._seed);
@@ -38,9 +47,9 @@ class TestDataFactory {
     return document;
   }
 
-  addMethod(schema, name) {
+  addMethod(schema, name = 'example') {
     const factory = this;
-    yup.addMethod(schema, name, function({ id, generator: generatorName } = {}, params) {
+    yup.addMethod(yup.mixed, name, function({ id, generator: generatorName } = {}, params) {
       return this.transform(function yupByExample(value, originalValue) {
         if (factory._bypass) return value;
         if (generatorName && !factory._generators[generatorName]) throw new Error(`No such generator: '${generatorName}'`);
@@ -60,9 +69,9 @@ class TestDataFactory {
     return factory;
   }
 
-  addNoopMethod(schema, name) {
+  addNoopMethod(schema, name = 'example') {
     const factory = this;
-    yup.addMethod(schema, name, function() {
+    yup.addMethod(yup.mixed, name, function() {
       return this.transform(function(value) {
         return value;
       })

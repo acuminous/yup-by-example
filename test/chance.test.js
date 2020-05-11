@@ -7,7 +7,7 @@ describe('chance generator', () => {
   let testDataFactory;
 
   beforeEach(() => {
-    testDataFactory = new TestDataFactory().addMethod(mixed, 'example');
+    testDataFactory = TestDataFactory.init();
   });
 
   it('should generate values using chance with params', async () => {

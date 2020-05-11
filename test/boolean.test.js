@@ -8,7 +8,7 @@ describe('boolean generator', () => {
   let testDataFactory;
 
   beforeEach(() => {
-    testDataFactory = new TestDataFactory().addMethod(mixed, 'example');
+    testDataFactory = TestDataFactory.init();
   });
 
   it('should generate random booleans', async () => {

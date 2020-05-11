@@ -7,7 +7,7 @@ describe('function generator', () => {
   let testDataFactory;
 
   beforeEach(() => {
-    testDataFactory = new TestDataFactory().addMethod(mixed, 'example');
+    testDataFactory = TestDataFactory.init();
   });
 
   it('should generate values using the specified function', async () => {

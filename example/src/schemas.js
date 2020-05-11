@@ -2,7 +2,7 @@ const { TestDataFactory } = require('../..');
 const { mixed, array, object, string, number } = require('yup');
 
 // Prevents yup from erroring when `example()` is called.
-new TestDataFactory().addNoopMethod(mixed, 'example');
+TestDataFactory.stub();
 
 // Yup schemas must be placed behind an init method, so they are not
 // built on import - before the real `example()` method has been added
