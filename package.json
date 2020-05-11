@@ -12,10 +12,6 @@
     "tdd": "mocha --watch",
     "qa": "npm run lint && npm run coverage && npm run codeclimate"
   },
-  "files": [
-    "es",
-    "lib"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cressie176/yup-by-example.git"
