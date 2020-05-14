@@ -32,18 +32,18 @@ class TestDataFactory {
     return this._session;
   }
 
-  async generate(schema) {
+  async generate(schema, options) {
     this._bypass = false;
     try {
-      return schema.cast(null);
+      return schema.cast(null, options);
     } finally {
       this._bypass = true;
     }
   }
 
-  async generateValid(schema) {
-    const document = await this.generate(schema);
-    await schema.validate(document);
+  async generateValid(schema, options) {
+    const document = await this.generate(schema, options);
+    await schema.validate(document, options);
     return document;
   }
 

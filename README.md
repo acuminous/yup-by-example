@@ -206,7 +206,7 @@ To generate test data simply instantiate a testDataFactory, add the `example` me
 const testDataFactory = TestDataFactory.init()
 const document = await testDataFactory.generateValid(schema);
 ```
-As the method name implies, generateValid, will validate the generated test data against the schema and throw an error if it is invalid. If you need to generate a partial or invalid document, then fix it after the fact, use `generate` instead.
+As the method name implies, generateValid, will validate the generated test data against the schema and throw an error if it is invalid. If you need to generate a partial or invalid document, then fix it after the fact, use `generate` instead. You can optionally pass [yup validation options](https://github.com/jquense/yup#mixedvalidatevalue-any-options-object-promiseany-validationerror) as the second parameter, e.g. ```testDataFactory.generateValid(schema, { context: { a : 1 } });```
 
 ### Adding the example method to yup
 yup-by-example works by adding a new `example` transformer to yup. e.g.
