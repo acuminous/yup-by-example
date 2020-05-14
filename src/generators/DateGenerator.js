@@ -1,3 +1,4 @@
+const debug = require('debug')('yup-by-example:generators:DateGenerator');
 const BaseGenerator = require('./BaseGenerator');
 
 const MIN_DATE = new Date('1970-01-01T00:00:00.000Z');
@@ -10,7 +11,9 @@ class DateGenerator extends BaseGenerator {
     const { min } = this.getTestParameters(schema, 'min');
     const { max } = this.getTestParameters(schema, 'max');
     const millies = this.getMillis(min, max);
-    return new Date(millies);
+    const value = new Date(millies);
+    debug('Generated date{%o}', value);
+    return value;
   }
 
   getMillis(min = MIN_DATE, max = MAX_DATE) {

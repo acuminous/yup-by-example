@@ -1,10 +1,16 @@
+const debug = require('debug')('yup-by-example:generators:BooleanGenerator');
+
 const BaseGenerator = require('./BaseGenerator');
 
 class BooleanGenerator extends BaseGenerator {
 
   generate({ schema }) {
-    if (this.hasWhitelist(schema)) return this.oneOf(schema.whitelist);
-    return this.chance.bool();
+    const value = this.hasWhitelist(schema)
+      ? this.oneOf(schema.whitelist)
+      : this.chance.bool();
+
+    debug('Generated boolean{%o}', value);
+    return value
   }
 }
 

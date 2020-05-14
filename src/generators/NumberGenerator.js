@@ -1,3 +1,4 @@
+const debug = require('debug')('yup-by-example:generators:NumberGenerator');
 const BaseGenerator = require('./BaseGenerator');
 
 const FLOAT_OFFSET = 0.000000001;
@@ -6,7 +7,18 @@ const INTEGER_OFFSET = 1;
 class NumberGenerator extends BaseGenerator {
 
   generate({ schema }) {
-    if (this.hasWhitelist(schema)) return this.oneOf(schema.whitelist);
+    const value = this.hasWhitelist(schema)
+      ? this.generateFromWhitelist(schema)
+      : this.generateFromRange(schema)
+    debug('Generated number{%d}', value);
+    return value;
+  }
+
+  generateFromWhitelist(schema) {
+    return this.oneOf(schema.whitelist);
+  }
+
+  generateFromRange(schema) {
     const { min, more } = this.getTestParameters(schema, 'min');
     const { max, less } = this.getTestParameters(schema, 'max');
     return this.hasTest(schema, 'integer')

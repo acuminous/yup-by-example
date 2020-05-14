@@ -409,3 +409,13 @@ const user = object().shape({
 ## Caveats
 Not all Yup validations can be reliably generated. For example there is nothing in the described schema that can be used to determine if `lowercase` or `uppercase` is required. With `strict` validation, this could cause problems. It's likely there there may also be issues with references and conditional validation. You may be able to work around many of these problems with [Custom generators](#custom-generators), [Function generators](#function-generators), [Chance generators](#chance-generators) or [events](#intercept-generated-values).
 
+## Troubleshooting
+```
+TypeError: The value of field could not be cast to a value that satisfies the schema type: "object".
+```
+If you see this error you have probably neglected to add all the necessary `.example()` calls to your schema. Another possibilitiy is that some of your schemas were built using either stub example implementation, or a test data factory instantiated in a previous test.
+
+For other problems try enabling debug
+```
+DEBUG yup-by-example:* npm t
+```

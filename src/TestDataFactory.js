@@ -1,3 +1,4 @@
+const debug = require('debug')('yup-by-example:TestDataFactory');
 const yup = require('yup');
 const Chance = require('chance');
 const _get = require('lodash.get');
@@ -51,7 +52,10 @@ class TestDataFactory {
     const factory = this;
     yup.addMethod(yup.mixed, name, function({ id, generator: generatorName } = {}, params) {
       return this.transform(function yupByExample(value, originalValue) {
-        if (factory._bypass) return value;
+        if (factory._bypass) {
+          debug('Factory is disabled; bypassing example()')
+          return value;
+        }
         if (generatorName && !factory._generators[generatorName]) throw new Error(`No such generator: '${generatorName}'`);
         const { type, meta = {} } = this.describe();
         const generator = factory._resolve([generatorName, meta.type, type].filter(Boolean));
@@ -63,7 +67,7 @@ class TestDataFactory {
           value,
           originalValue
         });
-        return factory._notify([id, generatorName, meta.type, type, name], generatedValue);
+        return factory._notify([id, generatorName, meta.type, type, name].filter(Boolean), generatedValue);
       });
     })
     return factory;
@@ -90,12 +94,12 @@ class TestDataFactory {
   }
 
   _resolve(candidates) {
+    const names = candidates.map(candidate => `'${candidate}'`).join(', ');
     const found = candidates.find(candidate => Boolean(this._generators[candidate]));
     const Generator = this._generators[found];
-    if (!Generator) {
-      const names = candidates.map(candidate => `'${candidate}'`).join(', ');
-      throw new Error(`Unable to resolve generator from [${names}]`);
-    }
+    if (!Generator) throw new Error(`Unable to resolve generator from [${names}]`);
+
+    debug('Resolved generator{%s} from candidates{%s}', found, names)
     return new Generator({ chance: this._chance });
   }
 
@@ -115,7 +119,11 @@ class TestDataFactory {
 
   _notify(events, value) {
     const wrapped = { value }
-    events.find(event => this.session.emit(event, wrapped));
+    events.find(event => {
+      const handled = this.session.emit(event, wrapped)
+      debug('Emitted event{%s}, handled{%o}', event, handled)
+      return handled;
+    });
     return wrapped.value;
   }
 

@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.2.0]
 - Support yup validation and cast options
+- Add debug
+- Add TestDataSession.consumeProperty
 
 ## [2.1.0]
 - Added static api for initialising the TestDataFactory

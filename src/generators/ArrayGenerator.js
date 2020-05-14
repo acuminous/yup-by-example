@@ -1,3 +1,4 @@
+const debug = require('debug')('yup-by-example:generators:ArrayGenerator');
 const BaseGenerator = require('./BaseGenerator');
 
 const MIN_ARRAY_SIZE = 3;
@@ -6,9 +7,13 @@ const MAX_ARRAY_SIZE = 5;
 class ArrayGenerator extends BaseGenerator {
 
   generate({ id, schema, session }) {
-    return this.hasWhitelist(schema)
+    const value = this.hasWhitelist(schema)
       ? this.generateFromWhitelist(schema, session)
       : this.generateFromParameters(id, schema, session);
+    Array.isArray(value)
+      ? debug('Generated array{%d}', value.length)
+      : debug('Generated {%o}', value);
+    return value;
   }
 
   generateFromWhitelist(schema, session) {
