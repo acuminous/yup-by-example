@@ -33,6 +33,12 @@ class TestDataSession extends EventEmitter {
     this.setProperty(path, value + 1);
   }
 
+  consumeProperty(path, fallback) {
+    const value = _get(this._store, path, fallback);
+    this.removeProperty(path, value + 1);
+    return value;
+  }
+
   removeProperty(path) {
     return _unset(this._store, path);
   }
