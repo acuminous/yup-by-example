@@ -29,8 +29,9 @@ class TestDataSession extends EventEmitter {
   }
 
   incrementProperty(path) {
-    const value = this.getProperty(path, 0);
-    this.setProperty(path, value + 1);
+    const value = this.getProperty(path, 0) + 1;
+    this.setProperty(path, value);
+    return value;
   }
 
   consumeProperty(path, fallback) {
