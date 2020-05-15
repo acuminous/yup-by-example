@@ -1,6 +1,6 @@
 {
   "name": "yup-by-example",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "A random, fake, contextual test data generator driven from Yup schemas",
   "main": "src/index.js",
   "scripts": {
