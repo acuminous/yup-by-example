@@ -8,12 +8,7 @@ class TestDataSession extends EventEmitter {
 
   constructor(params = {}) {
     super();
-    this._now = params.now || new Date();
     this._store = {};
-  }
-
-  get now() {
-    return this._now;
   }
 
   hasProperty(path) {
