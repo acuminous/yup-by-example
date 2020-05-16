@@ -92,7 +92,7 @@ class TestDataFactory {
 TestDataFactory._now = new Date();
 TestDataFactory._session = new TestDataSession();
 TestDataFactory._chance = new Chance();
-TestDataFactory._generators = {};
+TestDataFactory._generators = Object.assign({}, standardGenerators);
 TestDataFactory._enabled = false;
 
 module.exports = TestDataFactory
