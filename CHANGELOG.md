@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0]
+### Breaking
+1. TestDataFactory has been made static and the stub function removed. There is no longer any need to defer schema initialisation behind an init function, although the TestDataFactory must still be initialised before any schema that uses the example method are built.
+
+1. The TestDataFactory no longer adds the example method for you. You have to do this explicitly in your schema using
+```
+const yupByExample = require('yup-by-example');
+yup.addMethod(mixed, 'example', yupByExample);
+```
+
+1. Generators no longer need to be classes, and will not be instanciated by the factory. They just need to expose a generate method.
+
+1. Since generators are no longer instanciated, the chance instance is passed to the generate function.
+
+1. session.now has been removed. The now value is passed to generators via the now function.
+
+1. yupByExample no longer emits an 'example' event after generating a value (the other events are still emitted').
+
 ## [2.2.1]
 - Added some keywords
 - Improved readme

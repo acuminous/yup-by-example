@@ -7,10 +7,11 @@
     "coverage": "nyc mocha",
     "codeclimate": "(test -e .codeclimate && source .codeclimate && codeclimate-test-reporter < coverage/lcov.info) || echo skipping codeclimate",
     "doctoc": "doctoc README.md --github",
+    "example": "node example/test/api.test.js",
     "lint": "eslint src test",
     "test": "mocha",
     "tdd": "mocha --watch",
-    "qa": "npm run lint && npm run coverage && npm run codeclimate"
+    "qa": "npm run lint && npm run coverage && npm run example && npm run codeclimate"
   },
   "repository": {
     "type": "git",

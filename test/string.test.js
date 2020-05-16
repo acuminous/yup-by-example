@@ -5,15 +5,13 @@ const TestDataFactory = require('../src/TestDataFactory');
 
 describe('string generator', () => {
 
-  let testDataFactory;
-
   beforeEach(() => {
-    testDataFactory = TestDataFactory.init();
+    TestDataFactory.init();
   });
 
   it('should generate random strings', async () => {
     const schema = string().max(1).example();
-    const { counts } = await sample(1000, () => testDataFactory.generateValid(schema));
+    const { counts } = await sample(1000, () => TestDataFactory.generateValid(schema));
 
     const stats = new Stats().push(counts);
     const mean = stats.amean();
@@ -30,7 +28,7 @@ describe('string generator', () => {
 
   it('shoud obey specified length values', async () => {
     const schema = string().length(10).example();
-    const { values } = await sample(1000, () => testDataFactory.generateValid(schema), v => v.length);
+    const { values } = await sample(1000, () => TestDataFactory.generateValid(schema), v => v.length);
 
     const stats = new Stats().push(values.map(Number));
     const mean = stats.amean();
@@ -43,7 +41,7 @@ describe('string generator', () => {
 
   it('should obey default min and max values', async () => {
     const schema = string().example();
-    const { values } = await sample(1000, () => testDataFactory.generateValid(schema), v => v.length);
+    const { values } = await sample(1000, () => TestDataFactory.generateValid(schema), v => v.length);
 
     const stats = new Stats().push(values.map(Number));
     const mean = stats.amean();
@@ -57,7 +55,7 @@ describe('string generator', () => {
 
   it('should obey specified min values', async () => {
     const schema = string().min(30).example();
-    const { values } = await sample(1000, () => testDataFactory.generateValid(schema), v => v.length);
+    const { values } = await sample(1000, () => TestDataFactory.generateValid(schema), v => v.length);
 
     const stats = new Stats().push(values.map(Number));
     const mean = stats.amean();
@@ -71,7 +69,7 @@ describe('string generator', () => {
 
   it('should obey specified max values', async () => {
     const schema = string().max(30).example();
-    const { values } = await sample(1000, () => testDataFactory.generateValid(schema), v => v.length);
+    const { values } = await sample(1000, () => TestDataFactory.generateValid(schema), v => v.length);
 
     const stats = new Stats().push(values.map(Number));
     const mean = stats.amean();
@@ -85,7 +83,7 @@ describe('string generator', () => {
 
   it('should obey specified min and max values', async () => {
     const schema = string().min(50).max(60).example();
-    const { values } = await sample(1000, () => testDataFactory.generateValid(schema), v => v.length);
+    const { values } = await sample(1000, () => TestDataFactory.generateValid(schema), v => v.length);
 
     const stats = new Stats().push(values.map(Number));
     const mean = stats.amean();
@@ -99,7 +97,7 @@ describe('string generator', () => {
 
   it('should generate random emails', async () => {
     const schema = string().email().example();
-    const { values } = await sample(10, () => testDataFactory.generateValid(schema));
+    const { values } = await sample(10, () => TestDataFactory.generateValid(schema));
     values.forEach(value => {
       expect(value).to.match(/@/);
     });
@@ -107,7 +105,7 @@ describe('string generator', () => {
 
   it('should generate random urls', async () => {
     const schema = string().url().example();
-    const { values } = await sample(10, () => testDataFactory.generateValid(schema));
+    const { values } = await sample(10, () => TestDataFactory.generateValid(schema));
     values.forEach(value => {
       expect(value).to.match(/:\/\//);
     });
@@ -115,7 +113,7 @@ describe('string generator', () => {
 
   it('should obey specified one of values', async () => {
     const schema = string().oneOf(['good', 'bad', 'ugly']).example();
-    const { counts, values } = await sample(999, () => testDataFactory.generateValid(schema));
+    const { counts, values } = await sample(999, () => TestDataFactory.generateValid(schema));
 
     const stats = new Stats().push(counts);
     const [lower, upper] = stats.range();

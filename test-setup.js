@@ -1,3 +1,6 @@
+const yup = require('yup');
+const yupByExample = require('.');
+
 global.chai = require('chai')
 global.chai.use(require('dirty-chai'))
 global.chai.use(require('chai-as-promised'))
@@ -11,3 +14,4 @@ Object.defineProperty(
   Object.getOwnPropertyDescriptor(Object.prototype, 'should')
 );
 
+yup.addMethod(yup.mixed, 'example', yupByExample);

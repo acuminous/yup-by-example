@@ -8,125 +8,91 @@ const TestDataSession = require('./TestDataSession');
 class TestDataFactory {
 
   static init(params = {}) {
-    return new TestDataFactory(params).addMethod(yup.mixed, params.methodName);
+    TestDataFactory._session.removeAllListeners();
+    TestDataFactory._now = _get(params, 'now', new Date());
+    TestDataFactory._session = new TestDataSession();
+    TestDataFactory._chance = new Chance(_get(params, 'seed', Math.ceil(Math.random() * 999999999)));
+    TestDataFactory._generators = Object.assign({}, standardGenerators, params.generators);
+    TestDataFactory._enabled = false;
+    return TestDataFactory;
   }
 
-  static stub(params = {}) {
-    return new TestDataFactory(params).addNoopMethod(yup.mixed, params.methodName);
+  static get now() {
+    return TestDataFactory._now;
   }
 
-  constructor(params) {
-    this.reset(params);
+  static get session() {
+    return TestDataFactory._session;
   }
 
-  reset(params = {}) {
-    if (this._session) this.session.close();
-    this._methodName = _get(params, 'methodName', 'example');
-    this._session = new TestDataSession({ now: _get(params, 'now', new Date()) });
-    this._seed = _get(params, 'seed', Math.ceil(Math.random() * 999999999));
-    this._chance = new Chance(this._seed);
-    this._generators = Object.assign({}, standardGenerators);
-    this._bypass = true;
+  static get chance() {
+    return TestDataFactory._chance;
   }
 
-  get session() {
-    return this._session;
+  static get generators() {
+    return TestDataFactory._generators;
   }
 
-  async generate(schema, options) {
-    this._bypass = false;
+  static get enabled() {
+    return TestDataFactory._enabled;
+  }
+
+  static get disabled() {
+    return !TestDataFactory._enabled;
+  }
+
+  static async generate(schema, options) {
+    TestDataFactory._enabled = true;
     try {
       return schema.cast(null, options);
     } finally {
-      this._bypass = true;
+      TestDataFactory._enabled = false;
     }
   }
 
-  async generateValid(schema, options) {
-    const document = await this.generate(schema, options);
+  static async generateValid(schema, options) {
+    const document = await TestDataFactory.generate(schema, options);
     await schema.validate(document, options);
     return document;
   }
 
-  addMethod(schema, name = 'example') {
-    const factory = this;
-    yup.addMethod(yup.mixed, name, function({ id, generator: generatorName } = {}, params) {
-      return this.transform(function yupByExample(value, originalValue) {
-        if (factory._bypass) {
-          debug('Factory is disabled; bypassing example()')
-          return value;
-        }
-        if (generatorName && !factory._generators[generatorName]) throw new Error(`No such generator: '${generatorName}'`);
-        const { type, meta = {} } = this.describe();
-        const generator = factory._resolve([generatorName, meta.type, type].filter(Boolean));
-        const generatedValue = generator.generate({
-          id,
-          params,
-          session: factory.session,
-          schema: factory._describe(this),
-          value,
-          originalValue
-        });
-        return factory._notify([id, generatorName, meta.type, type, name].filter(Boolean), generatedValue);
-      });
-    })
-    return factory;
+  static addGenerator(id, Generator) {
+    TestDataFactory._generators[id] = Generator;
+    return TestDataFactory;
   }
 
-  addNoopMethod(schema, name = 'example') {
-    const factory = this;
-    yup.addMethod(yup.mixed, name, function() {
-      return this.transform(function(value) {
-        return value;
-      })
-    })
-    return factory;
+  static addGenerators(generators) {
+    Object.assign(TestDataFactory._generators, generators);
   }
 
-  addGenerator(id, Generator) {
-    this._generators[id] = Generator;
-    return this;
+  static removeGenerator(id) {
+    delete TestDataFactory._generators[id];
+    return TestDataFactory;
   }
 
-  removeGenerator(id) {
-    delete this._generators[id];
-    return this;
-  }
-
-  _resolve(candidates) {
+  static getGenerator(candidates) {
     const names = candidates.map(candidate => `'${candidate}'`).join(', ');
-    const found = candidates.find(candidate => Boolean(this._generators[candidate]));
-    const Generator = this._generators[found];
+    const found = candidates.find(candidate => Boolean(TestDataFactory._generators[candidate]));
+    const Generator = TestDataFactory._generators[found];
     if (!Generator) throw new Error(`Unable to resolve generator from [${names}]`);
 
-    debug('Resolved generator{%s} from candidates{%s}', found, names)
-    return new Generator({ chance: this._chance });
+    debug('Resolved generator{%s} from candidates{[%s]}', found, names)
+    return new Generator({ chance: TestDataFactory._chance });
   }
 
-  _describe(schema) {
-    // See https://github.com/jquense/yup/issues/883
-    const description = schema.describe();
-    description.whitelist = schema._whitelist ? Array.from(schema._whitelist.list) : [];
-    description.blacklist = schema._blacklist ? Array.from(schema._blacklist.list) : [];
-    Object.keys(schema.fields || []).forEach(fieldName => {
-      const transforms = schema.fields[fieldName].transforms
-        .filter(t => Boolean(t.name))
-        .map(t => ({ name: t.name }));
-      description.fields[fieldName].transforms = transforms;
-    })
-    return description;
-  }
-
-  _notify(events, value) {
-    const wrapped = { value }
+  static notify(events, data) {
     events.find(event => {
-      const handled = this.session.emit(event, wrapped)
+      const handled = TestDataFactory._session.emit(event, data)
       debug('Emitted event{%s}, handled{%o}', event, handled)
       return handled;
     });
-    return wrapped.value;
   }
-
 }
+
+TestDataFactory._now = new Date();
+TestDataFactory._session = new TestDataSession();
+TestDataFactory._chance = new Chance();
+TestDataFactory._generators = {};
+TestDataFactory._enabled = false;
 
 module.exports = TestDataFactory

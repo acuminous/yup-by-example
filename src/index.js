@@ -1,9 +1,8 @@
 const TestDataFactory = require('./TestDataFactory');
-const TestDataSession = require('./TestDataSession');
 const BaseGenerator = require('./generators/BaseGenerator');
+const yupByExample = require('./yup-by-example');
 
-module.exports = {
-  TestDataFactory,
-  TestDataSession,
-  BaseGenerator,
-}
+yupByExample.TestDataFactory = TestDataFactory;
+yupByExample.BaseGenerator = BaseGenerator;
+
+module.exports = yupByExample;

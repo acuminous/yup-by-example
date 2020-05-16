@@ -2,20 +2,18 @@ const dateFns = require('date-fns');
 const { Stats } = require('fast-stats');
 const { sample, expectAllStrings } = require('./helpers');
 const { mixed, string, array, object, date } = require('yup');
-const TestDataFactory = require('../src/TestDataFactory');
+const { TestDataFactory } = require('..');
 
 describe('array generator', () => {
 
-  let testDataFactory;
-
   beforeEach(() => {
-    testDataFactory = TestDataFactory.init();
+    TestDataFactory.init();
   });
 
   it('should generate arrays of strings', async () => {
     const items = string().example();
     const schema = array().of(items).example();
-    const { counts, values } = await sample(1000, () => testDataFactory.generateValid(schema));
+    const { counts, values } = await sample(1000, () => TestDataFactory.generateValid(schema));
 
     expect(counts.length).to.be.above(900);
     expectAllStrings(values);
@@ -24,7 +22,7 @@ describe('array generator', () => {
   it('should obey specified min values', async () => {
     const items = string().example();
     const schema = array().of(items).min(1).example();
-    const { values } = await sample(1000, () => testDataFactory.generateValid(schema), v => v.length);
+    const { values } = await sample(1000, () => TestDataFactory.generateValid(schema), v => v.length);
 
     const stats = new Stats().push(values.map(Number));
     const [lower, upper] = stats.range();
@@ -36,7 +34,7 @@ describe('array generator', () => {
   it('should obey specified max values', async () => {
     const items = string().example();
     const schema = array().of(items).max(10).example();
-    const { values } = await sample(1000, () => testDataFactory.generateValid(schema), v => v.length);
+    const { values } = await sample(1000, () => TestDataFactory.generateValid(schema), v => v.length);
 
     const stats = new Stats().push(values.map(Number));
     const mean = stats.amean();
@@ -51,7 +49,7 @@ describe('array generator', () => {
   it('should obey specified min and max values', async () => {
     const items = string().example();
     const schema = array().of(items).min(1).max(2).example();
-    const { values } = await sample(1000, () => testDataFactory.generateValid(schema), v => v.length);
+    const { values } = await sample(1000, () => TestDataFactory.generateValid(schema), v => v.length);
 
     const stats = new Stats().push(values.map(Number));
     const [lower, upper] = stats.range();
@@ -62,7 +60,7 @@ describe('array generator', () => {
 
   it('should obey specified one of values', async () => {
     const schema = array().oneOf([[1], [2], [3]]).example();
-    const { counts, values } = await sample(999, () => testDataFactory.generateValid(schema), v => v[0]);
+    const { counts, values } = await sample(999, () => TestDataFactory.generateValid(schema), v => v[0]);
 
     const stats = new Stats().push(counts);
     const [lower, upper] = stats.range();
@@ -75,16 +73,16 @@ describe('array generator', () => {
   })
 
   it('should obey length defined in session', async () => {
-    testDataFactory.session.setProperty('foo.length', 100)
+    TestDataFactory.session.setProperty('foo.length', 100)
     const items = string().example();
     const schema = array().of(items).min(1).max(2).example({ id: 'foo' });
-    const value = await testDataFactory.generate(schema);
+    const value = await TestDataFactory.generate(schema);
 
     expect(value).to.have.length(100);
   })
 
   it('should be able to adjust items via events', async () => {
-    testDataFactory.reset({ now: new Date('2020-01-01T00:00:00.000Z') });
+    TestDataFactory.init({ now: new Date('2020-01-01T00:00:00.000Z') });
 
     const schema = array().of(
       object().shape({
@@ -94,17 +92,17 @@ describe('array generator', () => {
       .example()
     ).min(3).max(3).example();
 
-    testDataFactory.session.on('user', event => {
-      testDataFactory.session.incrementProperty('user.index');
+    TestDataFactory.session.on('user', event => {
+      TestDataFactory.session.incrementProperty('user.index');
     })
 
-    testDataFactory.session.on('dob', event => {
-      event.value = dateFns.add(event.value, {
-        days: testDataFactory.session.getProperty('user.index'),
+    TestDataFactory.session.on('dob', data => {
+      data.value = dateFns.add(data.value, {
+        days: TestDataFactory.session.getProperty('user.index'),
       })
     })
 
-    const users = await testDataFactory.generateValid(schema);
+    const users = await TestDataFactory.generateValid(schema);
     expect(users[0].date.toISOString()).to.equal('2020-01-02T00:00:00.000Z');
     expect(users[1].date.toISOString()).to.equal('2020-01-03T00:00:00.000Z');
     expect(users[2].date.toISOString()).to.equal('2020-01-04T00:00:00.000Z');

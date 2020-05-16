@@ -4,10 +4,8 @@ const TestDataFactory = require('../src/TestDataFactory');
 
 describe('chance generator', () => {
 
-  let testDataFactory;
-
   beforeEach(() => {
-    testDataFactory = TestDataFactory.init();
+    TestDataFactory.init();
   });
 
   it('should generate values using chance with params', async () => {
@@ -15,7 +13,7 @@ describe('chance generator', () => {
       method: 'integer',
       params: { min: 1, max: 10 }
     })
-    const { counts, values } = await sample(1000, () => testDataFactory.generateValid(schema));
+    const { counts, values } = await sample(1000, () => TestDataFactory.generateValid(schema));
 
     expect(counts.length).to.be.equal(10);
     expectAllIntegers(values);
@@ -23,7 +21,7 @@ describe('chance generator', () => {
 
   it('should generate values using chance without params', async () => {
     const schema = string().example({ generator: 'chance' }, { method: 'name', });
-    const { counts, values } = await sample(1000, () => testDataFactory.generateValid(schema));
+    const { counts, values } = await sample(1000, () => TestDataFactory.generateValid(schema));
 
     expect(counts.length).to.be.above(900);
     expectAllStrings(values);
@@ -31,7 +29,7 @@ describe('chance generator', () => {
 
   it('should report missing chance generators', async () => {
     const schema = string().example({ generator: 'chance' }, { method: 'missing', });
-    await expect(testDataFactory.generateValid(schema))
+    await expect(TestDataFactory.generateValid(schema))
       .to.be.rejectedWith('The installed version of Chance does not have the \'missing\' generator');
   })
 });

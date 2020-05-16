@@ -5,10 +5,8 @@ const TestDataFactory = require('../src/TestDataFactory');
 
 describe('object generator', () => {
 
-  let testDataFactory;
-
   beforeEach(() => {
-    testDataFactory = TestDataFactory.init();
+    TestDataFactory.init();
   });
 
   it('should generate random objects', async () => {
@@ -18,7 +16,7 @@ describe('object generator', () => {
     }).example();
 
     for (let i = 0; i < 1000; i++) {
-      const value = await testDataFactory.generateValid(schema);
+      const value = await TestDataFactory.generateValid(schema);
       expect(value).to.have.keys('name', 'age');
       expect(value.name).to.be.a('string');
       expect(value.age).to.be.a('number');
@@ -33,14 +31,14 @@ describe('object generator', () => {
       age: number().example(),
     }).example();
 
-    const value = await testDataFactory.generateValid(schema);
+    const value = await TestDataFactory.generateValid(schema);
     expect(value).to.not.have.keys('name');
     expect(value).to.have.keys('age');
   })
 
   it('should obey specified one of values', async () => {
     const schema = object().oneOf([{ x: 1 }, { x: 2 }, { x: 3 }]).example();
-    const { counts, values } = await sample(999, () => testDataFactory.generateValid(schema), v => v.x);
+    const { counts, values } = await sample(999, () => TestDataFactory.generateValid(schema), v => v.x);
 
     const stats = new Stats().push(counts);
     const [lower, upper] = stats.range();

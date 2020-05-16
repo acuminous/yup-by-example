@@ -1,19 +1,16 @@
 const { mixed } = require('yup');
-const { TestDataFactory } = require('../../src');
+const { TestDataFactory } = require('../..');
 const NiNumberGenerator = require('../src/NiNumberGenerator');
-const initSchemas = require('../src/schemas');
+const schemas = require('../src/schemas');
 
-/*
-The yup schemas must be initialised after `addMethod` has been called,
-otherwise they will be built using the `noop` example implmentation
-(see schemas.js)
-*/
-const testDataFactory = TestDataFactory.init()
-  .addGenerator('ni-number', NiNumberGenerator);
-const schemas = initSchemas();
+TestDataFactory.init({
+  generators: {
+    'ni-number': NiNumberGenerator,
+  }
+});
 
-testDataFactory.session.setProperty('users.length', 4);
-testDataFactory.generateValid(schemas.users).then(users => {
+TestDataFactory.session.setProperty('users.length', 4);
+TestDataFactory.generateValid(schemas.users).then(users => {
   console.log(JSON.stringify(users, null, 2));
 }).catch(console.error);
 
