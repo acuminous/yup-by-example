@@ -155,7 +155,7 @@ One of yup-by-examples key classes is the TestDataFactory. You use it to:
 ### Generating test data
 To generate test data simply add the `example` method and call `generateValid` or `generate`, passing it a schema.
 ```js
-// schema.js
+// schemas.js
 const { mixed, object, string, ...yup } = require('yup');
 const yupByExample = require('yup-by-example');
 
@@ -199,7 +199,7 @@ yup-by-example works by adding a new `example` transformer method to yup. The ex
 1. The schema type (e.g. array, boolean, date, object, number or string)
 
 ```js
-// schema.js
+// schemas.js
 const { mixed, object, string, date, ...yup } = require('yup');
 const yupByExample = require('yup-by-example');
 
@@ -222,7 +222,7 @@ When you call `TestDataFactory.generateValid` or `TestDataFactory.generate`, the
 
 Finally, if you don't like the term `example()` you can you can change to whatever you like by supplying a methodName when adding the method, but remember to update your schema accordingly.
 ```js
-// schema.js
+// schemas.js
 const { mixed, object, string, ...yup } = require('yup');
 const yupByExample = require('yup-by-example');
 
@@ -252,7 +252,7 @@ Whenever a generate returns a value, before yielding it, the TestDataFactory wil
 
 This can be especially useful when adjusting values inside array
 ```js
-// schema.js
+// schemas.js
 const { mixed, object, array, ...yup } = require('yup');
 const yupByExample = require('yup-by-example');
 
@@ -322,7 +322,7 @@ TestDataFactory.init({ now: new Date('2020-01-01T00:00:00.000Z' })
 ### Configure generators on a test-by-test basis
 When generating test data, you often don't want it to be completely random. You're likely to overwrite part of the the generated data with values important to your test, and it can be especially if the document has too many or too few array elements. yup-by-example enables you to do this through session properties. When you instantiate the TestDataFactory, it creates a session, which is passed to each generator. By configuing the generator with an id, you can configure from properties stored in the session. The array generator uses this mechanism to let you control the size of the array it should create.
 ```js
-// schema.js
+// schemas.js
 const { mixed, object, array, ...yup } = require('yup');
 const yupByExample = require('yup-by-example');
 
@@ -337,7 +337,7 @@ const user = object()
 const users = array.of(user).example({ id: 'users' });
 ```
 ```js
-// some.test.js
+// api.test.js
 const { TestDataFactory } = require('yup-by-example');
 const schemas = require('../src/schemas');
 
@@ -360,30 +360,87 @@ describe('API', () => {
 You can reset the session at any point by calling `TestDataFactory.init()`
 
 ## Custom Generators
-It will not be possible to reliably generate test data purely from base types like `array`, `object`, `string`, `number` and `date`, however by writing a custom generator, selected either explicitly, by passing a `generator` parameter to the `example()` function or through schema metadata, you can fine tune the results. e.g.
-
+It will not be possible to reliably generate test data purely from base types like `array`, `object`, `string`, `number` and `date`, however by writing a custom generator, selected either explicitly, by passing a `generator` parameter to the `example()` function or through schema metadata, you can fine tune the results. Custom generators must expose a generate function, which the test data factory will pass the following:
 ```js
-// Updated user schema in schemas.js
-const user = object().shape({
-  name: string().meta({ type: 'name' }).required().example(),
-  niNumber: string().matches(/^[A-Z]{2}\d{6}[A-Z]$/).required().example({ generator: 'ni-number' }),
-}).example();
+{
+  id, // the generator id
+  params, // the generator parameters
+  chance: // an instance of Chance
+  now, // The date the factory was initialised
+  session, // The session
+  schema, // The schema (supplied by yup),
+  value, // The value (supplied by yup)
+  originalValue, // The original value (supplied by yup
+}
 ```
-
-Custom generators are classes that should extend the BaseGenerator, and expose a `generate` function.
+For example:
 ```js
 // NiNumberGenerator.js
-const { BaseGenerator } = require('yup-by-example');
-
-class NiNumberGenerator extends BaseGenerator {
-
-  generate({ id, params, schema, value, originalValue }) {
-    const start = this.chance.string({ length: 2 });
-    const middle = this.chance.integer({ min: 100000, max 999999 });
-    const end = this.chance.string({ length: 1 });
+module.exports = {
+  generate: ({ chance }) => {
+    const start = chance.string({ length: 2 });
+    const middle = chance.integer({ min: 100000, max 999999 });
+    const end = chance.string({ length: 1 });
     return `${start}${middle}${end}`.toUpperCase();
   }
 }
+```
+```js
+// LookupGenerator.js
+const refdata = require('./refdata');
+
+module.exports = {
+  generate: ({ params, chance }) => {
+    const dataset = refdata.get(params.key);
+    return chance.pickone(dataset);
+  }
+}
+```
+```js
+// schemas.js
+const { mixed, object, array, ...yup } = require('yup');
+const yupByExample = require('yup-by-example');
+
+yup.addMethod(mixed, 'example', yupByExample);
+
+const user = object()
+  .shape({
+    niNumber: string()
+      .matches(/^[A-Z]{2}\d{6}[A-Z]$/)
+      .required()
+      .example({ generator: 'ni-number' }),
+    role: string()
+      .required()
+      .example({ generator: 'lookup' }, { key: 'roles' }),
+  })
+  .example();
+
+module.exports = {
+  user,
+}
+```
+```js
+// api.test.js
+const { TestDataFactory } = require('yup-by-example');
+const schemas = require('../src/schemas');
+const NiNumberGenerator = require('./NiNumberGenerator');
+const LookupGenerator = require('./LookupGenerator');
+
+describe('API', () => {
+
+  beforeEach() {
+    TestDataFactory
+      .init()
+      .addGenerator('ni-number', NiNumberGenerator)
+      .addGenerator('lookup', LookupGenerator)
+  }
+
+  it('should create users', async () => {
+    const user = await TestDataFactory.generateValid(schemas.user);
+    const res = await request.post('/api-under-test/users', user);
+    expect(res.status).to.equal(200);
+  })
+})
 ```
 
 You can add generators individually in bulk via the TestDataFactory. You can only remove generators individually.
@@ -392,18 +449,22 @@ You can add generators individually in bulk via the TestDataFactory. You can onl
 before() {
   TestDataFactory.init({
     generators: {
-      name: NameGenerator,
-      age: AgeGenerator,
+      'ni-number': NiNumberGenerator,
+      'lookup': LookupGenerator,
     }
   });
 
+  // or...
   TestDataFatory.addGenerators({
-    username: UsernameGenerator,
-    password: PasswordGenerator,
+    'ni-number': NiNumberGenerator,
+    'lookup': LookupGenerator,
   });
 
-  TestDataFactory.addGenerator('dob', DateOfBirthGenerator);
+  // or...
+  TestDataFactory.addGenerator('ni-number', NiNumberGenerator);
+  TestDataFactory.addGenerator('lookup', LookupGenerator);
 
+  // Removal
   TestDataFactory.removeGenerator('unwanted');
 }
 ```
@@ -420,14 +481,16 @@ const user = object().shape({
 ## Chance Generators
 yup-by-example also provides a chance generator, which can be used to invoke any [Chance](https://chancejs.com/person/birthday.html) method.
 ```js
-const user = object().shape({
-  name: string().example({ generator: 'chance' }, {
-    method: 'name',
-    params: {
-      middle_initial: true
-    },
-  }),
-}).example();
+const user = object()
+  .shape({
+    name: string().example({ generator: 'chance' }, {
+      method: 'name',
+      params: {
+        middle_initial: true
+      },
+    }),
+  })
+  .example();
 ```
 
 ## Relative Date Generator

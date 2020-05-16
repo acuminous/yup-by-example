@@ -15,6 +15,7 @@ function yupByExample({ id, generator: generatorName } = {}, params) {
     const generatedValue = generator.generate({
       id,
       params,
+      chance: TestDataFactory.chance,
       now: TestDataFactory.now,
       session: TestDataFactory.session,
       schema: describe(this),

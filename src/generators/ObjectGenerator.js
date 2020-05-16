@@ -3,9 +3,9 @@ const BaseGenerator = require('./BaseGenerator');
 
 class ArrayGenerator extends BaseGenerator {
 
-  generate({ schema }) {
+  generate({ chance, schema }) {
     const value = this.hasWhitelist(schema)
-      ? this.oneOf(schema.whitelist)
+      ? this.oneOf(chance, schema.whitelist)
       : Object.keys(schema.fields).reduce((obj, fieldName) => {
           return this.hasTransform(schema.fields[fieldName], 'yupByExample')
             ? Object.assign(obj, { [fieldName]: null })

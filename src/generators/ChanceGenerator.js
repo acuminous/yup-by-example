@@ -3,10 +3,10 @@ const BaseGenerator = require('./BaseGenerator');
 
 class ChanceGenerator extends BaseGenerator {
 
-  generate({ params }) {
-    const generator = this.chance[params.method];
+  generate({ chance, params }) {
+    const generator = chance[params.method];
     if (!generator) throw new Error(`The installed version of Chance does not have the '${params.method}' generator`);
-    const value = this.chance[params.method](params.params);
+    const value = chance[params.method](params.params);
     debug('Generated chance[%s]{%o}', params.method, value)
     return value;
   }

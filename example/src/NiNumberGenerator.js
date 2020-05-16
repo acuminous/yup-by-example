@@ -2,11 +2,11 @@ const { BaseGenerator } = require('../../src/');
 
 class NiNumberGenerator extends BaseGenerator {
 
-  generate({ schema, value, originalValue }) {
+  generate({ chance }) {
     const pool = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const start = this.chance.string({ length: 2, pool });
-    const middle = this.chance.integer({ min: 100000, max: 999999 });
-    const end = this.chance.string({ length: 1, pool });
+    const start = chance.string({ length: 2, pool });
+    const middle = chance.integer({ min: 100000, max: 999999 });
+    const end = chance.string({ length: 1, pool });
     return `${start}${middle}${end}`.toUpperCase();
   }
 }

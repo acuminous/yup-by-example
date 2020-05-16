@@ -5,7 +5,7 @@ const schemas = require('../src/schemas');
 
 TestDataFactory.init({
   generators: {
-    'ni-number': NiNumberGenerator,
+    'ni-number': new NiNumberGenerator(),
   }
 });
 

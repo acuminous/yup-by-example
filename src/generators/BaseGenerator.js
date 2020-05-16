@@ -2,10 +2,6 @@ const _get = require('lodash.get');
 
 class BaseGenerator {
 
-  constructor({ chance }) {
-    this.chance = chance;
-  }
-
   getTest(schema, testName) {
     return schema.tests.find(test => test.name === testName);
   }
@@ -29,8 +25,8 @@ class BaseGenerator {
     })
   }
 
-  oneOf(candidates) {
-    const index = this.chance.integer({ min: 0, max: candidates.length - 1 });
+  oneOf(chance, candidates) {
+    const index = chance.integer({ min: 0, max: candidates.length - 1 });
     return candidates[index];
   }
 }

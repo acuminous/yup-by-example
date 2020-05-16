@@ -4,10 +4,10 @@ const BaseGenerator = require('./BaseGenerator');
 
 class BooleanGenerator extends BaseGenerator {
 
-  generate({ schema }) {
+  generate({ chance, schema }) {
     const value = this.hasWhitelist(schema)
-      ? this.oneOf(schema.whitelist)
-      : this.chance.bool();
+      ? this.oneOf(chance, schema.whitelist)
+      : chance.bool();
 
     debug('Generated boolean{%o}', value);
     return value

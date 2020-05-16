@@ -10,15 +10,15 @@ const StringGenerator = require('./StringGenerator');
 const NumberGenerator = require('./NumberGenerator');
 
 module.exports = {
-  array: ArrayGenerator,
-  boolean: BooleanGenerator,
-  chance: ChanceGenerator,
-  date: DateGenerator,
-  fn: FunctionGenerator,
-  function: FunctionGenerator,
-  literal: LiteralGenerator,
-  object: ObjectGenerator,
-  number: NumberGenerator,
-  'rel-date': RelativeDateGenerator,
-  string: StringGenerator,
+  array: new ArrayGenerator(),
+  boolean: new BooleanGenerator(),
+  chance: new ChanceGenerator(),
+  date: new DateGenerator(),
+  fn: new FunctionGenerator(),
+  function: new FunctionGenerator(),
+  literal: new LiteralGenerator(),
+  object: new ObjectGenerator(),
+  number: new NumberGenerator(),
+  'rel-date': new RelativeDateGenerator(),
+  string: new StringGenerator(),
 }

@@ -74,14 +74,14 @@ describe('TestDataFactory', () => {
   })
 
   it('should select generator by id', async () => {
-    TestDataFactory.addGenerator('wibble', CustomGenerator);
+    TestDataFactory.addGenerator('wibble', new CustomGenerator());
     const schema = string().example({ generator: 'wibble' });
     const value = await TestDataFactory.generateValid(schema);
     expect(value).to.equal('WIBBLE');
   })
 
   it('should select generator by meta.type', async () => {
-    TestDataFactory.addGenerator('wibble', CustomGenerator);
+    TestDataFactory.addGenerator('wibble', new CustomGenerator());
     const schema = string().meta({ type: 'wibble' }).example();
     const value = await TestDataFactory.generateValid(schema);
     expect(value).to.equal('WIBBLE');
@@ -143,7 +143,7 @@ describe('TestDataFactory', () => {
   })
 
   it('should notify via id event', async () => {
-    TestDataFactory.addGenerator('wibble', CustomGenerator);
+    TestDataFactory.addGenerator('wibble', new CustomGenerator());
     const schema = string().example({ generator: 'wibble' });
     TestDataFactory.session.once('wibble', event => {
       expect(event.value).to.equal('WIBBLE');
@@ -168,7 +168,7 @@ describe('TestDataFactory', () => {
 
   it('should support adding multiple generators', async () => {
     TestDataFactory.init().addGenerators({
-      wibble: CustomGenerator
+      wibble: new CustomGenerator(),
     });
     const schema = string().example({ generator: 'wibble' });
     const value = await TestDataFactory.generate(schema);
@@ -178,7 +178,7 @@ describe('TestDataFactory', () => {
   it('should support adding multiple generators during intialisation', async () => {
     TestDataFactory.init({
       generators: {
-        wibble: CustomGenerator
+        wibble: new CustomGenerator()
       }
     });
 

@@ -73,11 +73,11 @@ class TestDataFactory {
   static getGenerator(candidates) {
     const names = candidates.map(candidate => `'${candidate}'`).join(', ');
     const found = candidates.find(candidate => Boolean(TestDataFactory._generators[candidate]));
-    const Generator = TestDataFactory._generators[found];
-    if (!Generator) throw new Error(`Unable to resolve generator from [${names}]`);
+    const generator = TestDataFactory._generators[found];
+    if (!generator) throw new Error(`Unable to resolve generator from [${names}]`);
 
     debug('Resolved generator{%s} from candidates{[%s]}', found, names)
-    return new Generator({ chance: TestDataFactory._chance });
+    return generator;
   }
 
   static notify(events, data) {
