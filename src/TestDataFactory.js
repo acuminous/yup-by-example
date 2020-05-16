@@ -8,7 +8,7 @@ const TestDataSession = require('./TestDataSession');
 class TestDataFactory {
 
   static init(params = {}) {
-    TestDataFactory._session.removeAllListeners();
+    TestDataFactory._session.close();
     TestDataFactory._now = _get(params, 'now', new Date());
     TestDataFactory._session = new TestDataSession();
     TestDataFactory._chance = new Chance(_get(params, 'seed', Math.ceil(Math.random() * 999999999)));
