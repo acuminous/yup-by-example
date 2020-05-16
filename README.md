@@ -21,7 +21,7 @@ For those practicing TDD, a rich and potentially shared schema increases the bur
   - [3. Profit!](#3-profit)
 - [The TestDataFactory Class](#the-testdatafactory-class)
   - [Generating test data](#generating-test-data)
-  - [Adding the example method to yup](#adding-the-example-method-to-yup)
+  - [Configuring examples](#configuring-examples)
   - [Add Custom Generators](#add-custom-generators)
   - [Intercept generated values](#intercept-generated-values)
   - [Control the random seed used for test data generation](#control-the-random-seed-used-for-test-data-generation)
@@ -113,11 +113,14 @@ module.exports = {
 // api.test.js
 const { TestDataFactory } = require('yup-by-example');
 const schemas = require('../src/schemas');
+const NiNumberGenerator = require('./NiNumberGenerator');
 
 describe('API', () => {
 
   beforeEach() {
-    TestDataFactory.init();
+    TestDataFactory
+      .init()
+      .addGenerator('ni-number', new NiNumberGenerator());
   }
 
   it('should create user', async () => {
