@@ -17,7 +17,7 @@ jobs:
     - run: npm i yup --save-dev
     - run: npm run lint
     - run: npm test
-    - run: npm example
+    - run: npm run example
 
   code-climate:
     needs: build
