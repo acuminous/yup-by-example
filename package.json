@@ -56,7 +56,7 @@
     "mocha": "^7.1.2",
     "nyc": "^15.1.0",
     "prettier": "^2.0.5",
-    "yup": "^0.29.3"
+    "yup": "^0.32.9"
   },
   "dependencies": {
     "chance": "^1.1.4",
@@ -68,7 +68,7 @@
     "lodash.unset": "^4.5.2"
   },
   "peerDependencies": {
-    "yup": "^0.29.0"
+    "yup": "^0.32.0"
   },
   "directories": {
     "example": "example",
