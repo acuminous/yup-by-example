@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replace travis with github actions
 - Replace mocha with zUnit
 - Bumped other dev deps
+- Transferred repo to acuminous
 
 ## [3.1.0]
 ### Updated

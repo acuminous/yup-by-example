@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cressie176/yup-by-example.git"
+    "url": "git+https://github.com/acuminous/yup-by-example.git"
   },
   "author": "@cressie176 Stephen Cresswell",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cressie176/yup-by-example/issues"
+    "url": "https://github.com/acuminous/yup-by-example/issues"
   },
-  "homepage": "https://cressie176.github.io/yup-by-example/",
+  "homepage": "https://acuminous.github.io/yup-by-example/",
   "husky": {
     "hooks": {
       "pre-commit": "npm run lint && npm run test"
