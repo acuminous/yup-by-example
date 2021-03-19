@@ -4,7 +4,7 @@
   "description": "A random, fake, contextual test data generator driven from Yup schemas",
   "main": "src/index.js",
   "scripts": {
-    "coverage": "nyc --report html --reporter lcov --reporter mocha",
+    "coverage": "nyc --report html --reporter lcov --reporter text-summary mocha",
     "doctoc": "doctoc README.md --github",
     "example": "node example/test/api.test.js",
     "lint": "eslint src test",
