@@ -1,5 +1,5 @@
 const yup = require('yup');
-const yupByExample = require('.');
+const yupByExample = require('../src');
 
 global.chai = require('chai')
 global.chai.use(require('dirty-chai'))

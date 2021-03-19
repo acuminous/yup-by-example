@@ -6,7 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.1.1]
 ### Changed
-- Build with github actions rather than travis
+- Replace travis with github actions
+- Replace mocha with zUnit
 
 ## [3.1.0]
 ### Updated
