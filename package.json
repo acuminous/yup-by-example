@@ -9,8 +9,7 @@
     "example": "node example/test/api.test.js",
     "lint": "eslint src test",
     "test": "mocha",
-    "tdd": "mocha --watch",
-    "qa": "npm run lint && npm run coverage && npm run example && npm run codeclimate"
+    "tdd": "mocha --watch"
   },
   "repository": {
     "type": "git",
@@ -24,8 +23,7 @@
   "homepage": "https://cressie176.github.io/yup-by-example/",
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint && npm run test",
-      "pre-push": "npm run qa"
+      "pre-commit": "npm run lint && npm run test"
     }
   },
   "prettier": {
