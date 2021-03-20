@@ -1,9 +1,10 @@
 # yup-by-example
 [![NPM version](https://img.shields.io/npm/v/yup-by-example.svg?style=flat-square)](https://www.npmjs.com/package/yup-by-example)
 [![NPM downloads](https://img.shields.io/npm/dm/yup-by-example.svg?style=flat-square)](https://www.npmjs.com/package/yup-by-example)
-[![Build Status](https://img.shields.io/travis/acuminous/yup-by-example/master.svg)](https://travis-ci.org/acuminous/yup-by-example)
-[![Maintainability](https://api.codeclimate.com/v1/badges/c6189e47b3fb4e251882/maintainability)](https://codeclimate.com/github/acuminous/yup-by-example/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/c6189e47b3fb4e251882/test_coverage)](https://codeclimate.com/github/acuminous/yup-by-example/test_coverage)
+[![Node.js CI](https://github.com/acuminous/yup-by-example/workflows/Node.js%20CI/badge.svg)](https://github.com/acuminous/yup-by-example/actions?query=workflow%3A%22Node.js+CI%22)
+[![Maintainability](https://api.codeclimate.com/v1/badges/53908de7a9ffa97443e3/maintainability)](https://codeclimate.com/github/acuminous/yup-by-example/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/53908de7a9ffa97443e3/test_coverage)](https://codeclimate.com/github/acuminous/yup-by-example/test_coverage)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![Dependency Status](https://david-dm.org/acuminous/yup-by-example.svg)](https://david-dm.org/acuminous/yup-by-example)
 [![devDependencies Status](https://david-dm.org/acuminous/yup-by-example/dev-status.svg)](https://david-dm.org/acuminous/yup-by-example?type=dev)
 <br/>
