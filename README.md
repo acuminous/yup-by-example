@@ -5,8 +5,6 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/53908de7a9ffa97443e3/maintainability)](https://codeclimate.com/github/acuminous/yup-by-example/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/53908de7a9ffa97443e3/test_coverage)](https://codeclimate.com/github/acuminous/yup-by-example/test_coverage)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-[![Dependency Status](https://david-dm.org/acuminous/yup-by-example.svg)](https://david-dm.org/acuminous/yup-by-example)
-[![devDependencies Status](https://david-dm.org/acuminous/yup-by-example/dev-status.svg)](https://david-dm.org/acuminous/yup-by-example?type=dev)
 <br/>
 yup-by-example is a random data generator driven from [Yup](https://github.com/jquense/yup) schemas. Yup is a JavaScript schema builder for value parsing and validation, heavily inspired by [Joi](https://github.com/hapijs/joi), but with far less baggage, making it suitable for both server and client side validation.
 
