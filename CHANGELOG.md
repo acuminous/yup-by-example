@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.0.1
+- Fixed https://github.com/acuminous/yup-by-example/issues/4
+
 ## 4.0.0
 - Updated to yup ^1.0.0
 - Dropped support for Node below v16
