@@ -138,7 +138,7 @@ The function will passed an object with the following parameters
 
 | name    | notes                                         |
 | ------- | --------------------------------------------- |
-| id      |                                               |
+| id      | Used to namespace session properties          |
 | session | The test data [session](#sesson)              |
 | chance  | An instance of [Chance](https://chancejs.com) |
 
@@ -186,7 +186,7 @@ For even greater flexibility, you can write a custom generator. This is a object
 
 | name          | notes                                                  |
 | ------------- | ------------------------------------------------------ |
-| id            | the generator id                                       |
+| id            | the generator id (used to namespace session properties |
 | params        | the generator parameters                               |
 | session       | The test data [session](#sesson)                       |
 | chance        | An instance of [Chance](https://chancejs.com)          |
