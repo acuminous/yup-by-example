@@ -1,38 +1,30 @@
 # Changelog
-All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## 4.0.0
+- Dropped support for Node below v16
+- Updated dependencies
+- Removed prettier
+- Removed chai
 
-## [Unreleased]
-### Changed
-- Updated fast-stats dev dependency
-
-## [3.1.2]
-### Changed
+## 3.1.2
 - Fixed badges
 
-## [3.1.1]
-### Changed
+## 3.1.1
 - Replace travis with github actions
 - Replace mocha with zUnit
 - Bumped other dev deps
 - Transferred repo to acuminous
 
-## [3.1.0]
-### Updated
+## 3.1.0
 - yup peer dependency to ^0.29.0
 
-## [3.0.2]
-### Updated
+## 3.0.2
 - Export TestDataSession
 
-## [3.0.1]
-### Updated
+## 3.0.1
 - Improved Readme
 
-## [3.0.0]
-### Breaking
+## 3.0.0
 - TestDataFactory has been made static and the stub function removed. There is no longer any need to defer schema initialisation behind an init function, although the TestDataFactory must still be initialised before any schema that uses the example method are built.
 - The TestDataFactory no longer adds the example method for you. You have to do this explicitly in your schema using
     ```js
@@ -44,59 +36,51 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - session.now has been removed. The now value is passed to generators via the now function.
 - yupByExample no longer emits an 'example' event after generating a value (the other events are still emitted').
 
-## [2.2.1]
+## 2.2.1
 - Added some keywords
 - Improved readme
 - Improved test coverage
 
-## [2.2.0]
+## 2.2.0
 - Support yup validation and cast options
 - Add debug
 - Add TestDataSession.consumeProperty
 
-## [2.1.0]
+## 2.1.0
 - Added static api for initialising the TestDataFactory
 
-## [2.0.4]
-### Updated
+## 2.0.4
 - Fixed build issue
 
-## [2.0.3]
+## 2.0.3
 ### Added
 - session.incrementProperty
 
-### Updated
 - Fixed example
 
-## [2.0.2]
-### Updated
+## 2.0.2
 - Readme
 
-## [2.0.1]
+## 2.0.1
 ### Added
 - Code Climate reporting
 
-### Updated
 - Readme
 
-## [2.0.0]
-### Breaking Changes
+## 2.0.0
 - `mixed.example()` now takes an object as its first parameter, with optional parameters `id` and `generator`. The `id` parameter is no longer used to resolve generators.
 - `meta.sessionKey` is no longer used. Instead the example id forms the sessionKey.
 
-## [1.1.0]
-### Added
+## 1.1.0
 - TestDataSession events
 - Literal Generators
 - Made rel-date parameters optional
 
-## [1.0.2]
-### Updated
+## 1.0.2
 - Removed unused dev dependency
 
-## [1.0.1]
-### Updated
+## 1.0.1
 - Replaced Jest (slow) with Mocha (fast)
 
-## [1.0.0]
+## 1.0.0
 - Everything!

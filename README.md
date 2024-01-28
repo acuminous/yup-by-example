@@ -5,12 +5,13 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/53908de7a9ffa97443e3/maintainability)](https://codeclimate.com/github/acuminous/yup-by-example/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/53908de7a9ffa97443e3/test_coverage)](https://codeclimate.com/github/acuminous/yup-by-example/test_coverage)
 <br/>
+This project currently only works with version of yup 0.32.9 and earlier. 0.32.10 changed the behaviour of array.oneOf and 1.x included a breaking change to the extension mechanism.
+<br/>
+<br/>
 yup-by-example is a random data generator driven from [Yup](https://github.com/jquense/yup) schemas. Yup is a JavaScript schema builder for value parsing and validation, heavily inspired by [Joi](https://github.com/hapijs/joi), but with far less baggage, making it suitable for both server and client side validation.
 
 For those practicing TDD, a rich and potentially shared schema increases the burden of managing test data. One  solution is to create a common, hard coded set of test data, but this is almost certainly a bad idea. Not only does it lead to brittle tests, but also means that the tests come to depend on something that's often hidden away, instead of the salient values being front and centre. Instead, by generating random sets of test data, and explicitly overwriting just the key values, the tests will be more robust and communicate far more clearly. However, maintaining random test data generators is complex and onerous. If only it could be automatically generated from the same schema used for validation. This is where yup-by-example comes in!
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ## Table of Contents
 
 - [yup-by-example](#yup-by-example)
@@ -35,8 +36,6 @@ For those practicing TDD, a rich and potentially shared schema increases the bur
   - [Supported types and validations](#supported-types-and-validations)
   - [Caveats](#caveats)
   - [Troubleshooting](#troubleshooting)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## TL;DR
 
