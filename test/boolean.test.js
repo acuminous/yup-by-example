@@ -1,6 +1,9 @@
-const { sample, expectAllBooleans } = require('./helpers');
-const { mixed, boolean } = require('yup');
+const { before, beforeEach, after, afterEach, describe, it } = require('zunit');
+const { boolean } = require('yup');
 const { Stats } = require('fast-stats');
+
+const { eq, gte, lte, isBoolean } = require('./assert');
+const sample = require('./sample');
 const TestDataFactory = require('../src/TestDataFactory');
 
 describe('boolean generator', () => {
@@ -16,18 +19,18 @@ describe('boolean generator', () => {
     const stats = new Stats().push(counts);
     const [lower, upper] = stats.range();
 
-    expect(counts.length).to.be.equal(2);
-    expect(upper + lower).to.be.equal(1000);
-    expect(lower).to.be.at.most(500);
-    expect(upper).to.be.at.least(500);
-    expectAllBooleans(values);
-  })
+    eq(counts.length, 2);
+    eq(upper + lower, 1000);
+    lte(lower, 500);
+    gte(upper, 500);
+    values.forEach(isBoolean);
+  });
 
   it('should obey specified one of values', async () => {
     const schema = boolean().oneOf([true]).example();
     for (let i = 0; i < 1000; i++) {
       const value = await TestDataFactory.generateValid(schema);
-      expect(value).to.equal(true);
+      eq(value, true);
     }
-  })
+  });
 });

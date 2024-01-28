@@ -6,7 +6,7 @@ const _unset = require('lodash.unset');
 
 class TestDataSession extends EventEmitter {
 
-  constructor(params = {}) {
+  constructor() {
     super();
     this._store = {};
   }
@@ -45,4 +45,4 @@ class TestDataSession extends EventEmitter {
   }
 }
 
-module.exports = TestDataSession
+module.exports = TestDataSession;

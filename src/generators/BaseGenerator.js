@@ -3,7 +3,7 @@ const _get = require('lodash.get');
 class BaseGenerator {
 
   getTest(schema, testName) {
-    return schema.tests.find(test => test.name === testName);
+    return schema.tests.find((test) => test.name === testName);
   }
 
   hasTest(schema, testName) {
@@ -20,9 +20,9 @@ class BaseGenerator {
   }
 
   hasTransform(field, transformName) {
-    return field.transforms.find(t => {
-      return t.name === transformName
-    })
+    return field.transforms.find((t) => {
+      return t.name === transformName;
+    });
   }
 
   oneOf(chance, candidates) {

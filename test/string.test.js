@@ -1,6 +1,9 @@
-const { sample } = require('./helpers');
-const { mixed, string } = require('yup');
+const { before, beforeEach, after, afterEach, describe, it } = require('zunit');
+const { string } = require('yup');
 const { Stats } = require('fast-stats');
+
+const { eq, lt, gt, includes, match } = require('./assert');
+const sample = require('./sample');
 const TestDataFactory = require('../src/TestDataFactory');
 
 describe('string generator', () => {
@@ -17,99 +20,95 @@ describe('string generator', () => {
     const mean = stats.amean();
     const [lower, upper] = stats.range();
 
-    expect(counts.length).to.equal(52);
-    expect(mean).to.be.above(18);
-    expect(mean).to.be.below(20);
-    expect(lower).to.be.above(2);
-    expect(lower).to.be.below(19);
-    expect(upper).to.be.above(19);
-    expect(upper).to.be.below(50);
-  })
+    eq(counts.length, 52);
+    gt(mean, 18);
+    lt(mean, 20);
+    gt(lower, 2);
+    lt(lower, 19);
+    gt(upper, 19);
+    lt(upper, 50);
+  });
 
   it('shoud obey specified length values', async () => {
     const schema = string().length(10).example();
-    const { values } = await sample(1000, () => TestDataFactory.generateValid(schema), v => v.length);
+    const { values } = await sample(1000, () => TestDataFactory.generateValid(schema), (v) => v.length);
 
     const stats = new Stats().push(values.map(Number));
     const mean = stats.amean();
     const [lower, upper] = stats.range();
 
-    expect(mean).to.equal(10);
-    expect(lower).to.equal(10);
-    expect(upper).to.equal(10);
-  })
+    eq(mean, 10);
+    eq(lower, 10);
+    eq(upper, 10);
+  });
 
   it('should obey default min and max values', async () => {
     const schema = string().example();
-    const { values } = await sample(1000, () => TestDataFactory.generateValid(schema), v => v.length);
+    const { values } = await sample(1000, () => TestDataFactory.generateValid(schema), (v) => v.length);
 
     const stats = new Stats().push(values.map(Number));
     const mean = stats.amean();
     const [lower, upper] = stats.range();
 
-    expect(mean).to.be.above(14);
-    expect(mean).to.be.below(16);
-    expect(lower).to.equal(10);
-    expect(upper).to.equal(20);
-  })
+    gt(mean, 14);
+    lt(mean, 16);
+    eq(lower, 10);
+    eq(upper, 20);
+  });
 
   it('should obey specified min values', async () => {
     const schema = string().min(30).example();
-    const { values } = await sample(1000, () => TestDataFactory.generateValid(schema), v => v.length);
+    const { values } = await sample(1000, () => TestDataFactory.generateValid(schema), (v) => v.length);
 
     const stats = new Stats().push(values.map(Number));
     const mean = stats.amean();
     const [lower, upper] = stats.range();
 
-    expect(mean).to.be.above(34);
-    expect(mean).to.be.below(36);
-    expect(lower).to.equal(30);
-    expect(upper).to.equal(40);
-  })
+    gt(mean, 34);
+    lt(mean, 36);
+    eq(lower, 30);
+    eq(upper, 40);
+  });
 
   it('should obey specified max values', async () => {
     const schema = string().max(30).example();
-    const { values } = await sample(1000, () => TestDataFactory.generateValid(schema), v => v.length);
+    const { values } = await sample(1000, () => TestDataFactory.generateValid(schema), (v) => v.length);
 
     const stats = new Stats().push(values.map(Number));
     const mean = stats.amean();
     const [lower, upper] = stats.range();
 
-    expect(mean).to.be.above(24);
-    expect(mean).to.be.below(26);
-    expect(lower).to.equal(20);
-    expect(upper).to.equal(30);
-  })
+    gt(mean, 24);
+    lt(mean, 26);
+    eq(lower, 20);
+    eq(upper, 30);
+  });
 
   it('should obey specified min and max values', async () => {
     const schema = string().min(50).max(60).example();
-    const { values } = await sample(1000, () => TestDataFactory.generateValid(schema), v => v.length);
+    const { values } = await sample(1000, () => TestDataFactory.generateValid(schema), (v) => v.length);
 
     const stats = new Stats().push(values.map(Number));
     const mean = stats.amean();
     const [lower, upper] = stats.range();
 
-    expect(mean).to.be.above(54);
-    expect(mean).to.be.below(56);
-    expect(lower).to.equal(50);
-    expect(upper).to.equal(60);
-  })
+    gt(mean, 54);
+    lt(mean, 56);
+    eq(lower, 50);
+    eq(upper, 60);
+  });
 
   it('should generate random emails', async () => {
     const schema = string().email().example();
     const { values } = await sample(10, () => TestDataFactory.generateValid(schema));
-    values.forEach(value => {
-      expect(value).to.match(/@/);
-    });
-  })
+    values.forEach((value) => match(value, /@/));
+  });
 
   it('should generate random urls', async () => {
     const schema = string().url().example();
     const { values } = await sample(10, () => TestDataFactory.generateValid(schema));
-    values.forEach(value => {
-      expect(value).to.match(/:\/\//);
-    });
-  })
+    values.forEach((value) => match(value, /:\/\//));
+  });
 
   it('should obey specified one of values', async () => {
     const schema = string().oneOf(['good', 'bad', 'ugly']).example();
@@ -118,10 +117,8 @@ describe('string generator', () => {
     const stats = new Stats().push(counts);
     const [lower, upper] = stats.range();
 
-    expect(lower).to.be.below(333);
-    expect(upper).to.be.above(333);
-    values.forEach(value => {
-      expect(value).to.be.oneOf(['good', 'bad', 'ugly']);
-    });
-  })
+    lt(lower, 333);
+    gt(upper, 333);
+    values.forEach((value) => includes(['good', 'bad', 'ugly'], value));
+  });
 });

@@ -1,6 +1,6 @@
 const debug = require('debug')('yup-by-example:generators:RelativeDateGenerator');
-const BaseGenerator = require('./BaseGenerator');
 const { add } = require('date-fns');
+const BaseGenerator = require('./BaseGenerator');
 
 class RelativeDateGenerator extends BaseGenerator {
   generate({ now, params }) {

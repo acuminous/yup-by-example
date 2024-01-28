@@ -21,4 +21,4 @@ module.exports = {
   number: new NumberGenerator(),
   'rel-date': new RelativeDateGenerator(),
   string: new StringGenerator(),
-}
+};

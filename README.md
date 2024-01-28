@@ -4,7 +4,6 @@
 [![Node.js CI](https://github.com/acuminous/yup-by-example/workflows/Node.js%20CI/badge.svg)](https://github.com/acuminous/yup-by-example/actions?query=workflow%3A%22Node.js+CI%22)
 [![Maintainability](https://api.codeclimate.com/v1/badges/53908de7a9ffa97443e3/maintainability)](https://codeclimate.com/github/acuminous/yup-by-example/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/53908de7a9ffa97443e3/test_coverage)](https://codeclimate.com/github/acuminous/yup-by-example/test_coverage)
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 <br/>
 yup-by-example is a random data generator driven from [Yup](https://github.com/jquense/yup) schemas. Yup is a JavaScript schema builder for value parsing and validation, heavily inspired by [Joi](https://github.com/hapijs/joi), but with far less baggage, making it suitable for both server and client side validation.
 
@@ -14,26 +13,28 @@ For those practicing TDD, a rich and potentially shared schema increases the bur
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ## Table of Contents
 
-- [TL;DR](#tldr)
-  - [1. Define the schema, specifying examples](#1-define-the-schema-specifying-examples)
-  - [2. Write the tests](#2-write-the-tests)
-  - [3. Profit!](#3-profit)
-- [The TestDataFactory Class](#the-testdatafactory-class)
-  - [Generating test data](#generating-test-data)
-  - [Configuring examples](#configuring-examples)
-  - [Add Custom Generators](#add-custom-generators)
-  - [Intercept generated values](#intercept-generated-values)
-  - [Control the random seed used for test data generation](#control-the-random-seed-used-for-test-data-generation)
-  - [Control the value of 'now'](#control-the-value-of-now)
-  - [Configure generators on a test-by-test basis](#configure-generators-on-a-test-by-test-basis)
-- [Custom Generators](#custom-generators)
-- [Function Generators](#function-generators)
-- [Chance Generators](#chance-generators)
-- [Relative Date Generator](#relative-date-generator)
-- [Literal Generators](#literal-generators)
-- [Supported types and validations](#supported-types-and-validations)
-- [Caveats](#caveats)
-- [Troubleshooting](#troubleshooting)
+- [yup-by-example](#yup-by-example)
+  - [Table of Contents](#table-of-contents)
+  - [TL;DR](#tldr)
+    - [1. Define the schema, specifying examples](#1-define-the-schema-specifying-examples)
+    - [2. Write the tests](#2-write-the-tests)
+    - [3. Profit!](#3-profit)
+  - [The TestDataFactory Class](#the-testdatafactory-class)
+    - [Generating test data](#generating-test-data)
+    - [Configuring examples](#configuring-examples)
+    - [Add Custom Generators](#add-custom-generators)
+    - [Intercept generated values](#intercept-generated-values)
+    - [Control the random seed used for test data generation](#control-the-random-seed-used-for-test-data-generation)
+    - [Control the value of 'now'](#control-the-value-of-now)
+    - [Configure generators on a test-by-test basis](#configure-generators-on-a-test-by-test-basis)
+  - [Custom Generators](#custom-generators)
+  - [Function Generators](#function-generators)
+  - [Chance Generators](#chance-generators)
+  - [Relative Date Generator](#relative-date-generator)
+  - [Literal Generators](#literal-generators)
+  - [Supported types and validations](#supported-types-and-validations)
+  - [Caveats](#caveats)
+  - [Troubleshooting](#troubleshooting)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -520,14 +521,14 @@ const user = object().shape({
 ```
 
 ## Supported types and validations
-| type    | validations     |
-|---------|-----------------|
-| array   | min, max, oneOf |
-| boolean | oneOf           |
-| date    | min, max, oneOf |
-| object  | oneOf           |
+| type    | validations                                                      |
+| ------- | ---------------------------------------------------------------- |
+| array   | min, max, oneOf                                                  |
+| boolean | oneOf                                                            |
+| date    | min, max, oneOf                                                  |
+| object  | oneOf                                                            |
 | number  | min, max, lessThan, moreThan, positive, negative, integer, oneOf |
-| string  | length, min, max, email, url, oneOf |
+| string  | length, min, max, email, url, oneOf                              |
 
 ## Caveats
 Not all Yup validations can be reliably generated. For example there is nothing in the described schema that can be used to determine if `lowercase` or `uppercase` is required. With `strict` validation, this could cause problems. It's likely there there may also be issues with references and conditional validation. You may be able to work around many of these problems with [custom](#custom-generators), [function](#function-generators), [chance](#chance-generators), [session](#intercept-generated-values) properties and [events](#intercept-generated-values).

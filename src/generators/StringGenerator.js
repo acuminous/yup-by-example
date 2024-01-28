@@ -9,13 +9,13 @@ class StringGenerator extends BaseGenerator {
   generate({ chance, schema }) {
     const value = this.hasWhitelist(schema)
       ? this.generateFromWhitelist(chance, schema)
-      : this.generateFromRange(chance, schema)
+      : this.generateFromRange(chance, schema);
     debug('Generating string{%s}', value);
     return value;
   }
 
   generateFromWhitelist(chance, schema) {
-    return this.oneOf(chance, schema.whitelist)
+    return this.oneOf(chance, schema.whitelist);
   }
 
   generateFromRange(chance, schema) {

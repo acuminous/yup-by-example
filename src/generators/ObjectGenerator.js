@@ -7,10 +7,10 @@ class ArrayGenerator extends BaseGenerator {
     const value = this.hasWhitelist(schema)
       ? this.oneOf(chance, schema.whitelist)
       : Object.keys(schema.fields).reduce((obj, fieldName) => {
-          return this.hasTransform(schema.fields[fieldName], 'yupByExample')
-            ? Object.assign(obj, { [fieldName]: null })
-            : obj;
-        }, {});
+        return this.hasTransform(schema.fields[fieldName], 'yupByExample')
+          ? Object.assign(obj, { [fieldName]: null })
+          : obj;
+      }, {});
     debug('Generated object{%o}', value);
     return value;
   }

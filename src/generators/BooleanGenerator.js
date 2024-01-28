@@ -10,7 +10,7 @@ class BooleanGenerator extends BaseGenerator {
       : chance.bool();
 
     debug('Generated boolean{%o}', value);
-    return value
+    return value;
   }
 }
 

@@ -1,0 +1,42 @@
+{
+  "extends": [
+    "eslint-config-airbnb-base"
+  ],
+  "env": {
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "2022"
+  },
+  "rules": {
+    "arrow-body-style": 0,
+    "class-methods-use-this": 0,
+    "consistent-return": 0,
+    "global-require": 0,
+    "import/no-dynamic-require": 0,
+    "lines-between-class-members": 0,
+    "max-classes-per-file": 0,
+    "max-len": 0,
+    "no-await-in-loop": 0,
+    "no-console": "error",
+    "no-dynamic-require": 0,
+    "no-empty-function": 0,
+    "no-plusplus": 0,
+    "no-restricted-syntax": 0,
+    "no-underscore-dangle": 0,
+    "no-use-before-define": 0,
+    "no-unused-vars": [
+      "error",
+      {
+        "varsIgnorePattern": "^_|debug|ok|eq|neq|deq|match|throws|rejects|describe|it|before|after|beforeEach|afterEach$",
+        "argsIgnorePattern": "^_\\w+"
+      }
+    ],
+    "object-curly-newline": 0,
+    "operator-assignment": 0,
+    "padded-blocks": 0,
+    "prefer-destructuring": 0,
+    "prefer-regex-literals": 0,
+    "quote-props": 0
+  }
+}

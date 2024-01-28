@@ -7,7 +7,7 @@ class ChanceGenerator extends BaseGenerator {
     const generator = chance[params.method];
     if (!generator) throw new Error(`The installed version of Chance does not have the '${params.method}' generator`);
     const value = chance[params.method](params.params);
-    debug('Generated chance[%s]{%o}', params.method, value)
+    debug('Generated chance[%s]{%o}', params.method, value);
     return value;
   }
 }
