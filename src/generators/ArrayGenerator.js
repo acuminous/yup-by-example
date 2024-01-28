@@ -16,7 +16,7 @@ class ArrayGenerator extends BaseGenerator {
   }
 
   generateFromWhitelist(chance, schema) {
-    return this.oneOf(chance, schema.whitelist);
+    return this.oneOf(chance, schema.oneOf);
   }
 
   generateFromParameters(id, chance, schema, session) {

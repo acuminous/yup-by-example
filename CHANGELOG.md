@@ -1,6 +1,7 @@
 # Changelog
 
 ## 4.0.0
+- Updated to yup ^1.0.0
 - Dropped support for Node below v16
 - Updated dependencies
 - Removed prettier

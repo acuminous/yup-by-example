@@ -1,7 +1,7 @@
 const yupByExample = require('../..');
 const { mixed, array, object, string, number, ...yup } = require('yup');
 
-yup.addMethod(mixed, 'example', yupByExample);
+yup.addMethod(yup.Schema, 'example', yupByExample);
 
 // Delegates to https://chancejs.com
 const name = string()
@@ -19,7 +19,7 @@ const age = number()
   .max(200)
   .example({ generator: 'chance' }, {
     method: 'age',
-   });
+  });
 
 // Since `email` is a Yup validation, yup-by-example can support it natively
 const email = string()

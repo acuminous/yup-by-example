@@ -6,7 +6,7 @@ class BooleanGenerator extends BaseGenerator {
 
   generate({ chance, schema }) {
     const value = this.hasWhitelist(schema)
-      ? this.oneOf(chance, schema.whitelist)
+      ? this.oneOf(chance, schema.oneOf)
       : chance.bool();
 
     debug('Generated boolean{%o}', value);

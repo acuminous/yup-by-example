@@ -16,7 +16,7 @@ class BaseGenerator {
   }
 
   hasWhitelist(schema) {
-    return schema.whitelist.length > 0;
+    return schema.oneOf.length > 0;
   }
 
   hasTransform(field, transformName) {

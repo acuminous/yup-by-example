@@ -51,7 +51,7 @@
     "lodash.unset": "^4.5.2"
   },
   "peerDependencies": {
-    "yup": "0.32.9"
+    "yup": "^1.0.0"
   },
   "devDependencies": {
     "eslint": "^8.56.0",
@@ -61,7 +61,7 @@
     "husky": "^9.0.6",
     "lint-staged": "^15.2.0",
     "nyc": "^15.1.0",
-    "yup": "0.32.9",
+    "yup": "^1.3.3",
     "zunit": "^4.0.2"
   },
   "lint-staged": {

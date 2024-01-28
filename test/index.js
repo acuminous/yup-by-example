@@ -9,7 +9,7 @@ const pkg = require(path.join(process.cwd(), 'package.json'));
 const yup = require('yup');
 const yupByExample = require('../src');
 
-yup.addMethod(yup.mixed, 'example', yupByExample);
+yup.addMethod(yup.Schema, 'example', yupByExample);
 
 const config = getConfig();
 

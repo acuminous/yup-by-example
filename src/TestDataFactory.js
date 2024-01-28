@@ -43,7 +43,7 @@ class TestDataFactory {
   static async generate(schema, options) {
     TestDataFactory._enabled = true;
     try {
-      return schema.cast(null, options);
+      return schema.cast(null, { ...options, assert: false });
     } finally {
       TestDataFactory._enabled = false;
     }

@@ -30,11 +30,8 @@ function yupByExample({ id, generator: generatorName } = {}, params) {
   });
 }
 
-// See https://github.com/jquense/yup/issues/883
 function describe(schema) {
   const description = schema.describe();
-  description.whitelist = schema._whitelist ? Array.from(schema._whitelist.list) : [];
-  description.blacklist = schema._blacklist ? Array.from(schema._blacklist.list) : [];
   Object.keys(schema.fields || []).forEach((fieldName) => {
     const transforms = schema.fields[fieldName].transforms
       .filter((t) => Boolean(t.name))

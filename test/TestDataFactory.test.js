@@ -13,10 +13,10 @@ describe('TestDataFactory', () => {
   it('should generate test data without options', async () => {
     const schema = number().when('$required', {
       is: true,
-      then: number().min(1).max(1).integer()
+      then: () => number().min(1).max(1).integer()
         .required()
         .example(),
-      otherwise: number().min(2).max(2).integer()
+      otherwise: () => number().min(2).max(2).integer()
         .required()
         .example(),
     }).example();
@@ -30,10 +30,10 @@ describe('TestDataFactory', () => {
   it('should tolerate validation options passed to cast', async () => {
     const schema = number().when('$required', {
       is: true,
-      then: number().min(1).max(1).integer()
+      then: () => number().min(1).max(1).integer()
         .required()
         .example(),
-      otherwise: number().min(2).max(2).integer()
+      otherwise: () => number().min(2).max(2).integer()
         .required()
         .example(),
     }).example();
@@ -49,12 +49,10 @@ describe('TestDataFactory', () => {
       a: string().matches(/wibble/).required(),
       b: string().matches(/wobble/).required(),
     }).example();
-    try {
-      await TestDataFactory.generateValid(schema);
-      fail('Should have reported a validation error');
-    } catch (err) {
+    await rejects(() => TestDataFactory.generateValid(schema), (err) => {
       eq(err.errors.length, 1);
-    }
+      return true;
+    });
   });
 
   it('should validate test data with options', async () => {
@@ -62,12 +60,10 @@ describe('TestDataFactory', () => {
       a: string().matches(/wibble/).required(),
       b: string().matches(/wobble/).required(),
     }).example();
-    try {
-      await TestDataFactory.generateValid(schema, { abortEarly: false });
-      fail('Should have reported a validation error');
-    } catch (err) {
+    await rejects(() => TestDataFactory.generateValid(schema, { abortEarly: false }), (err) => {
       eq(err.errors.length, 2);
-    }
+      return true;
+    });
   });
 
   it('should report missing id generators', async () => {

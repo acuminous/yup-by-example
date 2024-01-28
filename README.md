@@ -4,9 +4,7 @@
 [![Node.js CI](https://github.com/acuminous/yup-by-example/workflows/Node.js%20CI/badge.svg)](https://github.com/acuminous/yup-by-example/actions?query=workflow%3A%22Node.js+CI%22)
 [![Maintainability](https://api.codeclimate.com/v1/badges/53908de7a9ffa97443e3/maintainability)](https://codeclimate.com/github/acuminous/yup-by-example/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/53908de7a9ffa97443e3/test_coverage)](https://codeclimate.com/github/acuminous/yup-by-example/test_coverage)
-<br/>
-This project currently only works with version of yup 0.32.9 and earlier. 0.32.10 changed the behaviour of array.oneOf and 1.x included a breaking change to the extension mechanism.
-<br/>
+
 <br/>
 yup-by-example is a random data generator driven from [Yup](https://github.com/jquense/yup) schemas. Yup is a JavaScript schema builder for value parsing and validation, heavily inspired by [Joi](https://github.com/hapijs/joi), but with far less baggage, making it suitable for both server and client side validation.
 
@@ -43,10 +41,10 @@ For those practicing TDD, a rich and potentially shared schema increases the bur
 ```js
 // schemas.js
 const yupByExample = require('yup-by-example');
-const { mixed, array, object, string, number, ...yup } = require('yup');
+const { Schema, array, object, string, number, ...yup } = require('yup');
 
 // This must be done before you build any schema that uses yup-by-example
-yup.addMethod(mixed, 'example', yupByExample);
+yup.addMethod(Schema, 'example', yupByExample);
 
 // Delegates to https://chancejs.com
 const name = string()
@@ -158,10 +156,10 @@ One of yup-by-examples key classes is the TestDataFactory. You use it to:
 To generate test data simply add the `example` method and call `generateValid` or `generate`, passing it a schema.
 ```js
 // schemas.js
-const { mixed, object, string, ...yup } = require('yup');
+const { Schema, object, string, ...yup } = require('yup');
 const yupByExample = require('yup-by-example');
 
-yup.addMethod(mixed, 'example', yupByExample);
+yup.addMethod(Schema, 'example', yupByExample);
 
 const user = object()
   .shape({
@@ -191,7 +189,7 @@ describe('API', () => {
   })
 })
 ```
-As the method name implies, generateValid, will validate the generated test data against the schema and throw an error if it is invalid. If you need to generate a partial or invalid document, then fix it after the fact, use `generate` instead. You can optionally pass [yup validation options](https://github.com/jquense/yup#mixedvalidatevalue-any-options-object-promiseany-validationerror) as the second parameter, e.g. ```TestDataFactory.generateValid(schema, { context: { a : 1 } });```
+As the method name implies, generateValid, will validate the generated test data against the schema and throw an error if it is invalid. If you need to generate a partial or invalid document, then fix it after the fact, use `TestDataFactory.generate` instead. You can optionally pass [yup validation options](https://github.com/jquense/yup?tab=readme-ov-file#schemavalidatevalue-any-options-object-promiseinfertypeschema-validationerror) as the second parameter, e.g. ```TestDataFactory.generateValid(schema, { context: { a : 1 } });```
 
 ### Configuring examples
 yup-by-example works by adding a new `example` transformer method to yup. The example transformer inspects the schema and selects the most appropriate generator with the following precidence
@@ -202,10 +200,10 @@ yup-by-example works by adding a new `example` transformer method to yup. The ex
 
 ```js
 // schemas.js
-const { mixed, object, string, date, ...yup } = require('yup');
+const { Schema, object, string, date, ...yup } = require('yup');
 const yupByExample = require('yup-by-example');
 
-yup.addMethod(mixed, 'example', yupByExample); // Register the 'example' transformer with yup
+yup.addMethod(Schema, 'example', yupByExample); // Register the 'example' transformer with yup
 
 const user = object()
   .shape({
@@ -225,10 +223,10 @@ When you call `TestDataFactory.generateValid` or `TestDataFactory.generate`, the
 Finally, if you don't like the term `example()` you can you can change to whatever you like by supplying a methodName when adding the method, but remember to update your schema accordingly.
 ```js
 // schemas.js
-const { mixed, object, string, ...yup } = require('yup');
+const { Schema, object, string, ...yup } = require('yup');
 const yupByExample = require('yup-by-example');
 
-yup.addMethod(mixed, 'fake', yupByExample);
+yup.addMethod(Schema, 'fake', yupByExample);
 
 const user = object()
   .shape({
@@ -255,10 +253,10 @@ Whenever a generate returns a value, before yielding it, the TestDataFactory wil
 This can be especially useful when adjusting values inside array
 ```js
 // schemas.js
-const { mixed, object, array, ...yup } = require('yup');
+const { Schema, object, array, ...yup } = require('yup');
 const yupByExample = require('yup-by-example');
 
-yup.addMethod(mixed, 'example', yupByExample);
+yup.addMethod(Schema, 'example', yupByExample);
 
 const user = object()
   .shape({
@@ -325,10 +323,10 @@ TestDataFactory.init({ now: new Date('2020-01-01T00:00:00.000Z' })
 When generating test data, you often don't want it to be completely random. You're likely to overwrite part of the the generated data with values important to your test, and it can be especially if the document has too many or too few array elements. yup-by-example enables you to do this through session properties. When you instantiate the TestDataFactory, it creates a session, which is passed to each generator. By configuing the generator with an id, you can configure from properties stored in the session. The array generator uses this mechanism to let you control the size of the array it should create.
 ```js
 // schemas.js
-const { mixed, object, array, ...yup } = require('yup');
+const { Schema, object, array, ...yup } = require('yup');
 const yupByExample = require('yup-by-example');
 
-yup.addMethod(mixed, 'example', yupByExample);
+yup.addMethod(Schema, 'example', yupByExample);
 
 const user = object()
   .shape({
@@ -400,10 +398,10 @@ module.exports = {
 ```
 ```js
 // schemas.js
-const { mixed, object, array, ...yup } = require('yup');
+const { Schema, object, array, ...yup } = require('yup');
 const yupByExample = require('yup-by-example');
 
-yup.addMethod(mixed, 'example', yupByExample);
+yup.addMethod(Schema, 'example', yupByExample);
 
 const user = object()
   .shape({
