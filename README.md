@@ -42,7 +42,6 @@ module.exports = { userSchema }
 
 ### 2. Generate test data
 ```js
-// api.test.js
 const { TestDataFactory } = require('yup-by-example');
 const schema = require('../src/userSchema');
 
