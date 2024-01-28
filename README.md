@@ -7,7 +7,7 @@
 
 Yup By Example is a random data generator driven from [Yup](https://github.com/jquense/yup) schemas. For those practicing TDD, a rich and potentially shared schema increases the burden of managing test data. One  solution is to create a common, hard coded set of test data, but this is almost certainly a bad idea. Not only does it lead to brittle tests, but also means that the tests come to depend on something that's often hidden away, instead of the salient values being front and centre.
 
-Instead, by generating random sets of test data, and explicitly overwriting just the key values, the tests will be more robust and communicate far more clearly. However, maintaining random test data generators is complex and onerous. If only it could be automatically generated from the same schema used for validation. This is where yup-by-example comes in.
+Instead, by generating random sets of test data, and explicitly overwriting just the key values, the tests will be more robust and communicate far more clearly. However, maintaining random test data generators is complex and onerous. If only it could be automatically generated from the same schema used for validation. This is where Yup By Example comes in.
 
 ## Table Of Contents
 - [TL;DR](#tldr)
@@ -103,7 +103,7 @@ npm i yup-by-example --save-dev
 ## Generators
 
 ### Default Generator
-By default, yup-by-example will use the [metadata](https://github.com/jquense/yup?tab=readme-ov-file#schemametametadata-schemametadata-schema) `type` property or schema type to automatically generate valid test data for the following rules
+By default, Yup By Example will use the [metadata](https://github.com/jquense/yup?tab=readme-ov-file#schemametametadata-schemametadata-schema) `type` property or schema type to automatically generate valid test data for the following rules
 
 | type    | rules                                                            |
 | ------- | ---------------------------------------------------------------- |
@@ -114,7 +114,7 @@ By default, yup-by-example will use the [metadata](https://github.com/jquense/yu
 | array   | of, length, min, max, oneOf                                      |
 | object  | shape, oneOf                                                     |
 
-However for more nuanced validation and to make your data more realistic you can use one of yup-by-examples in built generators or even write your own. You can select and configure a generator by passing parameters to the `example` method, e.g.
+However for more nuanced validation and to make your data more realistic you can use one of Yup By Example's in built generators or even write your own. You can select and configure a generator by passing parameters to the `example` method, e.g.
 
 ```js
 example({ generator: 'fn' }, () => {
