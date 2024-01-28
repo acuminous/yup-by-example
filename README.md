@@ -13,17 +13,16 @@ For those practicing TDD, a rich and potentially shared schema increases the bur
 
 ## Table of Contents
 <!-- no toc -->
-- [yup-by-example](#yup-by-example)
-  - [TL;DR](#tldr)
-  - [The TestDataFactory Class](#the-testdatafactory-class)
-  - [Custom Generators](#custom-generators)
-  - [Function Generators](#function-generators)
-  - [Chance Generators](#chance-generators)
-  - [Relative Date Generator](#relative-date-generator)
-  - [Literal Generators](#literal-generators)
-  - [Supported types and validations](#supported-types-and-validations)
-  - [Caveats](#caveats)
-  - [Troubleshooting](#troubleshooting)
+- [TL;DR](#tldr)
+- [The TestDataFactory Class](#the-testdatafactory-class)
+- [Custom Generators](#custom-generators)
+- [Function Generators](#function-generators)
+- [Chance Generators](#chance-generators)
+- [Relative Date Generator](#relative-date-generator)
+- [Literal Generators](#literal-generators)
+- [Supported types and validations](#supported-types-and-validations)
+- [Caveats](#caveats)
+- [Troubleshooting](#troubleshooting)
 
 ## TL;DR
 
