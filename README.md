@@ -5,13 +5,14 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/53908de7a9ffa97443e3/maintainability)](https://codeclimate.com/github/acuminous/yup-by-example/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/53908de7a9ffa97443e3/test_coverage)](https://codeclimate.com/github/acuminous/yup-by-example/test_coverage)
 
-yup-by-example is a random data generator driven from [Yup](https://github.com/jquense/yup) schemas. For those practicing TDD, a rich and potentially shared schema increases the burden of managing test data. One  solution is to create a common, hard coded set of test data, but this is almost certainly a bad idea. Not only does it lead to brittle tests, but also means that the tests come to depend on something that's often hidden away, instead of the salient values being front and centre.
+Yup By Example is a random data generator driven from [Yup](https://github.com/jquense/yup) schemas. For those practicing TDD, a rich and potentially shared schema increases the burden of managing test data. One  solution is to create a common, hard coded set of test data, but this is almost certainly a bad idea. Not only does it lead to brittle tests, but also means that the tests come to depend on something that's often hidden away, instead of the salient values being front and centre.
 
 Instead, by generating random sets of test data, and explicitly overwriting just the key values, the tests will be more robust and communicate far more clearly. However, maintaining random test data generators is complex and onerous. If only it could be automatically generated from the same schema used for validation. This is where yup-by-example comes in.
 
 ## Table Of Contents
 - [TL;DR](#tldr)
 - [Breaking Changes](#breaking-changes)
+- [Installation](#installation)
 - [Generators](#generators)
   - [Default Generator](#default-generator)
   - [Function Generator (fn)](#function-generator-fn)
@@ -92,6 +93,11 @@ See the [example](https://github.com/acuminous/yup-by-example/tree/master/exampl
 As of yup v1.0.0 adding yupByExample to `yup.mixed` no longer works. Instead use
 ```js
 yup.addMethod(Schema, 'example', yupByExample);
+```
+
+## Installation
+```bash
+npm i yup-by-example --save-dev
 ```
 
 ## Generators
