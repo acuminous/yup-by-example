@@ -348,7 +348,7 @@ If you see this error you have probably neglected to add all the necessary `.exa
 TypeError: string(...).example is not a function
 TypeError: number(...).example is not a function
 TypeError: object(...).example is not a function
-# etc...
+etc...
 ```
 You forgot to call `yup.addMethod(Schema, 'example', yupByExample)`
 
