@@ -9,12 +9,24 @@ yup-by-example is a random data generator driven from [Yup](https://github.com/j
 
 Instead, by generating random sets of test data, and explicitly overwriting just the key values, the tests will be more robust and communicate far more clearly. However, maintaining random test data generators is complex and onerous. If only it could be automatically generated from the same schema used for validation. This is where yup-by-example comes in.
 
-## Breaking changes in v4.0.0
+## Table Of Contents
+- [TL;DR](#tldr)
+- [Breaking Changes](#breaking-changes)
+- [Generators](#generators)
+  - [Default Generator](#default-generator)
+  - [Function Generator (fn)](#function-generator-fn)
+  - [Chance Generator (chance)](#chance-generator-chance)
+  - [Relative Date Generator (rel-date)](#relative-date-generator-rel-date)
+  - [Literal Generator](#literal-generator)
+  - [Custom Generator](#custom-generator)
+- [Generating Test Data](#generating-test-data)
+- [Advanced Usage](#advanced-usage)
+  - [Test Sessions](#test-sessions)
+  - [Intercepting Generated Values](#intercepting-generated-values)
+  - [Random Seed Value](#random-seed-value)
+- [Caveats](#caveats)
+- [Troubleshooting](#troubleshooting)
 
-As of yup v1.0.0 adding yupByExample to `yup.mixed` no longer works. Instead use
-```js
-yup.addMethod(Schema, 'example', yupByExample);
-```
 
 ## TL;DR
 
@@ -74,21 +86,13 @@ You can use the included and custom test data generators for even more realitic 
 
 See the [example](https://github.com/acuminous/yup-by-example/tree/master/example) for more details.
 
-## Table Of Content
-- [Generators](#generators)
-  - [Default Generator](#default-generator)
-  - [Function Generator (fn)](#function-generator-fn)
-  - [Chance Generator (chance)](#chance-generator-chance)
-  - [Relative Date Generator (rel-date)](#relative-date-generator-rel-date)
-  - [Literal Generator](#literal-generator)
-  - [Custom Generator](#custom-generator)
-- [Generating Test Data](#generating-test-data)
-- [Advanced Usage](#advanced-usage)
-  - [Test Sessions](#test-sessions)
-  - [Intercepting Generated Values](#intercepting-generated-values)
-  - [Random Seed Value](#random-seed-value)
-- [Caveats](#caveats)
-- [Troubleshooting](#troubleshooting)
+## Breaking changes
+
+### v4.0.0
+As of yup v1.0.0 adding yupByExample to `yup.mixed` no longer works. Instead use
+```js
+yup.addMethod(Schema, 'example', yupByExample);
+```
 
 ## Generators
 
