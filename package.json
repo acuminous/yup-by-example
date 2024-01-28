@@ -30,6 +30,7 @@
     "coverage": "nyc --report html --reporter lcov --reporter text-summary node test",
     "example": "node example/test/api.test.js",
     "lint": "eslint src test",
+    "lint-staged": "lint-staged",
     "test": "node test",
     "prepare": "husky"
   },
