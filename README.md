@@ -325,7 +325,9 @@ TestDataFactory.init({ seed: 42 })
 Now repeated runs should generate exactly the same data sets.
 
 ## Caveats
-Not all Yup validations can be reliably generated. For example there is nothing in the described schema that can be used to determine if `lowercase` or `uppercase` is required. With `strict` validation, this could cause problems. It's likely there there may also be issues with references and conditional validation.
+- Not all Yup validations can be reliably generated. For example there is nothing in the described schema that can be used to determine if `lowercase` or `uppercase` is required. With `strict` validation, this could cause problems. It's likely there there may also be issues with references and conditional validation.
+
+- Lazy schemas are not supported
 
 ## Troubleshooting
 ```
@@ -340,11 +342,6 @@ TypeError: object(...).example is not a function
 # etc...
 ```
 You forgot to call `yup.addMethod(Schema, 'example', yupByExample)`
-
-```
-TypeError: lazy(...).example is not a function
-```
-Lazy schemas are supported, but you need to move the example call within the lazy parenthesise, e.g. `lazy(() => string().example())
 
 For other problems try enabling debug
 ```

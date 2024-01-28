@@ -1,8 +1,8 @@
 const { before, beforeEach, after, afterEach, describe, it } = require('zunit');
-const { string, number, object } = require('yup');
+const { string, number, object, lazy } = require('yup');
 const { Stats } = require('fast-stats');
 
-const { lt, gt, isInteger, isString, includes, excludes } = require('./assert');
+const { lt, gt, deq, isInteger, isString, includes, excludes } = require('./assert');
 const sample = require('./sample');
 const TestDataFactory = require('../src/TestDataFactory');
 
@@ -52,4 +52,20 @@ describe('object generator', () => {
     gt(upper, 333);
     values.map(Number).forEach((value) => includes([1, 2, 3], value));
   });
+
+  it('tolerates lazy fields', async () => {
+    const lazySchema = lazy(() => object().shape({
+      email: string().email().example(),
+    }).example());
+
+    const formSchema = object({
+      name: string().example(),
+      lazy: lazySchema,
+    }).example();
+
+    const data = await TestDataFactory.generateValid(formSchema);
+    isString(data.name);
+    deq(data.lazy, {});
+  });
+
 });

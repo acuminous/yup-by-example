@@ -46,10 +46,10 @@ const extras = {
     }
   },
   includes: function includes(items, item) {
-    assert.ok(items.includes(item), `${item} is not in ${items}`);
+    assert.ok(items.includes(item), `${item} is not in [${items.join(',')}]`);
   },
   excludes: function includes(items, item) {
-    assert.ok(!items.includes(item), `${item} is in ${items}`);
+    assert.ok(!items.includes(item), `${item} is in [${items.join(',')}]`);
   },
   isNumber: function isNumber(actual) {
     assert.strictEqual(typeof actual, 'number');

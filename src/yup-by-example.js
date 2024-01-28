@@ -33,9 +33,12 @@ function yupByExample({ id, generator: generatorName } = {}, params) {
 function describe(schema) {
   const description = schema.describe();
   Object.keys(schema.fields || []).forEach((fieldName) => {
-    const transforms = schema.fields[fieldName].transforms
-      .filter((t) => Boolean(t.name))
-      .map((t) => ({ name: t.name }));
+    const field = schema.fields[fieldName];
+    const transforms = field.transforms
+      ? schema.fields[fieldName].transforms
+        .filter((t) => Boolean(t.name))
+        .map((t) => ({ name: t.name }))
+      : [];
     description.fields[fieldName].transforms = transforms;
   });
   return description;
