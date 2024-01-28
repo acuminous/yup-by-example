@@ -5,27 +5,17 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/53908de7a9ffa97443e3/maintainability)](https://codeclimate.com/github/acuminous/yup-by-example/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/53908de7a9ffa97443e3/test_coverage)](https://codeclimate.com/github/acuminous/yup-by-example/test_coverage)
 
-<br/>
+
 yup-by-example is a random data generator driven from [Yup](https://github.com/jquense/yup) schemas. Yup is a JavaScript schema builder for value parsing and validation, heavily inspired by [Joi](https://github.com/hapijs/joi), but with far less baggage, making it suitable for both server and client side validation.
 
 For those practicing TDD, a rich and potentially shared schema increases the burden of managing test data. One  solution is to create a common, hard coded set of test data, but this is almost certainly a bad idea. Not only does it lead to brittle tests, but also means that the tests come to depend on something that's often hidden away, instead of the salient values being front and centre. Instead, by generating random sets of test data, and explicitly overwriting just the key values, the tests will be more robust and communicate far more clearly. However, maintaining random test data generators is complex and onerous. If only it could be automatically generated from the same schema used for validation. This is where yup-by-example comes in!
 
-## Table of Contents
 
+## Table of Contents
+<!-- no toc -->
 - [yup-by-example](#yup-by-example)
-  - [Table of Contents](#table-of-contents)
   - [TL;DR](#tldr)
-    - [1. Define the schema, specifying examples](#1-define-the-schema-specifying-examples)
-    - [2. Write the tests](#2-write-the-tests)
-    - [3. Profit!](#3-profit)
   - [The TestDataFactory Class](#the-testdatafactory-class)
-    - [Generating test data](#generating-test-data)
-    - [Configuring examples](#configuring-examples)
-    - [Add Custom Generators](#add-custom-generators)
-    - [Intercept generated values](#intercept-generated-values)
-    - [Control the random seed used for test data generation](#control-the-random-seed-used-for-test-data-generation)
-    - [Control the value of 'now'](#control-the-value-of-now)
-    - [Configure generators on a test-by-test basis](#configure-generators-on-a-test-by-test-basis)
   - [Custom Generators](#custom-generators)
   - [Function Generators](#function-generators)
   - [Chance Generators](#chance-generators)
