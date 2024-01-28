@@ -11,7 +11,7 @@ Instead, by generating random sets of test data, and explicitly overwriting just
 
 ## Breaking changes in v4.0.0
 
-As of yup v1.0.0 adding yupByExample to yup.mixed no longer works. Instead use
+As of yup v1.0.0 adding yupByExample to `yup.mixed` no longer works. Instead use
 ```js
 yup.addMethod(Schema, 'example', yupByExample);
 ```
