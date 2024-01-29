@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.0.2
+- Readme updates
+- Example updates
+
 ## 4.0.1
 - Fixed https://github.com/acuminous/yup-by-example/issues/4
 
