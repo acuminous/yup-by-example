@@ -18,7 +18,7 @@ Instead, by generating random sets of test data, and explicitly overwriting just
   - [Function Generator (fn)](#function-generator-fn)
   - [Chance Generator (chance)](#chance-generator-chance)
   - [Relative Date Generator (rel-date)](#relative-date-generator-rel-date)
-  - [Literal Generator](#literal-generator)
+  - [Literal Generator](#literal-generator-literal)
   - [Custom Generator](#custom-generator)
 - [Generating Test Data](#generating-test-data)
 - [Advanced Usage](#advanced-usage)
