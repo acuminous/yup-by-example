@@ -81,9 +81,7 @@ describe('User', () => {
 }
 ```
 
-You can use the included and custom test data generators for even more realitic test data. You can even create arrays of test data too.
-
-See the [example](https://github.com/acuminous/yup-by-example/tree/master/example) for more details.
+You can use the included and custom test data generators for even more realitic test data. You can even create arrays of test data too. See the [example schema](https://github.com/acuminous/yup-by-example/blob/master/example/src/schemas.js) for more details.
 
 ## Breaking changes
 
