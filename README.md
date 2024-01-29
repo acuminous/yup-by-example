@@ -119,7 +119,7 @@ However for more nuanced validation and to make your data more realistic you can
 A generator which uses an inline function to return test data. The function must be supplied as the second argument, e.g.
 
 ```js
-example({ generator: 'fn' }, () => {
+string().example({ generator: 'fn' }, () => {
   const randomOctet = () => Math.floor(Math.random() * 256);
   const ipAddress = Array.from({ length: 4 }, randomOctet).join('.');
   return ipAddress;
