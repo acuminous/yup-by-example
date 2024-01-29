@@ -51,7 +51,7 @@ const niNumber = string()
 // also a required field, the resulting test data will be invalid
 const postcode = string()
 
-// Adding `example()` works too
+// Adding `example()` works on objects too
 const user = object().shape({
   name: name.required(),
   age: age.required(),
