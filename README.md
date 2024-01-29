@@ -34,7 +34,7 @@ Instead, by generating random sets of test data, and explicitly overwriting just
 ### 1. Define the schema
 ```js
 const yupByExample = require('yup-by-example');
-const { Schema, object, string, number, email, ...yup } = require('yup');
+const { Schema, object, string, number, date, ...yup } = require('yup');
 
 // This must be done before you build any schema that uses yup-by-example
 yup.addMethod(Schema, 'example', yupByExample);
