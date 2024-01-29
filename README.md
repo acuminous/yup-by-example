@@ -39,8 +39,6 @@ const { Schema, object, string, number, email, ...yup } = require('yup');
 // This must be done before you build any schema that uses yup-by-example
 yup.addMethod(Schema, 'example', yupByExample);
 
-import { object, string, number, date } from 'yup';
-
 // Add .example() everywhere you want an example
 const userSchema = object({
   name: string().required().example(),
