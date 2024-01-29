@@ -112,7 +112,11 @@ By default, Yup By Example will use the [metadata](https://github.com/jquense/yu
 | array   | of, length, min, max, oneOf                                      |
 | object  | shape, oneOf                                                     |
 
-However for more nuanced validation and to make your data more realistic you can use one of Yup By Example's in built generators or even write your own. You can select and configure a generator by passing parameters to the `example` method, e.g.
+However for more nuanced validation and to make your data more realistic you can use one of Yup By Example's in built generators or even write your own cusotm generator (see below).
+
+### Function Generator (fn)
+
+A generator which uses an inline function to return test data. The function must be supplied as the second argument, e.g.
 
 ```js
 example({ generator: 'fn' }, () => {
@@ -122,17 +126,7 @@ example({ generator: 'fn' }, () => {
 })
 ```
 
-### Function Generator (fn)
-
-A generator which uses an inline function to return test data. The function must be supplied as the second argument, e.g.
-
-```js
-string().example({ generator: 'fn' }, (params) => {
-  // Generate and return the test data
-})
-```
-
-The function will passed an object with the following parameters
+The inline function will passed an object with the following parameters
 
 | name    | notes                                         |
 | ------- | --------------------------------------------- |
