@@ -210,8 +210,8 @@ string().example({ generator: 'ni-number' });
 
 After defining the schema, there are two ways of generating test data.
 
-1. TestDataFactory.generateValid(schema: Schema, options?: Options): Promise<any>
-2. TestDataFactory.generate(schema: Schema, options?: Options): Promise<any>
+1. TestDataFactory.generateValid(schema: Schema, options?: Options): Promise&lt;any&gt;
+2. TestDataFactory.generate(schema: Schema, options?: Options): Promise&lt;any&gt;
 
 Use the former when you want to generate valid test data and the latter when you need to generate a partial or invalid document.
 
