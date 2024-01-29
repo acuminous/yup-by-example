@@ -182,16 +182,16 @@ string().example({ generator: 'literal' }, 'Frank');
 ## Custom Generator
 For even greater flexibility, you can write a custom generator. This is a object exposing a `generate` function, which will be passed an object with the following parameters
 
-| name          | notes                                                  |
-| ------------- | ------------------------------------------------------ |
-| id            | the generator id (used to namespace session properties |
-| params        | the generator parameters                               |
-| session       | The test data [session](#sesson)                       |
-| chance        | An instance of [Chance](https://chancejs.com)          |
-| now           | The timestamp when the TestDataFactory was initialised |
-| schema        | The schema as supplied by yup                          |
-| value         | The value as supplied by yup                           |
-| originalValue | The originalValue as supplied by yup                   |
+| name          | notes                                                   |
+| ------------- | ------------------------------------------------------- |
+| id            | the generator id (used to namespace session properties) |
+| params        | the generator parameters                                |
+| session       | The test data [session](#sesson)                        |
+| chance        | An instance of [Chance](https://chancejs.com)           |
+| now           | The timestamp when the TestDataFactory was initialised  |
+| schema        | The schema as supplied by yup                           |
+| value         | The value as supplied by yup                            |
+| originalValue | The originalValue as supplied by yup                    |
 
 The generator must also be registered with the `TestDataFactory`. e.g.
 
